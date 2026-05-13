@@ -12,37 +12,37 @@ The following packages will be built and installed:
   * vulkan-headers:x64-linux@1.4.341.0
   * vulkan-loader:x64-linux@1.4.341.0
 Additional packages (*) will be modified to complete this operation.
-Restored 10 package(s) from /home/karadiina/.cache/vcpkg/archives in 102 ms. Use --debug to see more details.
+Restored 10 package(s) from /home/karadiina/.cache/vcpkg/archives in 106 ms. Use --debug to see more details.
 Installing 1/10 vcpkg-cmake-config:x64-linux@2024-05-23...
 vcpkg-cmake-config:x64-linux@2024-05-23 package ABI: 94b5ea84c5c6d660eab242448776a067d7affd451a2ca6b1b0ea3ea4f7f104a3
-Elapsed time to handle vcpkg-cmake-config:x64-linux: 582 us
+Elapsed time to handle vcpkg-cmake-config:x64-linux: 932 us
 Installing 2/10 vcpkg-cmake:x64-linux@2024-04-23...
 vcpkg-cmake:x64-linux@2024-04-23 package ABI: 82732cafa54bcf299d1e6bd75d61ca4422b0d8c7173cca5cac5f8b5da212006f
-Elapsed time to handle vcpkg-cmake:x64-linux: 606 us
+Elapsed time to handle vcpkg-cmake:x64-linux: 657 us
 Installing 3/10 asio:x64-linux@1.32.0...
 asio:x64-linux@1.32.0 package ABI: 9d8b77a55110238311cb42db719fb3bbfad5f5abf0fbecd7defc54fd33d267c7
-Elapsed time to handle asio:x64-linux: 6.04 ms
+Elapsed time to handle asio:x64-linux: 6.7 ms
 Installing 4/10 entt:x64-linux@3.16.0...
 entt:x64-linux@3.16.0 package ABI: 5cf38b8246fefb538532099fb0cfc21c8e4498fe95488128ad6626fc9354d36d
-Elapsed time to handle entt:x64-linux: 2.98 ms
+Elapsed time to handle entt:x64-linux: 2.24 ms
 Installing 5/10 glfw3:x64-linux@3.4#1...
 glfw3:x64-linux@3.4#1 package ABI: c765e211b22059d37dad5f20408f7ba230aa27b965302fefeec31393268386b9
-Elapsed time to handle glfw3:x64-linux: 1.83 ms
+Elapsed time to handle glfw3:x64-linux: 1.58 ms
 Installing 6/10 glm:x64-linux@1.0.3...
 glm:x64-linux@1.0.3 package ABI: 8b353e037a2f1cd0a09977b073fd8d27810dab8d92e9134f4c609a5c64e17b05
-Elapsed time to handle glm:x64-linux: 4.97 ms
+Elapsed time to handle glm:x64-linux: 5.21 ms
 Installing 7/10 nlohmann-json:x64-linux@3.12.0#2...
 nlohmann-json:x64-linux@3.12.0#2 package ABI: 2ce6844b38b66838c32a5f36e38c0c59c99c5ba1e74ba98d61c740827255f115
-Elapsed time to handle nlohmann-json:x64-linux: 2.35 ms
+Elapsed time to handle nlohmann-json:x64-linux: 2.46 ms
 Installing 8/10 vulkan-headers:x64-linux@1.4.341.0...
 vulkan-headers:x64-linux@1.4.341.0 package ABI: 7c05f42c1e4582b3e36d32114047c8022ff4801fa0bb704a4f4ee9f555cfcee4
-Elapsed time to handle vulkan-headers:x64-linux: 2.32 ms
+Elapsed time to handle vulkan-headers:x64-linux: 2.33 ms
 Installing 9/10 vulkan-loader:x64-linux@1.4.341.0...
 vulkan-loader:x64-linux@1.4.341.0 package ABI: bbc7303a7d0f13be0fc41907c645235f6cf9071a4da491e815eeeea717502435
-Elapsed time to handle vulkan-loader:x64-linux: 2.17 ms
+Elapsed time to handle vulkan-loader:x64-linux: 1.93 ms
 Installing 10/10 vulkan:x64-linux@2023-12-17...
 vulkan:x64-linux@2023-12-17 package ABI: 3d6503a6eb8e4c7a08b6914e33bcb44d0256a27199b6c69bc33a907739b262a7
-Elapsed time to handle vulkan:x64-linux: 1.37 ms
+Elapsed time to handle vulkan:x64-linux: 1.36 ms
 Installed contents are licensed to you by owners. Microsoft is not responsible for, nor does it grant any licenses to, third-party packages.
 Some packages did not declare an SPDX license. Check the `copyright` file for each package for more information about their licensing.
 Packages installed in this vcpkg installation declare the following licenses:
@@ -105,4 +105,4 @@ vulkan is compatible with built-in CMake targets:
     find_package(Vulkan REQUIRED)
     target_link_libraries(main PRIVATE Vulkan::Vulkan)
 
-All requested installations completed successfully in: 25.8 ms
+All requested installations completed successfully in: 25.9 ms
