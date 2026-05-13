@@ -130,6 +130,30 @@ client/fast:
 	cd /home/karadiina/Documents/projektit/GameX/build && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/build
 .PHONY : client/fast
 
+src/VulkanRenderer.o: src/VulkanRenderer.cpp.o
+.PHONY : src/VulkanRenderer.o
+
+# target to build an object file
+src/VulkanRenderer.cpp.o:
+	cd /home/karadiina/Documents/projektit/GameX/build && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/src/VulkanRenderer.cpp.o
+.PHONY : src/VulkanRenderer.cpp.o
+
+src/VulkanRenderer.i: src/VulkanRenderer.cpp.i
+.PHONY : src/VulkanRenderer.i
+
+# target to preprocess a source file
+src/VulkanRenderer.cpp.i:
+	cd /home/karadiina/Documents/projektit/GameX/build && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/src/VulkanRenderer.cpp.i
+.PHONY : src/VulkanRenderer.cpp.i
+
+src/VulkanRenderer.s: src/VulkanRenderer.cpp.s
+.PHONY : src/VulkanRenderer.s
+
+# target to generate assembly for a file
+src/VulkanRenderer.cpp.s:
+	cd /home/karadiina/Documents/projektit/GameX/build && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/src/VulkanRenderer.cpp.s
+.PHONY : src/VulkanRenderer.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -163,6 +187,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... client"
+	@echo "... src/VulkanRenderer.o"
+	@echo "... src/VulkanRenderer.i"
+	@echo "... src/VulkanRenderer.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

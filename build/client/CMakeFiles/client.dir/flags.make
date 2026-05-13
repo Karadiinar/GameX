@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/karadiina/Documents/projektit/GameX/common/include -isystem /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include
+CXX_INCLUDES = -I/home/karadiina/Documents/projektit/GameX/client/include -I/home/karadiina/Documents/projektit/GameX/common/include -isystem /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include
 
 CXX_FLAGS = -std=gnu++20
 

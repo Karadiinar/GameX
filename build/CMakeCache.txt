@@ -261,10 +261,10 @@ Vulkan_GLSLANG_VALIDATOR_EXECUTABLE:FILEPATH=Vulkan_GLSLANG_VALIDATOR_EXECUTABLE
 Vulkan_GLSLC_EXECUTABLE:FILEPATH=/bin/glslc
 
 //Path to a file.
-Vulkan_INCLUDE_DIR:PATH=/home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include
+Vulkan_INCLUDE_DIR:PATH=/usr/include
 
 //Path to a library.
-Vulkan_LIBRARY:FILEPATH=/home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/debug/lib/libvulkan.so
+Vulkan_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libvulkan.so
 
 //(experimental) Automatically copy dependencies into the install
 // target directory for executables. Requires CMake 3.14.
@@ -285,7 +285,7 @@ _VCPKG_INSTALLED_DIR:PATH=/home/karadiina/Documents/projektit/GameX/build/vcpkg_
 asio_DIR:PATH=/home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/share/asio
 
 //The directory containing a CMake configuration file for glfw3.
-glfw3_DIR:PATH=/home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/share/glfw3
+glfw3_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/glfw3
 
 //The directory containing a CMake configuration file for glm.
 glm_DIR:PATH=/home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/share/glm
@@ -431,7 +431,7 @@ CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 //Details about finding Vulkan
-FIND_PACKAGE_MESSAGE_DETAILS_Vulkan:INTERNAL=[/home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/debug/lib/libvulkan.so][/home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include][cfound components: glslc missing components: glslangValidator][v1.4.341()]
+FIND_PACKAGE_MESSAGE_DETAILS_Vulkan:INTERNAL=[/usr/lib/x86_64-linux-gnu/libvulkan.so][/usr/include][cfound components: glslc missing components: glslangValidator][v1.3.280()]
 //ADVANCED property for variable: VCPKG_VERBOSE
 VCPKG_VERBOSE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: Vulkan_GLSLANG_VALIDATOR_EXECUTABLE

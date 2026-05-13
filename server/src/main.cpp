@@ -9,6 +9,9 @@
 #include <algorithm> // Required for std::max
 #include <atomic>
 #include <memory>
+#include "Packet.hpp"
+#include <asio/read.hpp>
+#include <asio/write.hpp>
 
 #include "Version.hpp" // Look! We are using our shared file
 
@@ -38,41 +41,98 @@ void game_loop_tick(asio::steady_timer& timer, asio::io_context& io_context, std
 // New class for handling player sessions
 class PlayerSession : public std::enable_shared_from_this<PlayerSession> {
 public:
-    // Take ownership of the socket using std::move
     PlayerSession(asio::ip::tcp::socket socket) 
         : socket_(std::move(socket)) {}
 
-    // Start listening for data from this player
     void start() {
         std::cout << "[SESSION] Player session started from: " << socket_.remote_endpoint() << std::endl;
-        do_read();
+        read_header(); // Start the first stage of the read loop
     }
 
 private:
-    void do_read() {
-        // Create a shared pointer to THIS object to keep it alive during the async operation
+    void read_header() {
         auto self(shared_from_this()); 
         
-        socket_.async_read_some(asio::buffer(data_, max_length),
-            [this, self](const asio::error_code& ec, std::size_t length) {
+        // Stage 1: Read exactly the size of our PacketHeader (4 bytes)
+        asio::async_read(socket_, asio::buffer(&header_, sizeof(Rebel::PacketHeader)),
+            [this, self](const asio::error_code& ec, std::size_t /*length*/) {
                 if (!ec) {
-                    // For now, just print that we received raw bytes
-                    std::cout << "[SESSION] Received " << length << " bytes from player." << std::endl;
+                    // Security check: Drop the player if they send an impossible size
+                    if (header_.size < sizeof(Rebel::PacketHeader) || header_.size > 8192) {
+                        std::cerr << "[SESSION] Malformed packet size: " << header_.size << ". Dropping." << std::endl;
+                        return;
+                    }
+
+                    // Calculate how much payload data is attached to this header
+                    uint16_t payload_size = header_.size - sizeof(Rebel::PacketHeader);
                     
-                    // Keep listening for the next packet
-                    do_read(); 
+                    if (payload_size > 0) {
+                        payload_.resize(payload_size);
+                        read_payload(); // Go to Stage 2
+                    } else {
+                        process_packet(); // No payload, handle the header immediately
+                        read_header();    // Loop back to listen for the next packet
+                    }
                 } else {
-                    // If the client closes the game, or their internet drops, we land here.
                     std::cout << "[SESSION] Player disconnected: " << ec.message() << std::endl;
                 }
             });
     }
 
-    asio::ip::tcp::socket socket_;
-    enum { max_length = 1024 };
-    char data_[max_length]; // A raw buffer to catch incoming bytes
-};
+    void read_payload() {
+        auto self(shared_from_this());
 
+        // Stage 2: Read the exact amount of payload bytes dictated by the header
+        asio::async_read(socket_, asio::buffer(payload_.data(), payload_.size()),
+            [this, self](const asio::error_code& ec, std::size_t /*length*/) {
+                if (!ec) {
+                    process_packet(); // We have the full packet now
+                    read_header();    // Loop back to listen for the next packet
+                } else {
+                    std::cout << "[SESSION] Player disconnected during payload transfer." << std::endl;
+                }
+            });
+    }
+
+    void process_packet() {
+        Rebel::Opcode opcode = static_cast<Rebel::Opcode>(header_.opcode);
+
+        switch (opcode) {
+            case Rebel::Opcode::CMSG_PING:
+                std::cout << "[SESSION] Received CMSG_PING! Sending SMSG_PONG back..." << std::endl;
+                send_pong(); // <--- Call the new reply function
+                break;
+            default:
+                std::cout << "[SESSION] Unknown Opcode: 0x" << std::hex << header_.opcode << std::dec << std::endl;
+                break;
+        }
+    }
+
+    void send_pong() {
+        // Create a shared pointer to keep the session alive
+        auto self(shared_from_this());
+        
+        // Allocate the packet on the heap so it survives the async_write operation
+        auto pong_packet = std::make_shared<Rebel::PacketHeader>();
+        pong_packet->size = sizeof(Rebel::PacketHeader);
+        pong_packet->opcode = static_cast<uint16_t>(Rebel::Opcode::SMSG_PONG);
+
+        // Write the exact 4 bytes back to the client
+        asio::async_write(socket_, asio::buffer(pong_packet.get(), sizeof(Rebel::PacketHeader)),
+            [this, self, pong_packet](const asio::error_code& ec, std::size_t /*length*/) {
+                if (!ec) {
+                    // Success!
+                    std::cout << "[SESSION] SMSG_PONG delivered." << std::endl;
+                } else {
+                    std::cerr << "[SESSION] Failed to send PONG: " << ec.message() << std::endl;
+                }
+            });
+    }
+
+    asio::ip::tcp::socket socket_;
+    Rebel::PacketHeader header_;
+    std::vector<uint8_t> payload_;
+};
 // Placeholder for handling new client connections
 void start_accept(asio::ip::tcp::acceptor& acceptor, asio::io_context& io_context) {
     // Create a new socket on the heap so it outlives this initiation call
