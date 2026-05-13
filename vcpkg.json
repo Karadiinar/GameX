@@ -1,0 +1,12 @@
+{
+  "name": "rebel-mmo",
+  "version": "0.1.0",
+  "dependencies": [
+    "asio",
+    "vulkan",
+    "glfw3",
+    "glm",
+    "entt",
+    "nlohmann-json"
+  ]
+}
