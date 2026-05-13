@@ -1,6 +1,7 @@
 add_executable(client 
 src/main.cpp
 src/VulkanRenderer.cpp
+src/NetworkManager.cpp
 )
 
 target_include_directories(client PRIVATE include)

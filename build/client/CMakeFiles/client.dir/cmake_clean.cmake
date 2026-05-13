@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/client.dir/src/NetworkManager.cpp.o"
+  "CMakeFiles/client.dir/src/NetworkManager.cpp.o.d"
   "CMakeFiles/client.dir/src/VulkanRenderer.cpp.o"
   "CMakeFiles/client.dir/src/VulkanRenderer.cpp.o.d"
   "CMakeFiles/client.dir/src/main.cpp.o"

@@ -130,6 +130,30 @@ client/fast:
 	cd /home/karadiina/Documents/projektit/GameX/build && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/build
 .PHONY : client/fast
 
+src/NetworkManager.o: src/NetworkManager.cpp.o
+.PHONY : src/NetworkManager.o
+
+# target to build an object file
+src/NetworkManager.cpp.o:
+	cd /home/karadiina/Documents/projektit/GameX/build && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/src/NetworkManager.cpp.o
+.PHONY : src/NetworkManager.cpp.o
+
+src/NetworkManager.i: src/NetworkManager.cpp.i
+.PHONY : src/NetworkManager.i
+
+# target to preprocess a source file
+src/NetworkManager.cpp.i:
+	cd /home/karadiina/Documents/projektit/GameX/build && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/src/NetworkManager.cpp.i
+.PHONY : src/NetworkManager.cpp.i
+
+src/NetworkManager.s: src/NetworkManager.cpp.s
+.PHONY : src/NetworkManager.s
+
+# target to generate assembly for a file
+src/NetworkManager.cpp.s:
+	cd /home/karadiina/Documents/projektit/GameX/build && $(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/src/NetworkManager.cpp.s
+.PHONY : src/NetworkManager.cpp.s
+
 src/VulkanRenderer.o: src/VulkanRenderer.cpp.o
 .PHONY : src/VulkanRenderer.o
 
@@ -187,6 +211,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... client"
+	@echo "... src/NetworkManager.o"
+	@echo "... src/NetworkManager.i"
+	@echo "... src/NetworkManager.s"
 	@echo "... src/VulkanRenderer.o"
 	@echo "... src/VulkanRenderer.i"
 	@echo "... src/VulkanRenderer.s"

@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/karadiina/Documents/projektit/GameX/client/src/NetworkManager.cpp" "client/CMakeFiles/client.dir/src/NetworkManager.cpp.o" "gcc" "client/CMakeFiles/client.dir/src/NetworkManager.cpp.o.d"
   "/home/karadiina/Documents/projektit/GameX/client/src/VulkanRenderer.cpp" "client/CMakeFiles/client.dir/src/VulkanRenderer.cpp.o" "gcc" "client/CMakeFiles/client.dir/src/VulkanRenderer.cpp.o.d"
   "/home/karadiina/Documents/projektit/GameX/client/src/main.cpp" "client/CMakeFiles/client.dir/src/main.cpp.o" "gcc" "client/CMakeFiles/client.dir/src/main.cpp.o.d"
   )
