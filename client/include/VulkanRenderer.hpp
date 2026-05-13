@@ -1,25 +1,31 @@
 #pragma once
-
 #include <vulkan/vulkan.h>
-#define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
-#include <iostream>
+#include <optional>
+#include <vector>
+
+struct QueueFamilyIndices {
+    std::optional<uint32_t> graphicsFamily;
+    std::optional<uint32_t> presentFamily;
+
+    bool isComplete() {
+        return graphicsFamily.has_value() && presentFamily.has_value();
+    }
+};
 
 class VulkanRenderer {
 public:
-    // Pass the window in so Vulkan can attach a surface to it
     void init(GLFWwindow* window);
-    
-    // We will call this in the main loop later
-    void draw(); 
-    
-    // Clean up all the Vulkan memory
     void cleanup();
+    void draw();
 
 private:
-    GLFWwindow* window_;
-    VkInstance instance_;
-    VkSurfaceKHR surface_;
-    
-    // We will add the Physical Device and Logical Device here next!
+    void pickPhysicalDevice();
+    bool isDeviceSuitable(VkPhysicalDevice device);
+    QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
+
+    GLFWwindow* window_ = nullptr;
+    VkInstance instance_ = VK_NULL_HANDLE;
+    VkSurfaceKHR surface_ = VK_NULL_HANDLE;
+    VkPhysicalDevice physicalDevice_ = VK_NULL_HANDLE;
 };

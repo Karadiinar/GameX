@@ -1,6 +1,7 @@
 #include "VulkanRenderer.hpp"
 #include <stdexcept>
 #include <vector>
+#include <iostream>
 
 void VulkanRenderer::init(GLFWwindow* window) {
     window_ = window;
@@ -18,7 +19,6 @@ void VulkanRenderer::init(GLFWwindow* window) {
     createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
     createInfo.pApplicationInfo = &appInfo;
 
-    // Get extensions required by GLFW for window surface creation
     uint32_t glfwExtensionCount = 0;
     const char** glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
     
@@ -34,8 +34,72 @@ void VulkanRenderer::init(GLFWwindow* window) {
     if (glfwCreateWindowSurface(instance_, window_, nullptr, &surface_) != VK_SUCCESS) {
         throw std::runtime_error("[VULKAN] Failed to create window surface!");
     }
+
+    // --- 3. PICK HARDWARE ---
+    pickPhysicalDevice();
     
-    std::cout << "[VULKAN] Initialized Instance and Surface successfully." << std::endl;
+    std::cout << "[VULKAN] Instance, Surface, and GPU initialized successfully." << std::endl;
+}
+
+void VulkanRenderer::pickPhysicalDevice() {
+    uint32_t deviceCount = 0;
+    vkEnumeratePhysicalDevices(instance_, &deviceCount, nullptr);
+
+    if (deviceCount == 0) {
+        throw std::runtime_error("[VULKAN] Failed to find GPUs with Vulkan support!");
+    }
+
+    std::vector<VkPhysicalDevice> devices(deviceCount);
+    vkEnumeratePhysicalDevices(instance_, &deviceCount, devices.data());
+
+    for (const auto& device : devices) {
+        if (isDeviceSuitable(device)) {
+            physicalDevice_ = device;
+            break;
+        }
+    }
+
+    if (physicalDevice_ == VK_NULL_HANDLE) {
+        throw std::runtime_error("[VULKAN] Failed to find a suitable GPU!");
+    }
+
+    VkPhysicalDeviceProperties deviceProperties;
+    vkGetPhysicalDeviceProperties(physicalDevice_, &deviceProperties);
+    std::cout << "[VULKAN] Locked onto GPU: " << deviceProperties.deviceName << std::endl;
+}
+
+bool VulkanRenderer::isDeviceSuitable(VkPhysicalDevice device) {
+    QueueFamilyIndices indices = findQueueFamilies(device);
+    return indices.isComplete();
+}
+
+QueueFamilyIndices VulkanRenderer::findQueueFamilies(VkPhysicalDevice device) {
+    QueueFamilyIndices indices;
+
+    uint32_t queueFamilyCount = 0;
+    vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
+
+    std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
+    vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
+
+    int i = 0;
+    for (const auto& queueFamily : queueFamilies) {
+        if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
+            indices.graphicsFamily = i;
+        }
+
+        VkBool32 presentSupport = false;
+        vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface_, &presentSupport);
+
+        if (presentSupport) {
+            indices.presentFamily = i;
+        }
+
+        if (indices.isComplete()) break;
+        i++;
+    }
+
+    return indices;
 }
 
 void VulkanRenderer::draw() {
@@ -49,5 +113,5 @@ void VulkanRenderer::cleanup() {
         }
         vkDestroyInstance(instance_, nullptr);
     }
-    std::cout << "[VULKAN] Cleaned up renderer resources." << std::endl;
+    std::cout << "[VULKAN] Cleaned up successfully." << std::endl;
 }
