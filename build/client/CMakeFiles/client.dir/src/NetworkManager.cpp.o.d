@@ -873,5 +873,5 @@ client/CMakeFiles/client.dir/src/NetworkManager.cpp.o: \
  /usr/include/c++/13/thread /usr/include/c++/13/map \
  /usr/include/c++/13/bits/stl_tree.h /usr/include/c++/13/bits/stl_map.h \
  /usr/include/c++/13/bits/stl_multimap.h \
- /home/karadiina/Documents/projektit/GameX/common/include/Packet.hpp \
+ /home/karadiina/Documents/projektit/GameX/common/include/Protocol.hpp \
  /usr/include/c++/13/iostream

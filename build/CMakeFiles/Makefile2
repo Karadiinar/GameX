@@ -114,42 +114,101 @@ common/clean:
 # Directory level rules for directory server
 
 # Recursive "all" directory target.
-server/all: server/CMakeFiles/server.dir/all
+server/all: server/login/all
+server/all: server/game/all
 .PHONY : server/all
 
 # Recursive "preinstall" directory target.
-server/preinstall:
+server/preinstall: server/login/preinstall
+server/preinstall: server/game/preinstall
 .PHONY : server/preinstall
 
 # Recursive "clean" directory target.
-server/clean: server/CMakeFiles/server.dir/clean
+server/clean: server/login/clean
+server/clean: server/game/clean
 .PHONY : server/clean
 
 #=============================================================================
-# Target rules for target server/CMakeFiles/server.dir
+# Directory level rules for directory server/game
+
+# Recursive "all" directory target.
+server/game/all: server/game/CMakeFiles/GameServer.dir/all
+.PHONY : server/game/all
+
+# Recursive "preinstall" directory target.
+server/game/preinstall:
+.PHONY : server/game/preinstall
+
+# Recursive "clean" directory target.
+server/game/clean: server/game/CMakeFiles/GameServer.dir/clean
+.PHONY : server/game/clean
+
+#=============================================================================
+# Directory level rules for directory server/login
+
+# Recursive "all" directory target.
+server/login/all: server/login/CMakeFiles/LoginServer.dir/all
+.PHONY : server/login/all
+
+# Recursive "preinstall" directory target.
+server/login/preinstall:
+.PHONY : server/login/preinstall
+
+# Recursive "clean" directory target.
+server/login/clean: server/login/CMakeFiles/LoginServer.dir/clean
+.PHONY : server/login/clean
+
+#=============================================================================
+# Target rules for target server/login/CMakeFiles/LoginServer.dir
 
 # All Build rule for target.
-server/CMakeFiles/server.dir/all:
-	$(MAKE) $(MAKESILENT) -f server/CMakeFiles/server.dir/build.make server/CMakeFiles/server.dir/depend
-	$(MAKE) $(MAKESILENT) -f server/CMakeFiles/server.dir/build.make server/CMakeFiles/server.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/karadiina/Documents/projektit/GameX/build/CMakeFiles --progress-num=5,6 "Built target server"
-.PHONY : server/CMakeFiles/server.dir/all
+server/login/CMakeFiles/LoginServer.dir/all:
+	$(MAKE) $(MAKESILENT) -f server/login/CMakeFiles/LoginServer.dir/build.make server/login/CMakeFiles/LoginServer.dir/depend
+	$(MAKE) $(MAKESILENT) -f server/login/CMakeFiles/LoginServer.dir/build.make server/login/CMakeFiles/LoginServer.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/karadiina/Documents/projektit/GameX/build/CMakeFiles --progress-num=3,4 "Built target LoginServer"
+.PHONY : server/login/CMakeFiles/LoginServer.dir/all
 
 # Build rule for subdir invocation for target.
-server/CMakeFiles/server.dir/rule: cmake_check_build_system
+server/login/CMakeFiles/LoginServer.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/karadiina/Documents/projektit/GameX/build/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 server/CMakeFiles/server.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 server/login/CMakeFiles/LoginServer.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/karadiina/Documents/projektit/GameX/build/CMakeFiles 0
-.PHONY : server/CMakeFiles/server.dir/rule
+.PHONY : server/login/CMakeFiles/LoginServer.dir/rule
 
 # Convenience name for target.
-server: server/CMakeFiles/server.dir/rule
-.PHONY : server
+LoginServer: server/login/CMakeFiles/LoginServer.dir/rule
+.PHONY : LoginServer
 
 # clean rule for target.
-server/CMakeFiles/server.dir/clean:
-	$(MAKE) $(MAKESILENT) -f server/CMakeFiles/server.dir/build.make server/CMakeFiles/server.dir/clean
-.PHONY : server/CMakeFiles/server.dir/clean
+server/login/CMakeFiles/LoginServer.dir/clean:
+	$(MAKE) $(MAKESILENT) -f server/login/CMakeFiles/LoginServer.dir/build.make server/login/CMakeFiles/LoginServer.dir/clean
+.PHONY : server/login/CMakeFiles/LoginServer.dir/clean
+
+#=============================================================================
+# Target rules for target server/game/CMakeFiles/GameServer.dir
+
+# All Build rule for target.
+server/game/CMakeFiles/GameServer.dir/all:
+	$(MAKE) $(MAKESILENT) -f server/game/CMakeFiles/GameServer.dir/build.make server/game/CMakeFiles/GameServer.dir/depend
+	$(MAKE) $(MAKESILENT) -f server/game/CMakeFiles/GameServer.dir/build.make server/game/CMakeFiles/GameServer.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/karadiina/Documents/projektit/GameX/build/CMakeFiles --progress-num=1,2 "Built target GameServer"
+.PHONY : server/game/CMakeFiles/GameServer.dir/all
+
+# Build rule for subdir invocation for target.
+server/game/CMakeFiles/GameServer.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/karadiina/Documents/projektit/GameX/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 server/game/CMakeFiles/GameServer.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/karadiina/Documents/projektit/GameX/build/CMakeFiles 0
+.PHONY : server/game/CMakeFiles/GameServer.dir/rule
+
+# Convenience name for target.
+GameServer: server/game/CMakeFiles/GameServer.dir/rule
+.PHONY : GameServer
+
+# clean rule for target.
+server/game/CMakeFiles/GameServer.dir/clean:
+	$(MAKE) $(MAKESILENT) -f server/game/CMakeFiles/GameServer.dir/build.make server/game/CMakeFiles/GameServer.dir/clean
+.PHONY : server/game/CMakeFiles/GameServer.dir/clean
 
 #=============================================================================
 # Target rules for target client/CMakeFiles/client.dir
@@ -158,7 +217,7 @@ server/CMakeFiles/server.dir/clean:
 client/CMakeFiles/client.dir/all:
 	$(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/depend
 	$(MAKE) $(MAKESILENT) -f client/CMakeFiles/client.dir/build.make client/CMakeFiles/client.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/karadiina/Documents/projektit/GameX/build/CMakeFiles --progress-num=1,2,3,4 "Built target client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/karadiina/Documents/projektit/GameX/build/CMakeFiles --progress-num=5,6,7,8 "Built target client"
 .PHONY : client/CMakeFiles/client.dir/all
 
 # Build rule for subdir invocation for target.

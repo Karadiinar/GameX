@@ -4,7 +4,7 @@
 #include <memory>
 #include <functional>
 #include <map>
-#include "Packet.hpp"
+#include "Protocol.hpp"
 
 using asio::ip::tcp;
 
@@ -14,7 +14,8 @@ public:
     ~NetworkManager();
 
     bool connect(const std::string& host, const std::string& port);
-    void sendPacket(const Rebel::PacketHeader& packet);
+    void disconnect();
+    void sendPacket(const Rebel::PacketHeader& header, const void* payload = nullptr, std::size_t payloadSize = 0);
     void update(); // Optional: for polling events
 
     using PacketHandler = std::function<void(std::shared_ptr<Rebel::PacketHeader>)>;
@@ -34,5 +35,3 @@ private:
 std::map<Rebel::Opcode, PacketHandler> handlers_;
 
 };
-
-

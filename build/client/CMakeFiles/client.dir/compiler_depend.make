@@ -433,7 +433,7 @@ client/CMakeFiles/client.dir/src/NetworkManager.cpp.o: /home/karadiina/Documents
   vcpkg_installed/x64-linux/include/asio/write.hpp \
   vcpkg_installed/x64-linux/include/asio/write_at.hpp \
   /home/karadiina/Documents/projektit/GameX/client/include/NetworkManager.hpp \
-  /home/karadiina/Documents/projektit/GameX/common/include/Packet.hpp \
+  /home/karadiina/Documents/projektit/GameX/common/include/Protocol.hpp \
   /usr/include/alloca.h \
   /usr/include/arpa/inet.h \
   /usr/include/asm-generic/bitsperlong.h \
@@ -1507,7 +1507,7 @@ client/CMakeFiles/client.dir/src/main.cpp.o: /home/karadiina/Documents/projektit
   vcpkg_installed/x64-linux/include/asio/write_at.hpp \
   /home/karadiina/Documents/projektit/GameX/client/include/NetworkManager.hpp \
   /home/karadiina/Documents/projektit/GameX/client/include/VulkanRenderer.hpp \
-  /home/karadiina/Documents/projektit/GameX/common/include/Packet.hpp \
+  /home/karadiina/Documents/projektit/GameX/common/include/Protocol.hpp \
   /home/karadiina/Documents/projektit/GameX/common/include/Version.hpp \
   /usr/include/GL/gl.h \
   /usr/include/GL/glext.h \
@@ -3343,6 +3343,8 @@ vcpkg_installed/x64-linux/include/asio/is_applicable_property.hpp:
 
 vcpkg_installed/x64-linux/include/asio/is_contiguous_iterator.hpp:
 
+/home/karadiina/Documents/projektit/GameX/common/include/Protocol.hpp:
+
 /usr/include/c++/13/algorithm:
 
 vcpkg_installed/x64-linux/include/asio/is_executor.hpp:
@@ -3480,8 +3482,6 @@ vcpkg_installed/x64-linux/include/asio/write.hpp:
 vcpkg_installed/x64-linux/include/asio/cancellation_type.hpp:
 
 /usr/include/c++/13/bits/exception.h:
-
-/home/karadiina/Documents/projektit/GameX/common/include/Packet.hpp:
 
 /usr/include/alloca.h:
 

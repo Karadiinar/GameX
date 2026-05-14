@@ -117,17 +117,30 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named server
+# Target rules for targets named LoginServer
 
 # Build rule for target.
-server: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 server
-.PHONY : server
+LoginServer: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 LoginServer
+.PHONY : LoginServer
 
 # fast build rule for target.
-server/fast:
-	$(MAKE) $(MAKESILENT) -f server/CMakeFiles/server.dir/build.make server/CMakeFiles/server.dir/build
-.PHONY : server/fast
+LoginServer/fast:
+	$(MAKE) $(MAKESILENT) -f server/login/CMakeFiles/LoginServer.dir/build.make server/login/CMakeFiles/LoginServer.dir/build
+.PHONY : LoginServer/fast
+
+#=============================================================================
+# Target rules for targets named GameServer
+
+# Build rule for target.
+GameServer: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 GameServer
+.PHONY : GameServer
+
+# fast build rule for target.
+GameServer/fast:
+	$(MAKE) $(MAKESILENT) -f server/game/CMakeFiles/GameServer.dir/build.make server/game/CMakeFiles/GameServer.dir/build
+.PHONY : GameServer/fast
 
 #=============================================================================
 # Target rules for targets named client
@@ -150,8 +163,9 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... GameServer"
+	@echo "... LoginServer"
 	@echo "... client"
-	@echo "... server"
 .PHONY : help
 
 

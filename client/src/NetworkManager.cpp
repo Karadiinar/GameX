@@ -29,34 +29,60 @@ bool NetworkManager::connect(const std::string& host, const std::string& port) {
 }
 
 void NetworkManager::startRead() {
-    auto header = std::make_shared<Rebel::PacketHeader>();
-    
-    asio::async_read(socket_, asio::buffer(header.get(), sizeof(Rebel::PacketHeader)),
-        [this, header](asio::error_code ec, std::size_t length) {
+    // Stage 1: Read the header to know the packet size
+    auto headerOnly = std::make_shared<Rebel::PacketHeader>();
+    asio::async_read(socket_, asio::buffer(headerOnly.get(), sizeof(Rebel::PacketHeader)),
+        [this, headerOnly](asio::error_code ec, std::size_t length) {
             if (!ec) {
-                Rebel::Opcode opcode = static_cast<Rebel::Opcode>(header->opcode);
+                uint16_t fullSize = headerOnly->size;
+                // Prevent buffer underflow or invalid reads
+                if (fullSize < sizeof(Rebel::PacketHeader)) return;
+                
+                // Stage 2: Allocate a buffer for the full packet and read the payload if it exists
+                auto fullPacketData = std::shared_ptr<uint8_t[]>(new uint8_t[fullSize]);
+                std::memcpy(fullPacketData.get(), headerOnly.get(), sizeof(Rebel::PacketHeader));
 
-                // Look up the handler in our map
-                auto it = handlers_.find(opcode);
-                if (it != handlers_.end()) {
-                    // Execute the function we found!
-                    it->second(header);
-                } else {
-                    std::cout << "[NETWORK] No handler registered for Opcode: " << header->opcode << std::endl;
-                }
+                asio::async_read(socket_, asio::buffer(fullPacketData.get() + sizeof(Rebel::PacketHeader), fullSize - sizeof(Rebel::PacketHeader)),
+                    [this, fullPacketData](asio::error_code ec2, std::size_t length2) {
+                        if (!ec2) {
+                            auto packet = std::shared_ptr<Rebel::PacketHeader>(fullPacketData, reinterpret_cast<Rebel::PacketHeader*>(fullPacketData.get()));
+                            Rebel::Opcode opcode = static_cast<Rebel::Opcode>(packet->opcode);
 
-                startRead(); // Keep listening for the next packet
+                            auto it = handlers_.find(opcode);
+                            if (it != handlers_.end()) {
+                                it->second(packet);
+                            }
+                            
+                            // Stage 3: ONLY loop back once the entire packet (including payload) is processed
+                            startRead();
+                        }
+                    });
             }
         });
 }
 
-void NetworkManager::sendPacket(const Rebel::PacketHeader& packet) {
-    // We send the packet over the socket using a synchronous write for simplicity here,
-    // though async_write is often preferred for high-performance engines.
+void NetworkManager::sendPacket(const Rebel::PacketHeader& header, const void* payload, std::size_t payloadSize) {
+    // Use a scatter-gather write to send the header and payload in one atomic operation
+    std::vector<asio::const_buffer> buffers;
+    buffers.push_back(asio::buffer(&header, sizeof(Rebel::PacketHeader)));
+    
+    if (payload && payloadSize > 0) {
+        buffers.push_back(asio::buffer(payload, payloadSize));
+    }
+
     asio::error_code ec;
-    asio::write(socket_, asio::buffer(&packet, sizeof(Rebel::PacketHeader)), ec);
+    asio::write(socket_, buffers, ec);
 
     if (ec) {
         std::cerr << "[NETWORK] Failed to send packet: " << ec.message() << std::endl;
     }
+}
+
+void NetworkManager::disconnect() {
+    asio::error_code ec;
+    socket_.shutdown(tcp::socket::shutdown_both, ec);
+    socket_.close(ec);
+    
+    // We don't stop the io_context_ here because we want 
+    // the network_thread_ to stay alive for the next connection.
 }

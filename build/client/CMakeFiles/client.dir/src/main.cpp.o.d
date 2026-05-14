@@ -154,7 +154,8 @@ client/CMakeFiles/client.dir/src/main.cpp.o: \
  /usr/include/c++/13/bits/locale_facets.tcc \
  /usr/include/c++/13/bits/basic_ios.tcc \
  /usr/include/c++/13/bits/ostream.tcc /usr/include/c++/13/istream \
- /usr/include/c++/13/bits/istream.tcc /usr/include/GLFW/glfw3.h \
+ /usr/include/c++/13/bits/istream.tcc /usr/include/c++/13/cstring \
+ /usr/include/string.h /usr/include/strings.h /usr/include/GLFW/glfw3.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-least.h /usr/include/GL/gl.h \
@@ -275,7 +276,6 @@ client/CMakeFiles/client.dir/src/main.cpp.o: \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/throw_error.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/error_code.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/error_code.ipp \
- /usr/include/c++/13/cstring /usr/include/string.h /usr/include/strings.h \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/local_free_on_block_exit.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/socket_types.hpp \
  /usr/include/x86_64-linux-gnu/sys/ioctl.h \
@@ -873,7 +873,7 @@ client/CMakeFiles/client.dir/src/main.cpp.o: \
  /usr/include/c++/13/thread /usr/include/c++/13/map \
  /usr/include/c++/13/bits/stl_tree.h /usr/include/c++/13/bits/stl_map.h \
  /usr/include/c++/13/bits/stl_multimap.h \
- /home/karadiina/Documents/projektit/GameX/common/include/Packet.hpp \
+ /home/karadiina/Documents/projektit/GameX/common/include/Protocol.hpp \
  /home/karadiina/Documents/projektit/GameX/client/include/VulkanRenderer.hpp \
  /usr/include/vulkan/vulkan.h /usr/include/vulkan/vk_platform.h \
  /usr/include/vulkan/vulkan_core.h \

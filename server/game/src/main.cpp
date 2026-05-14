@@ -9,7 +9,7 @@
 #include <algorithm> // Required for std::max
 #include <atomic>
 #include <memory>
-#include "Packet.hpp"
+#include "Protocol.hpp"
 #include <asio/read.hpp>
 #include <asio/write.hpp>
 
@@ -95,18 +95,25 @@ private:
     }
 
     void process_packet() {
-        Rebel::Opcode opcode = static_cast<Rebel::Opcode>(header_.opcode);
+    Rebel::Opcode opcode = static_cast<Rebel::Opcode>(header_.opcode);
 
-        switch (opcode) {
-            case Rebel::Opcode::CMSG_PING:
-                std::cout << "[SESSION] Received CMSG_PING! Sending SMSG_PONG back..." << std::endl;
-                send_pong(); // <--- Call the new reply function
-                break;
-            default:
-                std::cout << "[SESSION] Unknown Opcode: 0x" << std::hex << header_.opcode << std::dec << std::endl;
-                break;
-        }
+    switch (opcode) {
+        case Rebel::Opcode::CMSG_PING:
+            std::cout << "[SESSION] Received CMSG_PING! Sending SMSG_PONG back..." << std::endl;
+            send_pong();
+            break;
+
+        // NEW: Handle the client's arrival after redirection
+        case Rebel::Opcode::CMSG_PLAYER_MOVE: // Using this as the 'I arrived' signal
+            std::cout << "[SESSION] Player successfully redirected and authenticated!" << std::endl;
+            // Here you would eventually load their character from a database
+            break;
+
+        default:
+            std::cout << "[SESSION] Unknown Opcode: 0x" << std::hex << (int)header_.opcode << std::dec << std::endl;
+            break;
     }
+}
 
     void send_pong() {
         // Create a shared pointer to keep the session alive

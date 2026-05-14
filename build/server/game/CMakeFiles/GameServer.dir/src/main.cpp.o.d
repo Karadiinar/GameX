@@ -1,5 +1,5 @@
-server/CMakeFiles/server.dir/src/main.cpp.o: \
- /home/karadiina/Documents/projektit/GameX/server/src/main.cpp \
+server/game/CMakeFiles/GameServer.dir/src/main.cpp.o: \
+ /home/karadiina/Documents/projektit/GameX/server/game/src/main.cpp \
  /usr/include/stdc-predef.h /usr/include/c++/13/iostream \
  /usr/include/c++/13/bits/requires_hosted.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
@@ -544,7 +544,7 @@ server/CMakeFiles/server.dir/src/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/semaphore.h \
  /usr/include/c++/13/algorithm /usr/include/c++/13/bits/ranges_algo.h \
  /usr/include/c++/13/pstl/glue_algorithm_defs.h \
- /home/karadiina/Documents/projektit/GameX/common/include/Packet.hpp \
+ /home/karadiina/Documents/projektit/GameX/common/include/Protocol.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/read.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/completion_condition.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_streambuf_fwd.hpp \

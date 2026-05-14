@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/karadiina/Documents/projektit/GameX/server/src/main.cpp" "server/CMakeFiles/server.dir/src/main.cpp.o" "gcc" "server/CMakeFiles/server.dir/src/main.cpp.o.d"
+  "/home/karadiina/Documents/projektit/GameX/server/game/src/main.cpp" "server/game/CMakeFiles/GameServer.dir/src/main.cpp.o" "gcc" "server/game/CMakeFiles/GameServer.dir/src/main.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

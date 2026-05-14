@@ -2,9 +2,14 @@
 /home/karadiina/Documents/projektit/GameX/build/CMakeFiles/rebuild_cache.dir
 /home/karadiina/Documents/projektit/GameX/build/common/CMakeFiles/edit_cache.dir
 /home/karadiina/Documents/projektit/GameX/build/common/CMakeFiles/rebuild_cache.dir
-/home/karadiina/Documents/projektit/GameX/build/server/CMakeFiles/server.dir
 /home/karadiina/Documents/projektit/GameX/build/server/CMakeFiles/edit_cache.dir
 /home/karadiina/Documents/projektit/GameX/build/server/CMakeFiles/rebuild_cache.dir
+/home/karadiina/Documents/projektit/GameX/build/server/login/CMakeFiles/LoginServer.dir
+/home/karadiina/Documents/projektit/GameX/build/server/login/CMakeFiles/edit_cache.dir
+/home/karadiina/Documents/projektit/GameX/build/server/login/CMakeFiles/rebuild_cache.dir
+/home/karadiina/Documents/projektit/GameX/build/server/game/CMakeFiles/GameServer.dir
+/home/karadiina/Documents/projektit/GameX/build/server/game/CMakeFiles/edit_cache.dir
+/home/karadiina/Documents/projektit/GameX/build/server/game/CMakeFiles/rebuild_cache.dir
 /home/karadiina/Documents/projektit/GameX/build/client/CMakeFiles/client.dir
 /home/karadiina/Documents/projektit/GameX/build/client/CMakeFiles/edit_cache.dir
 /home/karadiina/Documents/projektit/GameX/build/client/CMakeFiles/rebuild_cache.dir
