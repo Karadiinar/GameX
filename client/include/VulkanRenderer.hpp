@@ -40,7 +40,18 @@ struct SwapChainSupportDetails {
 
 class VulkanRenderer {
 public:
-void toggleFullscreen(GLFWwindow* window);
+
+
+    bool isMovingLeft() const { return is_moving_left_; }
+    bool isMovingRight() const { return is_moving_right_; }
+    bool isMovingUp() const { return is_moving_up_; }
+    bool isMovingDown() const { return is_moving_down_; }
+
+    static void glfw_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+    float getPlayerX() const { return player_x_; }
+    
+    void handleKeyInput(int key, int scancode, int action, int mods);
+    void toggleFullscreen(GLFWwindow* window);
     void framebufferResizeCallback() { framebufferResized_ = true; }
     void init(GLFWwindow* window, const GraphicsConfig& config);
     void cleanup();
@@ -80,7 +91,7 @@ private:
     VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
     VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
     VkShaderModule createShaderModule(const std::vector<uint32_t>& code);
-    void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex, float playerX);
+   void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex, float playerX, float playerY);
 
     // Private Member variables
     GraphicsConfig activeConfig_;
@@ -116,5 +127,13 @@ private:
     bool framebufferResized_ = false;
     GLFWwindow* window_ = nullptr;
     
-    void recreateSwapchain(GLFWwindow* window); // Your existing swapchain recreation function
+    void recreateSwapchain(GLFWwindow* window);
+
+    bool is_moving_left_ = false;
+    bool is_moving_right_ = false;
+    bool is_moving_up_ = false;
+    bool is_moving_down_ = false;
+
+    float player_x_ = 0.0f;
+    
 };

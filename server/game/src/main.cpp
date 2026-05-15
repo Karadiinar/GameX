@@ -19,34 +19,40 @@ struct Position { float x, y, z; };
 struct PlayerData { std::string name; };
 
 // Function to handle each tick of the 20Hz game loop
+void update_game_world(int current_tick) {
+    // Only log once every 20 ticks (~1 second) to keep the terminal readable
+    if (current_tick % 20 != 0) return;
+
+    auto view = world.view<PlayerData, Position>();
+    
+    if (view.size_hint() == 0) {
+        std::cout << "[WORLD] Heartbeat - Tick: " << current_tick << std::endl;
+    } else {
+        view.each([current_tick](auto entity, auto &data, auto &pos) {
+            // VERIFICATION PRINT: This will print out the full 2D position!
+            std::cout << "[WORLD] Tick: " << current_tick 
+                      << " | Player: " << data.name 
+                      << " | X: " << pos.x 
+                      << " | Y: " << pos.y << std::endl; // <-- Verified!
+        });
+    }
+}
+
+// The clean Asio tick orchestrator
 void game_loop_tick(asio::steady_timer& timer, 
                     asio::strand<asio::io_context::executor_type>& strand, 
                     std::atomic<int>& tick_count, 
                     std::atomic<bool>& running) {
     if (!running.load()) return;
 
-    // 1. Logic & Logging
+    // 1. Execute the isolated game logic
     int current_tick = tick_count++;
-    
-    // Every 20 ticks (approx 1 second at 20Hz)
-    if (current_tick % 20 == 0) {
-        auto view = world.view<PlayerData, Position>();
-        
-        // If the world is empty, just print a heartbeat
-        if (view.size_hint() == 0) {
-    std::cout << "[WORLD] Heartbeat - Tick: " << current_tick << std::endl;
-} else {
-            view.each([current_tick](auto entity, auto &data, auto &pos) {
-                std::cout << "[WORLD] Tick: " << current_tick 
-                          << " | Player: " << data.name 
-                          << " | X: " << pos.x << std::endl;
-            });
-        }
-    }
+    update_game_world(current_tick);
 
-    // 2. Schedule the next tick
+    // 2. Schedule the next tick precisely 50ms into the future (20Hz)
     timer.expires_at(timer.expiry() + std::chrono::milliseconds(50));
     
+    // Using a simple lambda wrapper to forward the next call smoothly
     timer.async_wait(asio::bind_executor(strand, 
         [&timer, &strand, &tick_count, &running](const asio::error_code& error) {
             if (!error) {

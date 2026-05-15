@@ -17,7 +17,6 @@
 
 // Global shutdown flag to synchronize thread termination
 std::atomic<bool> g_Running{ true };
-VulkanRenderer* g_RendererPtr = nullptr;
 
 struct Transform {
     float x, y, z;
@@ -26,18 +25,10 @@ struct Transform {
 
 struct LocalPlayerTag {};
 
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-    if (key == GLFW_KEY_F11 && action == GLFW_PRESS) {
-        if (g_RendererPtr) {
-            g_RendererPtr->toggleFullscreen(window);
-        }
-    }
-}
-
 /**
  * Logic Thread: Responsible for game state evolution, physics, and packet processing.
  */
-void LogicThreadEntry(NetworkManager* network, SharedRenderState* renderState) {
+void LogicThreadEntry(NetworkManager* network, SharedRenderState* renderState, const VulkanRenderer* renderer) {
     entt::registry client_registry;       // <-- The Client's World Data
     entt::entity local_player = entt::null; // <-- Handle to our specific character
     bool inWorld = false;
@@ -77,7 +68,23 @@ void LogicThreadEntry(NetworkManager* network, SharedRenderState* renderState) {
         // --- UPDATE ECS AND SEND NETWORK PACKET ---
         if (inWorld && client_registry.valid(local_player)) {
             auto& transform = client_registry.get<Transform>(local_player);
-            transform.x += 0.05f; 
+            
+            // Read input states from our renderer to change position smoothly at 64Hz
+            float speed = 0.02f;
+            if (renderer->isMovingLeft()) {
+                transform.x -= speed;
+            }
+            if (renderer->isMovingRight()) {
+                transform.x += speed;
+            }
+            // Remember: In screen coordinates / graphics APIs, Y conventionally goes DOWN, 
+            // so pressing UP should decrease Y, and pressing DOWN should increase Y.
+            if (renderer->isMovingUp()) {
+                transform.y -= speed; // <-- ADD THIS
+            }
+            if (renderer->isMovingDown()) {
+                transform.y += speed; // <-- ADD THIS
+            }
 
             // 1. UPDATE THE RENDER BRIDGE
             {
@@ -129,16 +136,9 @@ int main() {
     // --- INSTANTIATE THE BRIDGE ---
     SharedRenderState sharedRenderState;
 
-    // --- 3. LOGIC SUBSYSTEM ---
-    std::thread logicThread(LogicThreadEntry, &network, &sharedRenderState);
-    if (coreMap.size() > 2) {
-        std::cout << "[Main] Pinning Logic subsystem to Core " << coreMap[2] << "\n";
-        Rebel::ThreadUtils::SetThreadAffinity(logicThread, coreMap[2]);
-    }
-
-    // --- 4. GRAPHICS SUBSYSTEM ---
+    // --- 4. GRAPHICS SUBSYSTEM ENVIRONMENT INITIALIZATION ---
     try {
-        // FIX 1: Fire up GLFW before calling window manipulation functions
+        // Fire up GLFW before calling window manipulation functions
         if (!glfwInit()) {
             throw std::runtime_error("[Graphics] Failed to initialize GLFW!");
         }
@@ -149,7 +149,7 @@ int main() {
         userGraphicsSettings.windowWidth = 1280;
         userGraphicsSettings.windowHeight = 720;
 
-        // FIX 2: Flush hints and explicitly declare Vulkan API support before generating the container
+        // Flush hints and explicitly declare Vulkan API support before generating the container
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); 
@@ -167,18 +167,24 @@ int main() {
             throw std::runtime_error("[Graphics] Failed to create GLFW window!");
         }
 
-        // Initialize using the default constructor
+        // --- DECLARED FIRST: The Renderer instance now exists in memory ---
         VulkanRenderer renderer;
+
+        // --- 3. SPAWN LOGIC SUBSYSTEM (Safe to pass &renderer now!) ---
+        std::thread logicThread(LogicThreadEntry, &network, &sharedRenderState, &renderer);
+        if (coreMap.size() > 2) {
+            std::cout << "[Main] Pinning Logic subsystem to Core " << coreMap[2] << "\n";
+            Rebel::ThreadUtils::SetThreadAffinity(logicThread, coreMap[2]);
+        }
         
         // Pass the window context and config to the initialization pipeline
         renderer.init(window, userGraphicsSettings);
 
-        // Assign global/local pointer mappings for our key events dispatching
-        g_RendererPtr = &renderer;
-        glfwSetKeyCallback(window, key_callback);
-
-        // Map window user pointer context directly to instance address
+        // Tell GLFW: "Hey, associate this 'renderer' C++ object with this specific window."
         glfwSetWindowUserPointer(window, &renderer);
+
+        // Tell GLFW: "When a key is pressed, execute our static callback handler."
+        glfwSetKeyCallback(window, VulkanRenderer::glfw_key_callback);
         
         // Set up the window resize callback lambda
         glfwSetFramebufferSizeCallback(window, [](GLFWwindow* win, int width, int height) {
@@ -209,10 +215,7 @@ int main() {
     catch (const std::exception& e) {
         std::cerr << "\n[Fatal Error] " << e.what() << std::endl;
         g_Running = false;
-        if (logicThread.joinable()) {
-            logicThread.join();
-        }
-        glfwTerminate(); // Keep environment states cleanly balanced on failures
+        glfwTerminate();
         return -1;
     }
 

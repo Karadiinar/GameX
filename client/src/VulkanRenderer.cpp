@@ -316,7 +316,7 @@ void VulkanRenderer::createGraphicsPipeline() {
     VkPushConstantRange pushConstantRange{};
     pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT; // Targeted shader stage
     pushConstantRange.offset = 0;                             // Zero offset
-    pushConstantRange.size = sizeof(float);                   // Pushing exactly one 32-bit float
+    pushConstantRange.size = sizeof(float) * 2;                   // Pushing exactly two 32-bit floats
 
     VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
     pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
@@ -400,7 +400,7 @@ void VulkanRenderer::createCommandBuffers() {
     }
 }
 
-void VulkanRenderer::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex, float playerX) {
+void VulkanRenderer::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex, float playerX, float playerY) {
     VkCommandBufferBeginInfo beginInfo{};
     beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
 
@@ -440,15 +440,17 @@ void VulkanRenderer::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t
     vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
 
     // =================================================================
-    // 3. THE MISSING LINK: Push the X coordinate to the vertex shader!
+    // 3. UPDATED: Push BOTH X and Y coordinates to the vertex shader!
     // =================================================================
+    float pushConstants[2] = { playerX, playerY };
+
     vkCmdPushConstants(
         commandBuffer,
         pipelineLayout_,             // Your compiled pipeline layout
         VK_SHADER_STAGE_VERTEX_BIT,  // Target the vertex shader stage
         0,                           // Offset
-        sizeof(float),               // Size of data
-        &playerX                     // Pointer to our local float data
+        sizeof(float) * 2,           // Size of data (Now 8 bytes total)
+        pushConstants                // Pointer to our array containing X and Y
     );
     // =================================================================
 
@@ -713,13 +715,15 @@ void VulkanRenderer::drawFrame(SharedRenderState* renderState) {
     // 3. THE RENDER BRIDGE: Safely grab the player's X position
     // =======================================================
     float current_x = 0.0f;
+    float current_y = 0.0f; // NEW: Prepare a variable for Y coordinate as well
     if (renderState) {
         std::lock_guard<std::mutex> lock(renderState->mtx);
         current_x = renderState->player_x; // Fast read and unlock!
+        current_y = renderState->player_y; // NEW: Read the Y coordinate as well
     }
 
     // 4. Pass the extracted float down into the command buffer recorder!
-    recordCommandBuffer(commandBuffers_[currentFrame_], imageIndex, current_x);
+    recordCommandBuffer(commandBuffers_[currentFrame_], imageIndex, current_x, current_y);
 
     // =======================================================
 
@@ -902,4 +906,31 @@ void VulkanRenderer::recreateSwapchain(GLFWwindow* window) {
     createFramebuffers();   // Reconstructs render target arrays
     
     std::cout << "[Vulkan] Swapchain safely recreated at resolution: " << width << "x" << height << "\n";
+}
+
+
+void VulkanRenderer::glfw_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+    auto* renderer = reinterpret_cast<VulkanRenderer*>(glfwGetWindowUserPointer(window));
+    if (renderer) {
+        renderer->handleKeyInput(key, scancode, action, mods);
+    }
+}
+
+void VulkanRenderer::handleKeyInput(int key, int scancode, int action, int mods) {
+    if (action == GLFW_PRESS) {
+        if (key == GLFW_KEY_LEFT || key == GLFW_KEY_A)  is_moving_left_ = true;
+        if (key == GLFW_KEY_RIGHT || key == GLFW_KEY_D) is_moving_right_ = true;
+        if (key == GLFW_KEY_UP || key == GLFW_KEY_W)    is_moving_up_ = true;    // <-- ADD THIS
+        if (key == GLFW_KEY_DOWN || key == GLFW_KEY_S)  is_moving_down_ = true;  // <-- ADD THIS
+        
+        if (key == GLFW_KEY_F11) {
+            toggleFullscreen(window_); 
+        }
+    } 
+    else if (action == GLFW_RELEASE) {
+        if (key == GLFW_KEY_LEFT || key == GLFW_KEY_A)  is_moving_left_ = false;
+        if (key == GLFW_KEY_RIGHT || key == GLFW_KEY_D) is_moving_right_ = false;
+        if (key == GLFW_KEY_UP || key == GLFW_KEY_W)    is_moving_up_ = false;   // <-- ADD THIS
+        if (key == GLFW_KEY_DOWN || key == GLFW_KEY_S)  is_moving_down_ = false; // <-- ADD THIS
+    }
 }
