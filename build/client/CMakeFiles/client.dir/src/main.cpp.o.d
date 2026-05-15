@@ -154,24 +154,84 @@ client/CMakeFiles/client.dir/src/main.cpp.o: \
  /usr/include/c++/13/bits/locale_facets.tcc \
  /usr/include/c++/13/bits/basic_ios.tcc \
  /usr/include/c++/13/bits/ostream.tcc /usr/include/c++/13/istream \
- /usr/include/c++/13/bits/istream.tcc /usr/include/c++/13/cstring \
- /usr/include/string.h /usr/include/strings.h /usr/include/GLFW/glfw3.h \
+ /usr/include/c++/13/bits/istream.tcc /usr/include/c++/13/vector \
+ /usr/include/c++/13/bits/stl_uninitialized.h \
+ /usr/include/c++/13/bits/stl_vector.h \
+ /usr/include/c++/13/bits/stl_bvector.h \
+ /usr/include/c++/13/bits/vector.tcc /usr/include/c++/13/thread \
+ /usr/include/c++/13/stop_token /usr/include/c++/13/atomic \
+ /usr/include/c++/13/bits/atomic_base.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
- /usr/include/x86_64-linux-gnu/bits/stdint-least.h /usr/include/GL/gl.h \
- /usr/include/GL/glext.h /usr/include/KHR/khrplatform.h \
- /home/karadiina/Documents/projektit/GameX/client/include/NetworkManager.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/any_completion_executor.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/config.hpp \
- /usr/include/c++/13/version /usr/include/unistd.h \
+ /usr/include/x86_64-linux-gnu/bits/stdint-least.h \
+ /usr/include/c++/13/bits/atomic_lockfree_defines.h \
+ /usr/include/c++/13/bits/atomic_wait.h /usr/include/c++/13/cstdint \
+ /usr/include/c++/13/climits \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/syslimits.h \
+ /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+ /usr/include/linux/limits.h \
+ /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/uio_lim.h /usr/include/unistd.h \
  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
  /usr/include/x86_64-linux-gnu/bits/environments.h \
  /usr/include/x86_64-linux-gnu/bits/confname.h \
  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
- /usr/include/linux/close_range.h /usr/include/linux/version.h \
+ /usr/include/linux/close_range.h /usr/include/syscall.h \
+ /usr/include/x86_64-linux-gnu/sys/syscall.h \
+ /usr/include/x86_64-linux-gnu/asm/unistd.h \
+ /usr/include/x86_64-linux-gnu/asm/unistd_64.h \
+ /usr/include/x86_64-linux-gnu/bits/syscall.h \
+ /usr/include/c++/13/bits/std_mutex.h \
+ /usr/include/c++/13/bits/std_thread.h \
+ /usr/include/c++/13/bits/unique_ptr.h /usr/include/c++/13/semaphore \
+ /usr/include/c++/13/bits/semaphore_base.h \
+ /usr/include/c++/13/bits/chrono.h /usr/include/c++/13/ratio \
+ /usr/include/c++/13/limits /usr/include/c++/13/ctime \
+ /usr/include/c++/13/bits/parse_numbers.h \
+ /usr/include/c++/13/bits/atomic_timed_wait.h \
+ /usr/include/c++/13/bits/this_thread_sleep.h \
+ /usr/include/x86_64-linux-gnu/sys/time.h /usr/include/semaphore.h \
+ /usr/include/x86_64-linux-gnu/bits/semaphore.h \
+ /usr/include/c++/13/chrono /usr/include/c++/13/sstream \
+ /usr/include/c++/13/bits/sstream.tcc /usr/include/c++/13/bits/stl_algo.h \
+ /usr/include/c++/13/bits/algorithmfwd.h \
+ /usr/include/c++/13/bits/stl_heap.h \
+ /usr/include/c++/13/bits/uniform_int_dist.h \
+ /usr/include/c++/13/bits/stl_tempbuf.h \
+ /usr/include/c++/13/bits/shared_ptr.h \
+ /usr/include/c++/13/bits/shared_ptr_base.h \
+ /usr/include/c++/13/bits/allocated_ptr.h \
+ /usr/include/c++/13/ext/aligned_buffer.h \
+ /usr/include/c++/13/ext/concurrence.h /usr/include/c++/13/bits/align.h \
+ /usr/include/c++/13/bits/chrono_io.h /usr/include/c++/13/iomanip \
+ /usr/include/c++/13/locale \
+ /usr/include/c++/13/bits/locale_facets_nonio.h \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
+ /usr/include/libintl.h /usr/include/c++/13/bits/codecvt.h \
+ /usr/include/c++/13/bits/locale_facets_nonio.tcc \
+ /usr/include/c++/13/bits/locale_conv.h \
+ /usr/include/c++/13/bits/quoted_string.h /usr/include/c++/13/format \
+ /usr/include/c++/13/array /usr/include/c++/13/charconv \
+ /usr/include/c++/13/optional \
+ /usr/include/c++/13/bits/enable_special_members.h \
+ /usr/include/c++/13/span /usr/include/c++/13/variant \
+ /usr/include/c++/13/bits/ranges_algobase.h /usr/include/c++/13/algorithm \
+ /usr/include/c++/13/bits/ranges_algo.h \
+ /usr/include/c++/13/pstl/glue_algorithm_defs.h \
+ /usr/include/c++/13/pstl/execution_defs.h /usr/include/GLFW/glfw3.h \
+ /usr/include/GL/gl.h /usr/include/GL/glext.h \
+ /usr/include/KHR/khrplatform.h \
+ /home/karadiina/Documents/projektit/GameX/client/include/NetworkManager.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/any_completion_executor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/config.hpp \
+ /usr/include/c++/13/version /usr/include/linux/version.h \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/allocator.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/type_traits.hpp \
@@ -188,42 +248,16 @@ client/CMakeFiles/client.dir/src/main.cpp.o: \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/assert.hpp \
  /usr/include/c++/13/cassert /usr/include/assert.h \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/atomic_count.hpp \
- /usr/include/c++/13/atomic /usr/include/c++/13/bits/atomic_base.h \
- /usr/include/c++/13/bits/atomic_lockfree_defines.h \
- /usr/include/c++/13/bits/atomic_wait.h /usr/include/c++/13/cstdint \
- /usr/include/c++/13/climits \
- /usr/lib/gcc/x86_64-linux-gnu/13/include/limits.h \
- /usr/lib/gcc/x86_64-linux-gnu/13/include/syslimits.h \
- /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
- /usr/include/x86_64-linux-gnu/bits/local_lim.h \
- /usr/include/linux/limits.h \
- /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
- /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
- /usr/include/x86_64-linux-gnu/bits/uio_lim.h /usr/include/syscall.h \
- /usr/include/x86_64-linux-gnu/sys/syscall.h \
- /usr/include/x86_64-linux-gnu/asm/unistd.h \
- /usr/include/x86_64-linux-gnu/asm/unistd_64.h \
- /usr/include/x86_64-linux-gnu/bits/syscall.h \
- /usr/include/c++/13/bits/std_mutex.h \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/cstddef.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/executor_function.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/handler_alloc_helpers.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/memory.hpp \
- /usr/include/c++/13/memory /usr/include/c++/13/bits/stl_tempbuf.h \
- /usr/include/c++/13/bits/stl_uninitialized.h \
+ /usr/include/c++/13/memory \
  /usr/include/c++/13/bits/stl_raw_storage_iter.h \
- /usr/include/c++/13/bits/align.h /usr/include/c++/13/bits/unique_ptr.h \
- /usr/include/c++/13/bits/shared_ptr.h \
- /usr/include/c++/13/bits/shared_ptr_base.h \
- /usr/include/c++/13/bits/allocated_ptr.h \
- /usr/include/c++/13/ext/aligned_buffer.h \
- /usr/include/c++/13/ext/concurrence.h \
  /usr/include/c++/13/bits/shared_ptr_atomic.h \
  /usr/include/c++/13/backward/auto_ptr.h \
  /usr/include/c++/13/bits/ranges_uninitialized.h \
- /usr/include/c++/13/bits/ranges_algobase.h \
  /usr/include/c++/13/pstl/glue_memory_defs.h \
- /usr/include/c++/13/pstl/execution_defs.h \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/cstdint.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/throw_exception.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/recycling_allocator.hpp \
@@ -244,16 +278,8 @@ client/CMakeFiles/client.dir/src/main.cpp.o: \
  /usr/include/c++/13/bits/unordered_map.h \
  /usr/include/c++/13/bits/hashtable.h \
  /usr/include/c++/13/bits/hashtable_policy.h \
- /usr/include/c++/13/bits/enable_special_members.h \
  /usr/include/c++/13/bits/node_handle.h \
- /usr/include/c++/13/bits/erase_if.h /usr/include/c++/13/vector \
- /usr/include/c++/13/bits/stl_vector.h \
- /usr/include/c++/13/bits/stl_bvector.h \
- /usr/include/c++/13/bits/vector.tcc /usr/include/c++/13/array \
- /usr/include/c++/13/bits/stl_algo.h \
- /usr/include/c++/13/bits/algorithmfwd.h \
- /usr/include/c++/13/bits/stl_heap.h \
- /usr/include/c++/13/bits/uniform_int_dist.h \
+ /usr/include/c++/13/bits/erase_if.h \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/non_const_lvalue.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/scoped_ptr.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/bad_executor.hpp \
@@ -276,6 +302,7 @@ client/CMakeFiles/client.dir/src/main.cpp.o: \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/throw_error.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/error_code.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/error_code.ipp \
+ /usr/include/c++/13/cstring /usr/include/string.h /usr/include/strings.h \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/local_free_on_block_exit.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/socket_types.hpp \
  /usr/include/x86_64-linux-gnu/sys/ioctl.h \
@@ -408,7 +435,6 @@ client/CMakeFiles/client.dir/src/main.cpp.o: \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/impl/scheduler.ipp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/concurrency_hint.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/limits.hpp \
- /usr/include/c++/13/limits \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/scheduler_thread_info.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/signal_blocker.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/posix_signal_blocker.hpp \
@@ -467,21 +493,6 @@ client/CMakeFiles/client.dir/src/main.cpp.o: \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/io_object_impl.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/io_context.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/chrono.hpp \
- /usr/include/c++/13/chrono /usr/include/c++/13/bits/chrono.h \
- /usr/include/c++/13/ratio /usr/include/c++/13/ctime \
- /usr/include/c++/13/bits/parse_numbers.h /usr/include/c++/13/sstream \
- /usr/include/c++/13/bits/sstream.tcc \
- /usr/include/c++/13/bits/chrono_io.h /usr/include/c++/13/iomanip \
- /usr/include/c++/13/locale \
- /usr/include/c++/13/bits/locale_facets_nonio.h \
- /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
- /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
- /usr/include/libintl.h /usr/include/c++/13/bits/codecvt.h \
- /usr/include/c++/13/bits/locale_facets_nonio.tcc \
- /usr/include/c++/13/bits/locale_conv.h \
- /usr/include/c++/13/bits/quoted_string.h /usr/include/c++/13/format \
- /usr/include/c++/13/charconv /usr/include/c++/13/optional \
- /usr/include/c++/13/span /usr/include/c++/13/variant \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/wrapped_handler.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/io_context.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/completion_handler.hpp \
@@ -574,8 +585,6 @@ client/CMakeFiles/client.dir/src/main.cpp.o: \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_stream_file.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_stream_socket.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_streambuf.hpp \
- /usr/include/c++/13/algorithm /usr/include/c++/13/bits/ranges_algo.h \
- /usr/include/c++/13/pstl/glue_algorithm_defs.h \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_streambuf_fwd.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_waitable_timer.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_writable_pipe.hpp \
@@ -780,13 +789,7 @@ client/CMakeFiles/client.dir/src/main.cpp.o: \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/future.hpp \
  /usr/include/c++/13/future /usr/include/c++/13/mutex \
  /usr/include/c++/13/bits/unique_lock.h \
- /usr/include/c++/13/condition_variable /usr/include/c++/13/stop_token \
- /usr/include/c++/13/bits/std_thread.h /usr/include/c++/13/semaphore \
- /usr/include/c++/13/bits/semaphore_base.h \
- /usr/include/c++/13/bits/atomic_timed_wait.h \
- /usr/include/c++/13/bits/this_thread_sleep.h \
- /usr/include/x86_64-linux-gnu/sys/time.h /usr/include/semaphore.h \
- /usr/include/x86_64-linux-gnu/bits/semaphore.h \
+ /usr/include/c++/13/condition_variable \
  /usr/include/c++/13/bits/atomic_futex.h \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/placeholders.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/posix/basic_descriptor.hpp \
@@ -870,10 +873,19 @@ client/CMakeFiles/client.dir/src/main.cpp.o: \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/write.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/write_at.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/write_at.hpp \
- /usr/include/c++/13/thread /usr/include/c++/13/map \
- /usr/include/c++/13/bits/stl_tree.h /usr/include/c++/13/bits/stl_map.h \
+ /usr/include/c++/13/map /usr/include/c++/13/bits/stl_tree.h \
+ /usr/include/c++/13/bits/stl_map.h \
  /usr/include/c++/13/bits/stl_multimap.h \
  /home/karadiina/Documents/projektit/GameX/common/include/Protocol.hpp \
+ /home/karadiina/Documents/projektit/GameX/common/include/ThreadUtility.hpp \
+ /usr/include/c++/13/set /usr/include/c++/13/bits/stl_set.h \
+ /usr/include/c++/13/bits/stl_multiset.h /usr/include/c++/13/queue \
+ /usr/include/c++/13/deque /usr/include/c++/13/bits/stl_deque.h \
+ /usr/include/c++/13/bits/deque.tcc /usr/include/c++/13/bits/stl_queue.h \
+ /usr/include/c++/13/fstream \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/c++io.h \
+ /usr/include/c++/13/bits/fstream.tcc \
  /home/karadiina/Documents/projektit/GameX/client/include/VulkanRenderer.hpp \
  /usr/include/vulkan/vulkan.h /usr/include/vulkan/vk_platform.h \
  /usr/include/vulkan/vulkan_core.h \
@@ -888,5 +900,4 @@ client/CMakeFiles/client.dir/src/main.cpp.o: \
  /usr/include/vk_video/vulkan_video_codec_h265std_decode.h \
  /usr/include/vk_video/vulkan_video_codec_av1std.h \
  /usr/include/vk_video/vulkan_video_codec_av1std_decode.h \
- /usr/include/vk_video/vulkan_video_codec_av1std.h \
- /home/karadiina/Documents/projektit/GameX/common/include/Version.hpp
+ /usr/include/vk_video/vulkan_video_codec_av1std.h

@@ -155,7 +155,8 @@ server/game/CMakeFiles/GameServer.dir/src/main.cpp.o: \
  /usr/include/c++/13/bits/basic_ios.tcc \
  /usr/include/c++/13/bits/ostream.tcc /usr/include/c++/13/istream \
  /usr/include/c++/13/bits/istream.tcc \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/io_context.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/any_completion_executor.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/config.hpp \
  /usr/include/c++/13/version /usr/include/unistd.h \
  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
@@ -165,66 +166,29 @@ server/game/CMakeFiles/GameServer.dir/src/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
  /usr/include/linux/close_range.h /usr/include/linux/version.h \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/async_result.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/allocator.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/type_traits.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/executor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/invocable_archetype.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/push_options.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/pop_options.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/default_completion_token.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/deferred.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/associator.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/utility.hpp \
- /usr/include/c++/13/utility /usr/include/c++/13/bits/stl_relops.h \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/deferred.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/chrono.hpp \
- /usr/include/c++/13/chrono /usr/include/c++/13/bits/chrono.h \
- /usr/include/c++/13/ratio /usr/include/c++/13/cstdint \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/traits/equality_comparable.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/traits/execute_member.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/is_applicable_property.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/traits/query_static_constexpr_member.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/traits/static_query.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/any_executor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/assert.hpp \
+ /usr/include/c++/13/cassert /usr/include/assert.h \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/atomic_count.hpp \
+ /usr/include/c++/13/atomic /usr/include/c++/13/bits/atomic_base.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-least.h \
- /usr/include/c++/13/limits /usr/include/c++/13/ctime \
- /usr/include/c++/13/bits/parse_numbers.h /usr/include/c++/13/sstream \
- /usr/include/c++/13/bits/sstream.tcc /usr/include/c++/13/vector \
- /usr/include/c++/13/bits/stl_uninitialized.h \
- /usr/include/c++/13/bits/stl_vector.h \
- /usr/include/c++/13/bits/stl_bvector.h \
- /usr/include/c++/13/bits/vector.tcc /usr/include/c++/13/bits/stl_algo.h \
- /usr/include/c++/13/bits/algorithmfwd.h \
- /usr/include/c++/13/bits/stl_heap.h \
- /usr/include/c++/13/bits/uniform_int_dist.h \
- /usr/include/c++/13/bits/stl_tempbuf.h \
- /usr/include/c++/13/bits/shared_ptr.h \
- /usr/include/c++/13/bits/shared_ptr_base.h \
- /usr/include/c++/13/bits/allocated_ptr.h \
- /usr/include/c++/13/bits/unique_ptr.h \
- /usr/include/c++/13/ext/aligned_buffer.h \
- /usr/include/c++/13/ext/concurrence.h /usr/include/c++/13/bits/align.h \
- /usr/include/c++/13/bits/chrono_io.h /usr/include/c++/13/iomanip \
- /usr/include/c++/13/locale \
- /usr/include/c++/13/bits/locale_facets_nonio.h \
- /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
- /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
- /usr/include/libintl.h /usr/include/c++/13/bits/codecvt.h \
- /usr/include/c++/13/bits/locale_facets_nonio.tcc \
- /usr/include/c++/13/bits/locale_conv.h \
- /usr/include/c++/13/bits/quoted_string.h /usr/include/c++/13/format \
- /usr/include/c++/13/array /usr/include/c++/13/charconv \
- /usr/include/c++/13/optional \
- /usr/include/c++/13/bits/enable_special_members.h \
- /usr/include/c++/13/span /usr/include/c++/13/variant \
- /usr/include/c++/13/bits/ranges_algobase.h \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/concurrency_hint.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/noncopyable.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/cstdint.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/wrapped_handler.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/bind_handler.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/handler_cont_helpers.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/memory.hpp \
- /usr/include/c++/13/memory \
- /usr/include/c++/13/bits/stl_raw_storage_iter.h \
- /usr/include/c++/13/bits/shared_ptr_atomic.h \
- /usr/include/c++/13/bits/atomic_base.h \
  /usr/include/c++/13/bits/atomic_lockfree_defines.h \
- /usr/include/c++/13/bits/atomic_wait.h /usr/include/c++/13/climits \
+ /usr/include/c++/13/bits/atomic_wait.h /usr/include/c++/13/cstdint \
+ /usr/include/c++/13/climits \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/limits.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/syslimits.h \
  /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
@@ -238,12 +202,75 @@ server/game/CMakeFiles/GameServer.dir/src/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/asm/unistd_64.h \
  /usr/include/x86_64-linux-gnu/bits/syscall.h \
  /usr/include/c++/13/bits/std_mutex.h \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/cstddef.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/executor_function.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/handler_alloc_helpers.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/memory.hpp \
+ /usr/include/c++/13/memory /usr/include/c++/13/bits/stl_tempbuf.h \
+ /usr/include/c++/13/bits/stl_uninitialized.h \
+ /usr/include/c++/13/bits/stl_raw_storage_iter.h \
+ /usr/include/c++/13/bits/align.h /usr/include/c++/13/bits/unique_ptr.h \
+ /usr/include/c++/13/bits/shared_ptr.h \
+ /usr/include/c++/13/bits/shared_ptr_base.h \
+ /usr/include/c++/13/bits/allocated_ptr.h \
+ /usr/include/c++/13/ext/aligned_buffer.h \
+ /usr/include/c++/13/ext/concurrence.h \
+ /usr/include/c++/13/bits/shared_ptr_atomic.h \
  /usr/include/c++/13/backward/auto_ptr.h \
  /usr/include/c++/13/bits/ranges_uninitialized.h \
+ /usr/include/c++/13/bits/ranges_algobase.h \
  /usr/include/c++/13/pstl/glue_memory_defs.h \
  /usr/include/c++/13/pstl/execution_defs.h \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/cstdint.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/throw_exception.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/handler_continuation_hook.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/recycling_allocator.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/thread_context.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/call_stack.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/noncopyable.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/tss_ptr.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/keyword_tss_ptr.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/impl/thread_context.ipp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/thread_info_base.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/multiple_exceptions.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/multiple_exceptions.ipp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/associated_allocator.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/associator.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/functional.hpp \
+ /usr/include/c++/13/functional /usr/include/c++/13/bits/std_function.h \
+ /usr/include/c++/13/unordered_map \
+ /usr/include/c++/13/bits/unordered_map.h \
+ /usr/include/c++/13/bits/hashtable.h \
+ /usr/include/c++/13/bits/hashtable_policy.h \
+ /usr/include/c++/13/bits/enable_special_members.h \
+ /usr/include/c++/13/bits/node_handle.h \
+ /usr/include/c++/13/bits/erase_if.h /usr/include/c++/13/vector \
+ /usr/include/c++/13/bits/stl_vector.h \
+ /usr/include/c++/13/bits/stl_bvector.h \
+ /usr/include/c++/13/bits/vector.tcc /usr/include/c++/13/array \
+ /usr/include/c++/13/bits/stl_algo.h \
+ /usr/include/c++/13/bits/algorithmfwd.h \
+ /usr/include/c++/13/bits/stl_heap.h \
+ /usr/include/c++/13/bits/uniform_int_dist.h \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/non_const_lvalue.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/scoped_ptr.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/bad_executor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/impl/bad_executor.ipp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/blocking.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/prefer.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/traits/prefer_free.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/traits/prefer_member.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/traits/require_free.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/traits/require_member.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/traits/static_require.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/query.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/traits/query_member.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/traits/query_free.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/require.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/blocking_adaptation.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/event.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/posix_event.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/impl/posix_event.ipp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/throw_error.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/error_code.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/error_code.ipp \
  /usr/include/c++/13/cstring /usr/include/string.h /usr/include/strings.h \
@@ -314,61 +341,6 @@ server/game/CMakeFiles/GameServer.dir/src/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/struct_sigstack.h \
  /usr/include/x86_64-linux-gnu/bits/sigthread.h \
  /usr/include/x86_64-linux-gnu/bits/signal_ext.h \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/allocator.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/executor.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/invocable_archetype.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/traits/equality_comparable.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/traits/execute_member.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/is_applicable_property.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/traits/query_static_constexpr_member.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/traits/static_query.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/any_executor.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/assert.hpp \
- /usr/include/c++/13/cassert /usr/include/assert.h \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/atomic_count.hpp \
- /usr/include/c++/13/atomic \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/cstddef.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/executor_function.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/handler_alloc_helpers.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/recycling_allocator.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/thread_context.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/call_stack.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/tss_ptr.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/keyword_tss_ptr.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/impl/thread_context.ipp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/thread_info_base.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/multiple_exceptions.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/multiple_exceptions.ipp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/associated_allocator.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/functional.hpp \
- /usr/include/c++/13/functional /usr/include/c++/13/bits/std_function.h \
- /usr/include/c++/13/unordered_map \
- /usr/include/c++/13/bits/unordered_map.h \
- /usr/include/c++/13/bits/hashtable.h \
- /usr/include/c++/13/bits/hashtable_policy.h \
- /usr/include/c++/13/bits/node_handle.h \
- /usr/include/c++/13/bits/erase_if.h \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/non_const_lvalue.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/scoped_ptr.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/bad_executor.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/impl/bad_executor.ipp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/blocking.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/prefer.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/traits/prefer_free.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/traits/prefer_member.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/traits/require_free.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/traits/require_member.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/traits/static_require.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/query.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/traits/query_member.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/traits/query_free.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/require.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/blocking_adaptation.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/event.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/posix_event.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/impl/posix_event.ipp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/throw_error.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/impl/throw_error.ipp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/system_error.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/error.hpp \
@@ -385,28 +357,56 @@ server/game/CMakeFiles/GameServer.dir/src/main.cpp.o: \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/outstanding_work.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/prefer_only.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/relationship.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/any_completion_executor.ipp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/any_completion_executor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/any_completion_handler.hpp \
+ /usr/include/c++/13/utility /usr/include/c++/13/bits/stl_relops.h \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/any_io_executor.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution_context.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/execution_context.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/handler_type_requirements.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/async_result.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/default_completion_token.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/deferred.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/utility.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/deferred.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/service_registry.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/impl/service_registry.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/impl/service_registry.ipp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/execution_context.ipp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/any_io_executor.ipp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/associated_cancellation_slot.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/cancellation_signal.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/cancellation_type.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/cancellation_signal.ipp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/associated_executor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/is_executor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/is_executor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/system_executor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/system_executor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/executor_op.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/fenced_block.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/std_fenced_block.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/scheduler_operation.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/handler_tracking.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/impl/handler_tracking.ipp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/op_queue.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/global.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/posix_global.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/system_context.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/scheduler.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/conditionally_enabled_event.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/conditionally_enabled_mutex.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/null_event.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/impl/null_event.ipp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/op_queue.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/scheduler_operation.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/handler_tracking.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/impl/handler_tracking.ipp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/scheduler_task.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/thread.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/posix_thread.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/impl/posix_thread.ipp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/impl/scheduler.ipp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/concurrency_hint.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/limits.hpp \
+ /usr/include/c++/13/limits \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/scheduler_thread_info.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/signal_blocker.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/posix_signal_blocker.hpp \
@@ -431,53 +431,61 @@ server/game/CMakeFiles/GameServer.dir/src/main.cpp.o: \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/impl/epoll_reactor.ipp \
  /usr/include/x86_64-linux-gnu/sys/epoll.h \
  /usr/include/x86_64-linux-gnu/bits/epoll.h \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/io_context.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/completion_handler.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/fenced_block.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/std_fenced_block.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/handler_work.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/associated_executor.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/is_executor.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/is_executor.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/system_executor.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/system_executor.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/executor_op.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/global.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/posix_global.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/system_context.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/thread_group.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/system_context.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/system_context.ipp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/associated_immediate_executor.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/initiate_dispatch.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/work_dispatcher.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/executor_work_guard.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/io_context.ipp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/steady_timer.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_waitable_timer.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/cancellation_state.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/recycling_allocator.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/any_io_executor.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/any_io_executor.ipp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/chrono_time_traits.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/deadline_timer_service.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/append.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/append.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/handler_cont_helpers.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/handler_continuation_hook.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/initiation_base.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/as_tuple.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/as_tuple.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/associated_allocator.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/associated_cancellation_slot.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/cancellation_signal.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/cancellation_type.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/cancellation_signal.ipp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/socket_ops.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/impl/socket_ops.ipp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/timer_queue.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/date_time_fwd.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/timer_queue_ptime.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/timer_scheduler.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/timer_scheduler_fwd.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/wait_handler.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/io_object_impl.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/wait_traits.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/tcp.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_socket_acceptor.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_socket.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/associated_executor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/associated_immediate_executor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/associator.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/async_result.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/awaitable.hpp \
+ /usr/include/c++/13/coroutine \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/awaitable.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/post.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/initiate_post.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/work_dispatcher.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/bind_handler.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/executor_work_guard.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/this_coro.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_datagram_socket.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_socket.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/io_object_impl.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/io_context.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/chrono.hpp \
+ /usr/include/c++/13/chrono /usr/include/c++/13/bits/chrono.h \
+ /usr/include/c++/13/ratio /usr/include/c++/13/ctime \
+ /usr/include/c++/13/bits/parse_numbers.h /usr/include/c++/13/sstream \
+ /usr/include/c++/13/bits/sstream.tcc \
+ /usr/include/c++/13/bits/chrono_io.h /usr/include/c++/13/iomanip \
+ /usr/include/c++/13/locale \
+ /usr/include/c++/13/bits/locale_facets_nonio.h \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
+ /usr/include/libintl.h /usr/include/c++/13/bits/codecvt.h \
+ /usr/include/c++/13/bits/locale_facets_nonio.tcc \
+ /usr/include/c++/13/bits/locale_conv.h \
+ /usr/include/c++/13/bits/quoted_string.h /usr/include/c++/13/format \
+ /usr/include/c++/13/charconv /usr/include/c++/13/optional \
+ /usr/include/c++/13/span /usr/include/c++/13/variant \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/wrapped_handler.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/io_context.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/completion_handler.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/handler_work.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/initiate_dispatch.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/io_context.ipp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/socket_base.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/io_control.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/socket_option.hpp \
@@ -494,6 +502,8 @@ server/game/CMakeFiles/GameServer.dir/src/main.cpp.o: \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/reactive_null_buffers_op.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/reactive_socket_accept_op.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/socket_holder.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/socket_ops.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/impl/socket_ops.ipp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/reactive_socket_connect_op.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/reactive_socket_recvfrom_op.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/reactive_socket_sendto_op.hpp \
@@ -503,10 +513,186 @@ server/game/CMakeFiles/GameServer.dir/src/main.cpp.o: \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/reactive_socket_send_op.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/reactive_wait_op.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/impl/reactive_socket_service_base.ipp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_deadline_timer.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_file.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_io_object.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_random_access_file.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_raw_socket.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_readable_pipe.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/reactive_descriptor_service.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/descriptor_ops.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/impl/descriptor_ops.ipp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/descriptor_read_op.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/dispatch.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/descriptor_write_op.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/posix/descriptor_base.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/impl/reactive_descriptor_service.ipp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_seq_packet_socket.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_serial_port.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/serial_port_base.hpp \
+ /usr/include/termios.h /usr/include/x86_64-linux-gnu/bits/termios.h \
+ /usr/include/x86_64-linux-gnu/bits/termios-struct.h \
+ /usr/include/x86_64-linux-gnu/bits/termios-c_cc.h \
+ /usr/include/x86_64-linux-gnu/bits/termios-c_iflag.h \
+ /usr/include/x86_64-linux-gnu/bits/termios-c_oflag.h \
+ /usr/include/x86_64-linux-gnu/bits/termios-baud.h \
+ /usr/include/x86_64-linux-gnu/bits/termios-c_cflag.h \
+ /usr/include/x86_64-linux-gnu/bits/termios-c_lflag.h \
+ /usr/include/x86_64-linux-gnu/bits/termios-tcflow.h \
+ /usr/include/x86_64-linux-gnu/bits/termios-misc.h \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/serial_port_base.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/serial_port_base.ipp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/posix_serial_port_service.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/impl/posix_serial_port_service.ipp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_signal_set.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/signal_set_service.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/signal_set_base.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/signal_handler.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/signal_op.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/impl/signal_set_service.ipp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/static_mutex.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/posix_static_mutex.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_socket.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_socket_acceptor.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_socket_iostream.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_socket_streambuf.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_stream_socket.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/basic_endpoint.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/steady_timer.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_waitable_timer.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/chrono_time_traits.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/deadline_timer_service.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/timer_queue.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/date_time_fwd.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/timer_queue_ptime.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/timer_scheduler.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/timer_scheduler_fwd.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/wait_handler.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/wait_traits.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_socket_streambuf.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_stream_file.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_stream_socket.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_streambuf.hpp \
+ /usr/include/c++/13/algorithm /usr/include/c++/13/bits/ranges_algo.h \
+ /usr/include/c++/13/pstl/glue_algorithm_defs.h \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_streambuf_fwd.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_waitable_timer.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_writable_pipe.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/bind_allocator.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/bind_cancellation_slot.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/bind_executor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/uses_executor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/bind_immediate_executor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/buffer.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/buffer_registration.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/buffered_read_stream_fwd.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/buffered_read_stream.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/buffered_read_stream_fwd.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/buffer_resize_guard.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/buffered_stream_storage.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/buffered_read_stream.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/buffered_stream_fwd.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/buffered_stream.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/buffered_read_stream.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/buffered_write_stream.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/buffered_write_stream_fwd.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/completion_condition.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/write.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/write.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/base_from_cancellation_state.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/base_from_completion_cond.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/consuming_buffers.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/dependent_type.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/buffered_write_stream.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/buffered_stream_fwd.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/buffered_write_stream_fwd.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/buffered_write_stream.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/buffers_iterator.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/cancel_after.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/cancel_after.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/timed_cancel_op.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/completion_payload.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/completion_message.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/completion_payload_handler.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/cancel_at.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/cancel_at.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/cancellation_signal.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/cancellation_state.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/cancellation_type.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/co_composed.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/composed_work.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/co_spawn.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/awaitable.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/co_spawn.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/use_awaitable.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/use_awaitable.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/completion_condition.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/compose.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/composed.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/composed.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/connect.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/connect.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/connect_pipe.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_readable_pipe.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_writable_pipe.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/connect_pipe.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/connect_pipe.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/connect_pipe.ipp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/consign.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/consign.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/coroutine.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/deadline_timer.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/defer.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/initiate_defer.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/deferred.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/default_completion_token.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detached.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/detached.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/dispatch.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/error.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/error_code.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/allocator.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/any_executor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/blocking.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/blocking_adaptation.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/context.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/context_as.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/executor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/invocable_archetype.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/mapping.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/occupancy.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/outstanding_work.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/prefer_only.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/relationship.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/executor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/executor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/executor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/executor.ipp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/executor_work_guard.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/file_base.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/generic/basic_endpoint.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/generic/detail/endpoint.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/generic/detail/impl/endpoint.ipp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/generic/datagram_protocol.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_datagram_socket.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/generic/basic_endpoint.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/generic/raw_protocol.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_raw_socket.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/generic/seq_packet_protocol.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_seq_packet_socket.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/generic/stream_protocol.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_socket_iostream.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/handler_continuation_hook.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/high_resolution_timer.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/immediate.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/io_context.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/io_context_strand.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/strand_service.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/impl/strand_service.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/impl/strand_service.ipp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/io_service.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/io_service_strand.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/io_context_strand.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/address.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/address_v4.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/array.hpp \
@@ -519,6 +705,27 @@ server/game/CMakeFiles/GameServer.dir/src/main.cpp.o: \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/bad_address_cast.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/impl/address.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/impl/address.ipp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/address.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/address_v4.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/address_v4_iterator.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/address_v4_range.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/address_v4_iterator.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/address_v6.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/address_v6_iterator.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/address_v6_range.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/address_v6_iterator.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/network_v4.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/address_v4_range.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/impl/network_v4.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/impl/network_v4.ipp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/network_v4.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/network_v6.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/address_v6_range.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/impl/network_v6.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/impl/network_v6.ipp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/network_v6.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/bad_address_cast.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/basic_endpoint.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/detail/endpoint.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/detail/impl/endpoint.ipp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/impl/basic_endpoint.hpp \
@@ -535,25 +742,132 @@ server/game/CMakeFiles/GameServer.dir/src/main.cpp.o: \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/resolve_query_op.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/resolver_service_base.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/impl/resolver_service_base.ipp \
- /usr/include/c++/13/thread /usr/include/c++/13/stop_token \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/basic_resolver_entry.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/basic_resolver_iterator.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/basic_resolver_query.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/host_name.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/impl/host_name.ipp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/host_name.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/icmp.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/basic_endpoint.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/basic_resolver.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/multicast.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/detail/socket_option.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/resolver_base.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/resolver_query_base.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/tcp.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_socket_acceptor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/udp.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/unicast.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/ip/v6_only.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/is_applicable_property.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/is_contiguous_iterator.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/is_executor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/is_read_buffered.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/is_write_buffered.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/local/basic_endpoint.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/local/detail/endpoint.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/local/detail/impl/endpoint.ipp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/local/connect_pair.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/local/basic_endpoint.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/local/datagram_protocol.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/local/seq_packet_protocol.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/local/stream_protocol.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/multiple_exceptions.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/packaged_task.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/future.hpp \
+ /usr/include/c++/13/future /usr/include/c++/13/mutex \
+ /usr/include/c++/13/bits/unique_lock.h \
+ /usr/include/c++/13/condition_variable /usr/include/c++/13/stop_token \
  /usr/include/c++/13/bits/std_thread.h /usr/include/c++/13/semaphore \
  /usr/include/c++/13/bits/semaphore_base.h \
  /usr/include/c++/13/bits/atomic_timed_wait.h \
  /usr/include/c++/13/bits/this_thread_sleep.h \
  /usr/include/x86_64-linux-gnu/sys/time.h /usr/include/semaphore.h \
  /usr/include/x86_64-linux-gnu/bits/semaphore.h \
- /usr/include/c++/13/algorithm /usr/include/c++/13/bits/ranges_algo.h \
- /usr/include/c++/13/pstl/glue_algorithm_defs.h \
- /home/karadiina/Documents/projektit/GameX/common/include/Protocol.hpp \
+ /usr/include/c++/13/bits/atomic_futex.h \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/placeholders.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/posix/basic_descriptor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/posix/basic_stream_descriptor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/posix/basic_descriptor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/posix/descriptor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/posix/descriptor_base.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/posix/stream_descriptor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/posix/basic_stream_descriptor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/post.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/prefer.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/prepend.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/prepend.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/query.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/random_access_file.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/read.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/completion_condition.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_streambuf_fwd.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/read.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/base_from_cancellation_state.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/cancellation_state.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/base_from_completion_cond.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/consuming_buffers.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/dependent_type.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/read_at.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/read_at.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/read_until.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/regex_fwd.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/read_until.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/buffers_iterator.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/readable_pipe.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/recycling_allocator.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/redirect_error.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/redirect_error.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/registered_buffer.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/require.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/require_concept.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/traits/require_concept_member.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/traits/require_concept_free.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/traits/static_require_concept.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/serial_port.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_serial_port.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/serial_port_base.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/signal_set.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_signal_set.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/signal_set_base.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/socket_base.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/static_thread_pool.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/thread_pool.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/thread_pool.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/blocking_executor_op.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/thread_pool.ipp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/steady_timer.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/strand.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/strand_executor_service.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/impl/strand_executor_service.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/defer.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/impl/strand_executor_service.ipp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/stream_file.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/streambuf.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/basic_streambuf.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/system_context.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/system_error.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/system_executor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/system_timer.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/this_coro.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/thread.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/thread_pool.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/time_traits.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/use_awaitable.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/use_future.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/use_future.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/packaged_task.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/uses_executor.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/version.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/wait_traits.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/windows/basic_object_handle.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/windows/basic_overlapped_handle.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/windows/basic_random_access_handle.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/windows/basic_overlapped_handle.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/windows/basic_stream_handle.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/windows/object_handle.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/windows/overlapped_handle.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/windows/overlapped_ptr.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/windows/random_access_handle.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/windows/stream_handle.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/writable_pipe.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/write.hpp \
- /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/write.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/write_at.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/write_at.hpp \
+ /usr/include/c++/13/thread \
+ /home/karadiina/Documents/projektit/GameX/common/include/Protocol.hpp \
  /home/karadiina/Documents/projektit/GameX/common/include/Version.hpp
