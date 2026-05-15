@@ -1,46 +1,47 @@
 # Project Structure
 ```
 .
-  assets
-  client
-    CMakeLists.txt
-    include
-      NetworkManager.hpp
-      VulkanRenderer.hpp
-    shaders
-      frag.spv
-      shader.frag
-      shader.vert
-      vert.spv
-    src
-      main.cpp
-      NetworkManager.cpp
-      VulkanRenderer.cpp
-  cmake
-  CMakeLists.txt
-  common
-    CMakeLists.txt
-    include
-      Protocol.hpp
-      ThreadUtility.hpp
-      Version.hpp
-    src
-  dump_complete.sh
-  dump.sh
-  project_context.md
-  server
-    CMakeLists.txt
-    game
-      CMakeLists.txt
-      include
-      src
-        main.cpp
-    login
-      CMakeLists.txt
-      include
-      src
-        main.cpp
-  third_party
+ |-CMakeLists.txt
+ |-common
+ | |-src
+ | |-CMakeLists.txt
+ | |-include
+ | | |-Protocol.hpp
+ | | |-ThreadUtility.hpp
+ | | |-Version.hpp
+ |-project_context.md
+ |-server
+ | |-login
+ | | |-src
+ | | | |-main.cpp
+ | | |-CMakeLists.txt
+ | | |-include
+ | |-CMakeLists.txt
+ | |-game
+ | | |-src
+ | | | |-main.cpp
+ | | |-CMakeLists.txt
+ | | |-include
+ |-client
+ | |-src
+ | | |-NetworkManager.cpp
+ | | |-main.cpp
+ | | |-VulkanRenderer.cpp
+ | |-CMakeLists.txt
+ | |-include
+ | | |-VulkanRenderer.hpp
+ | | |-NetworkManager.hpp
+ | |-shaders
+ | | |-vert.spv
+ | | |-frag.spv
+ | | |-shader.frag
+ | | |-shader.vert
+ |-cmake
+ |-third_party
+ |-run.sh
+ |-assets
+ |-dump.sh
+ |-dump_complete.sh
 ```
 
 # Source and Build Files
@@ -105,16 +106,23 @@ namespace Rebel {
         char ip[16];
         uint16_t port;
     };
+    struct MsgPlayerMove {
+    float x, y, z;
+    float yaw; // Essential for knowing which way the dwarf is looking!
+};
 #pragma pack(pop)
 
 } // namespace Rebel```
 
 ## File: ./common/include/ThreadUtility.hpp
 ```cpp
-#pragma once // Crucial: replaces that stray #endif
+#pragma once
 #include <vector>
 #include <thread>
-#include <set>    // Required for std::set on Linux
+#include <set>
+#include <queue>
+#include <mutex>
+#include <optional>
 
 #ifdef _WIN32
     #ifndef WIN32_LEAN_AND_MEAN
@@ -127,6 +135,38 @@ namespace Rebel {
     #include <fstream>
     #include <string>
 #endif
+
+namespace Rebel::Concurrent {
+
+    template<typename T>
+    class ThreadSafeQueue {
+    public:
+        void push(T item) {
+            std::lock_guard<std::mutex> lock(mutex_);
+            queue_.push(std::move(item));
+        }
+
+        std::optional<T> try_pop() {
+            std::lock_guard<std::mutex> lock(mutex_);
+            if (queue_.empty()) {
+                return std::nullopt;
+            }
+            T item = std::move(queue_.front());
+            queue_.pop();
+            return item;
+        }
+
+        bool empty() const {
+            std::lock_guard<std::mutex> lock(mutex_);
+            return queue_.empty();
+        }
+
+    private:
+        std::queue<T> queue_;
+        mutable std::mutex mutex_;
+    };
+
+}
 
 namespace Rebel::ThreadUtils {
 
@@ -154,7 +194,6 @@ namespace Rebel::ThreadUtils {
 #else
         std::set<int> seen;
         for (uint32_t i = 0; i < std::thread::hardware_concurrency(); ++i) {
-            // Path for Linux systems like Pop!_OS and Arch
             std::string path = "/sys/devices/system/cpu/cpu" + std::to_string(i) + "/topology/core_id";
             std::ifstream f(path);
             int physId;
@@ -167,7 +206,6 @@ namespace Rebel::ThreadUtils {
         return coreIds;
     }
 
-    // Renamed to SetThreadAffinity to match your main.cpp calls
     inline void SetThreadAffinity(std::thread& t, uint32_t logicalId) {
 #ifdef _WIN32
         SetThreadAffinityMask((HANDLE)t.native_handle(), (DWORD_PTR)1 << logicalId);
@@ -335,6 +373,15 @@ add_subdirectory(game)```
 #include <memory>
 #include "Protocol.hpp"
 #include "Version.hpp"
+#include <entt/entt.hpp>
+
+
+
+entt::registry world;
+
+// Define some basic components
+struct Position { float x, y, z; };
+struct PlayerData { std::string name; };
 
 // Function to handle each tick of the 20Hz game loop
 void game_loop_tick(asio::steady_timer& timer, 
@@ -343,9 +390,26 @@ void game_loop_tick(asio::steady_timer& timer,
                     std::atomic<bool>& running) {
     if (!running.load()) return;
 
-    // Everything here is now thread-safe relative to session packet processing
-    std::cout << "Tick: " << tick_count++ << std::endl;
+    // 1. Logic & Logging
+    int current_tick = tick_count++;
+    
+    // Every 20 ticks (approx 1 second at 20Hz)
+    if (current_tick % 20 == 0) {
+        auto view = world.view<PlayerData, Position>();
+        
+        // If the world is empty, just print a heartbeat
+        if (view.size_hint() == 0) {
+    std::cout << "[WORLD] Heartbeat - Tick: " << current_tick << std::endl;
+} else {
+            view.each([current_tick](auto entity, auto &data, auto &pos) {
+                std::cout << "[WORLD] Tick: " << current_tick 
+                          << " | Player: " << data.name 
+                          << " | X: " << pos.x << std::endl;
+            });
+        }
+    }
 
+    // 2. Schedule the next tick
     timer.expires_at(timer.expiry() + std::chrono::milliseconds(50));
     
     timer.async_wait(asio::bind_executor(strand, 
@@ -358,8 +422,16 @@ void game_loop_tick(asio::steady_timer& timer,
 
 class PlayerSession : public std::enable_shared_from_this<PlayerSession> {
 public:
+
+enum class SessionState {
+        WAITING_FOR_AUTH,
+        AUTHENTICATED,
+        DISCONNECTED
+    };
     PlayerSession(asio::ip::tcp::socket socket, asio::strand<asio::io_context::executor_type>& strand) 
-        : socket_(std::move(socket)), strand_(strand) {}
+        : socket_(std::move(socket)), 
+          strand_(strand), 
+          state_(SessionState::WAITING_FOR_AUTH) {} // Initialize at the gate!
 
     void start() {
         try {
@@ -370,17 +442,31 @@ public:
         }
     }
 
+    ~PlayerSession() {
+        if (has_entity_) {
+            // We MUST post this to the strand because EnTT's registry 
+            // is not thread-safe by default. This ensures the destruction 
+            // happens in between game loop ticks.
+            auto id = entity_id_;
+            asio::post(strand_, [id]() {
+                if (world.valid(id)) {
+                    world.destroy(id);
+                    std::cout << "[WORLD] Entity destroyed (Player disconnected)." << std::endl;
+                }
+            });
+        }
+    }
+
 private:
+
+entt::entity entity_id_{ entt::null };
+    bool has_entity_{ false };
+
     void read_header() {
         auto self(shared_from_this()); 
         asio::async_read(socket_, asio::buffer(&header_, sizeof(Rebel::PacketHeader)),
             [this, self](const asio::error_code& ec, std::size_t) {
                 if (!ec) {
-                    if (header_.size < sizeof(Rebel::PacketHeader) || header_.size > 8192) {
-                        std::cerr << "[SESSION] Malformed packet size. Dropping." << std::endl;
-                        return;
-                    }
-
                     uint16_t payload_size = header_.size - sizeof(Rebel::PacketHeader);
                     if (payload_size > 0) {
                         payload_.resize(payload_size);
@@ -405,7 +491,7 @@ private:
     }
 
     void on_packet_received() {
-        // Post the processing to the strand so it doesn't conflict with the game tick
+        // Ensure processing happens on the strand
         asio::post(strand_, [self = shared_from_this()]() {
             self->process_packet();
         });
@@ -413,32 +499,92 @@ private:
 
     void process_packet() {
         Rebel::Opcode opcode = static_cast<Rebel::Opcode>(header_.opcode);
+
+        if (state_ == SessionState::WAITING_FOR_AUTH) {
+            if (opcode == Rebel::Opcode::CMSG_AUTH_SESSION) {
+                handle_auth();
+            } else {
+                std::cout << "[SESSION] Unauthorized opcode " << (int)opcode << ". Closing." << std::endl;
+                socket_.close();
+            }
+            return;
+        }
+
         switch (opcode) {
             case Rebel::Opcode::CMSG_PING:
                 send_pong();
                 break;
-            case Rebel::Opcode::CMSG_PLAYER_MOVE:
-                std::cout << "[SESSION] Player Move received (Strand Safe)" << std::endl;
+
+            case Rebel::Opcode::CMSG_PLAYER_MOVE: {
+                // 1. Check if the payload matches our movement struct
+                if (payload_.size() < sizeof(Rebel::MsgPlayerMove)) {
+                    std::cerr << "[SESSION] Malformed move packet size." << std::endl;
+                    break;
+                }
+
+                // 2. Map the raw bytes to our struct
+                auto* move = reinterpret_cast<Rebel::MsgPlayerMove*>(payload_.data());
+
+                // 3. Update the EnTT registry
+                // No mutex needed because we are on the game_strand!
+                if (has_entity_ && world.valid(entity_id_)) {
+                    auto& pos = world.get<Position>(entity_id_);
+                    pos.x = move->x;
+                    pos.y = move->y;
+                    pos.z = move->z;
+                    // Note: You could add a Rotation component for the 'yaw' here too
+                }
                 break;
+            }
             default:
                 break;
         }
     }
 
-    void send_pong() {
-        auto self(shared_from_this());
-        auto pong_packet = std::make_shared<Rebel::PacketHeader>();
-        pong_packet->size = sizeof(Rebel::PacketHeader);
-        pong_packet->opcode = static_cast<uint16_t>(Rebel::Opcode::SMSG_PONG);
+    void handle_auth() {
+    if (payload_.size() < sizeof(Rebel::MsgLogin)) {
+        std::cerr << "[SESSION] Auth packet too small." << std::endl;
+        
+        socket_.close();
+        return;
+    }
 
-        asio::async_write(socket_, asio::buffer(pong_packet.get(), sizeof(Rebel::PacketHeader)),
-            [this, self, pong_packet](const asio::error_code& ec, std::size_t) {
-                if (ec) std::cerr << "[SESSION] PONG error: " << ec.message() << std::endl;
-            });
+    auto* msg = reinterpret_cast<Rebel::MsgLogin*>(payload_.data());
+    std::cout << "[SESSION] Player '" << msg->username 
+              << "' (Ver: " << msg->version << ") authenticated." << std::endl;
+
+    state_ = SessionState::AUTHENTICATED;
+
+    entity_id_ = world.create();
+    world.emplace<PlayerData>(entity_id_, std::string(msg->username));
+    world.emplace<Position>(entity_id_, 0.0f, 0.0f, 0.0f);
+    has_entity_ = true;
+    
+    std::cout << "[WORLD] Spawned entity for " << msg->username << std::endl;
+
+    auto response = std::make_shared<Rebel::PacketHeader>();
+    response->size = sizeof(Rebel::PacketHeader);
+    response->opcode = static_cast<uint16_t>(Rebel::Opcode::SMSG_AUTH_RESPONSE);
+
+    auto self(shared_from_this());
+    asio::async_write(socket_, asio::buffer(response.get(), sizeof(Rebel::PacketHeader)),
+        [this, self, response](const asio::error_code& ec, std::size_t) {
+            if (ec) {
+                socket_.close();
+            } else {
+                // THE FIX: Start reading again to keep the session alive
+                read_header(); 
+            }
+        });
+}
+
+    void send_pong() {
+        // ... (your existing send_pong logic)
     }
 
     asio::ip::tcp::socket socket_;
     asio::strand<asio::io_context::executor_type>& strand_;
+    SessionState state_; // Tracking the state
     Rebel::PacketHeader header_;
     std::vector<uint8_t> payload_;
 };
@@ -446,6 +592,9 @@ private:
 void start_accept(asio::ip::tcp::acceptor& acceptor, asio::io_context& io_context, asio::strand<asio::io_context::executor_type>& strand) {
     acceptor.async_accept([&acceptor, &io_context, &strand](const asio::error_code& error, asio::ip::tcp::socket socket) {
         if (!error) {
+            // --- THE LOUD PRINT ---
+            std::cout << "[GAME] Incoming connection from: " << socket.remote_endpoint() << std::endl;
+            
             std::make_shared<PlayerSession>(std::move(socket), strand)->start();
         }
         start_accept(acceptor, io_context, strand);
@@ -515,133 +664,149 @@ target_compile_features(GameServer PRIVATE cxx_std_20)```
 ```cpp
 #include "NetworkManager.hpp"
 #include <iostream>
-#include <cstring> // For std::memcpy
 
-NetworkManager::NetworkManager() 
-    : strand_(asio::make_strand(io_context_)) {
-    // Correctly initialize the work guard to keep the io_context alive
-    work_guard_ = std::make_unique<asio::executor_work_guard<asio::io_context::executor_type>>(
-        asio::make_work_guard(io_context_)
-    );
-    
-    network_thread_ = std::thread([this]() { 
-        try {
-            io_context_.run(); 
-        } catch (const std::exception& e) {
-            std::cerr << "[NETWORK] Runtime error: " << e.what() << std::endl;
-        }
-    });
-}
-
-NetworkManager::NetworkManager() 
-    : strand_(asio::make_strand(io_context_)) // Initialize the strand
+NetworkManager::NetworkManager()
+    : io_context_(),
+      strand_(asio::make_strand(io_context_)),
+      work_guard_(std::make_unique<asio::executor_work_guard<asio::io_context::executor_type>>(asio::make_work_guard(io_context_)))
 {
-    socket_.emplace(io_context_);
-    work_guard_ = std::make_unique<asio::executor_work_guard<asio::io_context::executor_type>>(io_context_.get_executor());
-    
-    network_thread_ = std::thread([this]() { 
-        io_context_.run(); 
-    });
+    // The network thread is exclusively responsible for driving ASIO
+    network_thread_ = std::thread([this]()
+                                  { io_context_.run(); });
 }
 
-void NetworkManager::connect(const std::string& host, const std::string& port) {
-    asio::ip::tcp::resolver resolver(io_context_);
-    auto endpoints = resolver.resolve(host, port);
-
-    // Using async_connect so Core 1 stays responsive while waiting for the server
-    asio::async_connect(*socket_, endpoints,
-        [this](std::error_code ec, asio::ip::tcp::endpoint endpoint) {
-            if (!ec) {
-                std::cout << "[Network] Connected to Server on " << endpoint << std::endl;
-                startRead(); // Start listening for those Opcode packets!
-            } else {
-                std::cerr << "[Network] Connection failed: " << ec.message() << std::endl;
-            }
-        });
+NetworkManager::~NetworkManager()
+{
+    disconnect();
+    work_guard_.reset(); // Allow io_context_.run() to exit when work is done
+    io_context_.stop();
+    if (network_thread_.joinable())
+    {
+        network_thread_.join();
+    }
 }
 
-void NetworkManager::disconnect() {
-    // Post the close to the strand to ensure no async ops are mid-flight
-    asio::post(strand_, [this]() {
+void NetworkManager::connect(const std::string &host, const std::string &port)
+{
+    // Post the connection attempt to the strand so it executes safely on the network thread
+    asio::post(strand_, [this, host, port]()
+               {
+        try {
+            asio::ip::tcp::resolver resolver(io_context_);
+            auto endpoints = resolver.resolve(host, port);
+            
+            socket_.emplace(io_context_);
+            
+            asio::async_connect(*socket_, endpoints, 
+                asio::bind_executor(strand_, [this](std::error_code ec, asio::ip::tcp::endpoint) {
+                    if (!ec) {
+                        std::cout << "[Network] Connected to server.\n";
+                        // 1. Prepare the Auth Payload
+            Rebel::MsgLogin loginData;
+            strncpy(loginData.username, "Karadiinar", 32);
+            loginData.version = 1; // From your Version.hpp
+
+            // 2. Prepare the Header
+            Rebel::PacketHeader header;
+            header.size = sizeof(Rebel::PacketHeader) + sizeof(Rebel::MsgLogin);
+            header.opcode = static_cast<uint16_t>(Rebel::Opcode::CMSG_AUTH_SESSION);
+
+            // 3. Send the Auth Packet immediately
+            sendPacket(header, &loginData, sizeof(Rebel::MsgLogin));
+
+            // 4. Now start listening for the server's response
+            startRead();
+                    } else {
+                        std::cerr << "[Network] Connect error: " << ec.message() << "\n";
+                    }
+                }));
+        } catch (const std::exception& e) {
+            std::cerr << "[Network] Exception during connect: " << e.what() << "\n";
+        } });
+}
+
+void NetworkManager::disconnect()
+{
+    asio::post(strand_, [this]()
+               {
         if (socket_ && socket_->is_open()) {
-            asio::error_code ec;
+            std::error_code ec;
             socket_->shutdown(asio::ip::tcp::socket::shutdown_both, ec);
             socket_->close(ec);
-            std::cout << "[NETWORK] Socket closed." << std::endl;
-        }
-    });
+            socket_.reset();
+            std::cout << "[Network] Disconnected.\n";
+        } });
+}
+
+void NetworkManager::sendPacket(const Rebel::PacketHeader &header, const void *payload, std::size_t payloadSize)
+{
+    // We must copy the data before posting, because the caller (Logic Thread)
+    // might destroy or modify the original buffers before the async write happens.
+    auto buffer = std::make_shared<std::vector<uint8_t>>(sizeof(Rebel::PacketHeader) + payloadSize);
+    std::memcpy(buffer->data(), &header, sizeof(Rebel::PacketHeader));
+    if (payloadSize > 0 && payload != nullptr)
+    {
+        std::memcpy(buffer->data() + sizeof(Rebel::PacketHeader), payload, payloadSize);
+    }
+
+    // Post the write operation to the strand
+    asio::post(strand_, [this, buffer]()
+               {
+        if (!socket_ || !socket_->is_open()) return;
+
+        asio::async_write(*socket_, asio::buffer(*buffer),
+            asio::bind_executor(strand_, [buffer](std::error_code ec, std::size_t /*length*/) {
+                if (ec) {
+                    std::cerr << "[Network] Write error: " << ec.message() << "\n";
+                }
+            })); });
 }
 
 void NetworkManager::startRead() {
     if (!socket_ || !socket_->is_open()) return;
 
-    auto self = [this](const asio::error_code& ec, std::size_t) {
-        if (!ec) {
-            uint16_t payload_size = incoming_header_.size - sizeof(Rebel::PacketHeader);
-            if (payload_size > 0) {
-                readPayload(payload_size);
-            } else {
-                auto opcode = static_cast<Rebel::Opcode>(incoming_header_.opcode);
-                if (handlers_.count(opcode)) {
-                    // Call handler with empty payload
-                    handlers_[opcode](std::make_shared<Rebel::PacketHeader>(incoming_header_), {});
-                }
-                startRead();
-            }
-        } else if (ec != asio::error::operation_aborted) {
-            std::cout << "[NETWORK] Read error: " << ec.message() << std::endl;
-        }
-    };
-
     asio::async_read(*socket_, asio::buffer(&incoming_header_, sizeof(Rebel::PacketHeader)),
-        asio::bind_executor(strand_, std::move(self)));
-}
-
-void NetworkManager::readPayload(uint16_t size) {
-    if (!socket_ || !socket_->is_open()) return;
-
-    incoming_payload_.resize(size);
-    
-    auto self = [this](const asio::error_code& ec, std::size_t) {
-        if (!ec) {
-            auto opcode = static_cast<Rebel::Opcode>(incoming_header_.opcode);
-            if (handlers_.count(opcode)) {
-                handlers_[opcode](std::make_shared<Rebel::PacketHeader>(incoming_header_), incoming_payload_);
-            }
-            startRead();
-        } else if (ec != asio::error::operation_aborted) {
-            std::cout << "[NETWORK] Payload read error: " << ec.message() << std::endl;
-        }
-    };
-
-    asio::async_read(*socket_, asio::buffer(incoming_payload_.data(), size),
-        asio::bind_executor(strand_, std::move(self)));
-}
-
-void NetworkManager::sendPacket(const Rebel::PacketHeader& header, const void* payload, std::size_t payloadSize) {
-    if (!socket_ || !socket_->is_open()) return;
-
-    auto full_packet = std::make_shared<std::vector<uint8_t>>();
-    full_packet->resize(sizeof(Rebel::PacketHeader) + payloadSize);
-    
-    std::memcpy(full_packet->data(), &header, sizeof(Rebel::PacketHeader));
-    if (payload && payloadSize > 0) {
-        std::memcpy(full_packet->data() + sizeof(Rebel::PacketHeader), payload, payloadSize);
-    }
-
-    asio::async_write(*socket_, asio::buffer(full_packet->data(), full_packet->size()),
-        asio::bind_executor(strand_, [full_packet](const asio::error_code& ec, std::size_t) {
-            if (ec && ec != asio::error::operation_aborted) {
-                std::cerr << "[NETWORK] Send error: " << ec.message() << std::endl;
+        asio::bind_executor(strand_, [this](std::error_code ec, std::size_t /*length*/) {
+            if (!ec) {
+                if (incoming_header_.size > sizeof(Rebel::PacketHeader)) {
+                    // Calculate payload size (Total size - Header size)
+                    readPayload(incoming_header_.size - sizeof(Rebel::PacketHeader));
+                } else {
+                    // No payload: Push header immediately to the Logic Thread queue
+                    Rebel::InboundPacket pkg;
+                    pkg.header = incoming_header_;
+                    inbound_queue_.push(std::move(pkg));
+                    
+                    startRead(); // Wait for next packet
+                }
+            } else {
+                if (ec != asio::error::operation_aborted) {
+                    std::cerr << "[Network] Read header error: " << ec.message() << "\n";
+                    disconnect();
+                }
             }
         }));
 }
 
-void NetworkManager::registerHandler(Rebel::Opcode opcode, PacketHandler handler) {
-    // Thread-safe registration
-    asio::post(strand_, [this, opcode, handler]() {
-        handlers_[opcode] = handler;
-    });
+void NetworkManager::readPayload(uint16_t payloadSize) {
+    incoming_payload_.resize(payloadSize);
+
+    asio::async_read(*socket_, asio::buffer(incoming_payload_.data(), payloadSize),
+        asio::bind_executor(strand_, [this](std::error_code ec, std::size_t /*length*/) {
+            if (!ec) {
+                // Packet complete: Push to the Logic Thread queue
+                Rebel::InboundPacket pkg;
+                pkg.header = incoming_header_;
+                pkg.payload = incoming_payload_;
+
+                inbound_queue_.push(std::move(pkg));
+                
+                startRead(); // Wait for next packet
+            } else {
+                std::cerr << "[Network] Read payload error: " << ec.message() << "\n";
+                disconnect();
+            }
+        }));
 }```
 
 ## File: ./client/src/main.cpp
@@ -651,33 +816,45 @@ void NetworkManager::registerHandler(Rebel::Opcode opcode, PacketHandler handler
 #include <thread>
 #include <atomic>
 #include <chrono>
+#include <stdexcept>
+#include <algorithm> // Required for std::clamp if used
+
+// Must be included before custom graphics headers to ensure Vulkan macros are set
+#include <GLFW/glfw3.h>
 
 #include "NetworkManager.hpp"
 #include "VulkanRenderer.hpp"
 #include "ThreadUtility.hpp"
 
-// Global flag to synchronize shutdown across threads
+// Global shutdown flag to synchronize thread termination
 std::atomic<bool> g_Running{ true };
 
 /**
- * Logic Thread: Handles game state, physics, and packet processing.
- * We pass NetworkManager by pointer to avoid the deleted copy constructor.
+ * Logic Thread: Responsible for game state evolution, physics, and packet processing.
  */
-void LogicThreadEntry(const std::vector<uint32_t>& coreMap, NetworkManager* network) {
-    // 64 Ticks Per Second
+void LogicThreadEntry(NetworkManager* network) {
+
+    float walkTracker = 0.0f; // For simulating player movement in the demo
+
     const std::chrono::microseconds TICK_TIME(1000000 / 64);
-    
-    std::cout << "[Logic] Thread started." << std::endl;
+    std::cout << "[Logic] Engine tick thread started.\n";
 
     while (g_Running) {
         auto start = std::chrono::steady_clock::now();
 
-        // 1. Process Network Queue (Incoming packets)
-        // if (network) { network->pollEvents(); }
+        // Drain the mailbox
+        while (auto packetOpt = network->getPacketQueue().try_pop()) {
+    auto& packet = *packetOpt;
 
-        // 2. Run Game Systems (Movement, Animation state, etc.)
-        
-        // 3. Prepare Render Snapshot (Interpolated positions for the GPU)
+    // SMSG_AUTH_RESPONSE (0x0004) from your Protocol.hpp
+   if (packet.header.opcode == static_cast<uint16_t>(Rebel::Opcode::SMSG_AUTH_RESPONSE)) {
+    // We are already on the Game Server, no need to reconnect!
+    std::cout << "[Logic] Successfully authenticated with Game Server. Entering world...\n";
+    
+    // Change a local state here instead of calling network->connect()
+    // clientState = State::IN_GAME; 
+}
+}
 
         auto end = std::chrono::steady_clock::now();
         auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
@@ -685,77 +862,101 @@ void LogicThreadEntry(const std::vector<uint32_t>& coreMap, NetworkManager* netw
         if (elapsed < TICK_TIME) {
             std::this_thread::sleep_for(TICK_TIME - elapsed);
         }
+        walkTracker += 0.05f; // Move slightly every tick
+
+    Rebel::MsgPlayerMove moveData;
+    moveData.x = walkTracker;
+    moveData.y = 0.0f;
+    moveData.z = 0.0f;
+    moveData.yaw = 0.0f;
+
+    Rebel::PacketHeader head;
+    head.opcode = static_cast<uint16_t>(Rebel::Opcode::CMSG_PLAYER_MOVE);
+    head.size = sizeof(Rebel::PacketHeader) + sizeof(Rebel::MsgPlayerMove);
+
+    network->sendPacket(head, &moveData, sizeof(Rebel::MsgPlayerMove));
     }
-    std::cout << "[Logic] Thread exiting..." << std::endl;
-}
+    std::cout << "[Logic] Engine tick thread exiting...\n";
+} // <--- THIS WAS THE MISSING BRACE
 
 int main() {
-    std::cout << "--- Rebel MMO Project ---\n";
+    std::cout << "--- Rebel MMO Project (Client) ---\n";
 
-    // Discover real hardware cores
+    // --- 1. HARDWARE DISCOVERY ---
     auto coreMap = Rebel::ThreadUtils::GetPhysicalCoreMap();
-    std::cout << "[Main] Found " << coreMap.size() << " physical cores.\n";
+    std::cout << "[Main] Discovered " << coreMap.size() << " physical cores.\n";
 
-    // --- 1. NETWORK ZONE ---
-    // This object is non-copyable due to internal std::thread and asio::strand
+    // --- 2. NETWORK SUBSYSTEM ---
     NetworkManager network;
-
     if (coreMap.size() > 1) {
-        std::cout << "[Main] Pinning Network to Core " << coreMap[1] << "\n";
-        // Ensure getThread() returns the std::thread inside NetworkManager
+        std::cout << "[Main] Pinning Network subsystem to Core " << coreMap[1] << "\n";
         Rebel::ThreadUtils::SetThreadAffinity(network.getThread(), coreMap[1]);
     }
     
-    // Connect to Login Server
     network.connect("127.0.0.1", "54321"); 
 
-    // --- 2. LOGIC ZONE ---
-    // We pass the ADDRESS of network (&network) to the thread
-    std::thread logicThread(LogicThreadEntry, coreMap, &network);
-    
+    // --- 3. LOGIC SUBSYSTEM ---
+    std::thread logicThread(LogicThreadEntry, &network);
     if (coreMap.size() > 2) {
-        std::cout << "[Main] Pinning Logic to Core " << coreMap[2] << "\n";
+        std::cout << "[Main] Pinning Logic subsystem to Core " << coreMap[2] << "\n";
         Rebel::ThreadUtils::SetThreadAffinity(logicThread, coreMap[2]);
     }
 
-    // --- 3. GRAPHICS ZONE ---
+    // --- 4. GRAPHICS SUBSYSTEM ---
     try {
-        // If VulkanRenderer needs to access network data, pass it by reference:
-        // VulkanRenderer renderer(network); 
-        VulkanRenderer renderer;
+        if (!glfwInit()) {
+            throw std::runtime_error("[Graphics] Failed to initialize GLFW!");
+        }
         
-        // Prepare the worker list for parallel Vulkan command recording
+        glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); 
+
+        GLFWwindow* window = glfwCreateWindow(1280, 720, "Rebel Client", nullptr, nullptr);
+        if (!window) {
+            throw std::runtime_error("[Graphics] Failed to create window!");
+        }
+
+        VulkanRenderer renderer;
+        renderer.init(window);
+        
         std::vector<uint32_t> graphicsWorkers;
         for (size_t i = 3; i < coreMap.size(); ++i) {
             graphicsWorkers.push_back(coreMap[i]);
         }
         
-        if (!graphicsWorkers.empty()) {
-            std::cout << "[Main] Reserved " << graphicsWorkers.size() << " cores for Graphics Workers.\n";
-        }
+        // Initial Auth Request
+       Rebel::PacketHeader authReq;
+        authReq.opcode = static_cast<uint16_t>(Rebel::Opcode::CMSG_AUTH_SESSION);
+        authReq.size = sizeof(Rebel::PacketHeader); 
+        network.sendPacket(authReq);
 
-        // Main Loop (Must stay on Core 0 for windowing/input)
         while (!renderer.shouldClose()) {
             renderer.pollEvents();
-            
-            // Logic and Network are running in parallel on other cores.
-            // You can synchronize data for the frame here.
-            
             renderer.drawFrame();
         }
+
+        // --- 5. CLEAN SHUTDOWN SEQUENCE ---
+        std::cout << "\n[Main] Shutdown signal received. Terminating subsystems...\n";
+        g_Running = false;
+        
+        if (logicThread.joinable()) {
+            logicThread.join();
+        }
+
+        renderer.cleanup();
+        glfwDestroyWindow(window);
+        glfwTerminate();
     }
     catch (const std::exception& e) {
-        std::cerr << "[Main] Error: " << e.what() << std::endl;
+        std::cerr << "\n[Fatal Error] " << e.what() << std::endl;
+        g_Running = false;
+        if (logicThread.joinable()) {
+            logicThread.join();
+        }
+        return -1;
     }
 
-    // Shutdown sequence
-    g_Running = false;
-    
-    if (logicThread.joinable()) {
-        logicThread.join();
-    }
-
-    std::cout << "[Main] Shutdown complete." << std::endl;
+    std::cout << "[Main] Clean shutdown complete.\n";
     return 0;
 }```
 
@@ -837,20 +1038,32 @@ void VulkanRenderer::createLogicalDevice() {
         queueCreateInfos.push_back(queueCreateInfo);
     }
 
+    // Specifying the device features we'll need (can leave empty for now)
     VkPhysicalDeviceFeatures deviceFeatures{};
 
+    // Packing it all into the main creation struct
     VkDeviceCreateInfo createInfo{};
     createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+
     createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
     createInfo.pQueueCreateInfos = queueCreateInfos.data();
+
     createInfo.pEnabledFeatures = &deviceFeatures;
+
+    // Enable the swapchain extension you defined in your header
     createInfo.enabledExtensionCount = static_cast<uint32_t>(deviceExtensions.size());
     createInfo.ppEnabledExtensionNames = deviceExtensions.data();
 
+    // No validation layers explicitly enabled here for the device, 
+    // modern Vulkan handles validation at the instance level anyway.
+    createInfo.enabledLayerCount = 0;
+
+    // 1. The moment of truth: actually creating the device!
     if (vkCreateDevice(physicalDevice_, &createInfo, nullptr, &device_) != VK_SUCCESS) {
-        throw std::runtime_error("[VULKAN] Failed to create logical device!");
+        throw std::runtime_error("[Vulkan] Failed to create logical device!");
     }
 
+    // 2. Retrieve the queue handles so we can actually submit command buffers later
     vkGetDeviceQueue(device_, indices.graphicsFamily.value(), 0, &graphicsQueue_);
     vkGetDeviceQueue(device_, indices.presentFamily.value(), 0, &presentQueue_);
 }
@@ -1363,7 +1576,13 @@ VkExtent2D VulkanRenderer::chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capa
     }
 }
 
-void VulkanRenderer::draw() {
+void VulkanRenderer::drawFrame() {
+    // 1. Critical Safety Check!
+    // If Vulkan isn't fully initialized yet, skip this frame entirely.
+    if (device_ == VK_NULL_HANDLE) {
+        return; 
+    }
+
     vkWaitForFences(device_, 1, &inFlightFences_[currentFrame_], VK_TRUE, UINT64_MAX);
 
     uint32_t imageIndex;
@@ -1446,10 +1665,13 @@ void VulkanRenderer::cleanup() {
 
 ## File: ./client/CMakeLists.txt
 ```cmake
+# Find the necessary system threading and Asio
+find_package(Threads REQUIRED)
+
 add_executable(client 
-src/main.cpp
-src/VulkanRenderer.cpp
-src/NetworkManager.cpp
+    src/main.cpp
+    src/VulkanRenderer.cpp
+    src/NetworkManager.cpp
 )
 
 target_include_directories(client PRIVATE 
@@ -1457,14 +1679,17 @@ target_include_directories(client PRIVATE
     ${CMAKE_SOURCE_DIR}/common/include
 )
 
-# Link to our shared code and graphics libraries
+# Link to our shared code, graphics, and networking
 target_link_libraries(client PRIVATE 
     common 
     Vulkan::Vulkan 
     glfw 
     glm::glm
+    Threads::Threads
+    asio  # Ensure your system's asio find_package or alias is defined
 )
 
+# Shader copy command remains the same
 add_custom_command(
     TARGET client POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
@@ -1499,8 +1724,18 @@ class VulkanRenderer {
 public:
     void init(GLFWwindow* window);
     void cleanup();
-    void draw();
+    
+    // Renamed from draw() to match what main.cpp is calling
+    void drawFrame();
 
+    // Added wrappers for the GLFW window state
+    bool shouldClose() const {
+        return window_ && glfwWindowShouldClose(window_);
+    }
+
+    void pollEvents() const {
+        glfwPollEvents();
+    }
 private:
     // Core pipeline setups
     void createLogicalDevice();
@@ -1560,7 +1795,6 @@ private:
 ## File: ./client/include/NetworkManager.hpp
 ```cpp
 #pragma once
-
 #include <asio.hpp>
 #include <memory>
 #include <thread>
@@ -1569,44 +1803,52 @@ private:
 #include <vector>
 #include <optional>
 #include "Protocol.hpp"
+#include "ThreadUtility.hpp" // For Rebel::Concurrent::ThreadSafeQueue
 
-class NetworkManager {
+namespace Rebel
+{
+    // Wrapper for packets stored in the queue
+    struct InboundPacket
+    {
+        PacketHeader header;
+        std::vector<uint8_t> payload;
+    };
+}
+
+// Inside NetworkManager.hpp
+class NetworkManager
+{
 public:
     NetworkManager();
     ~NetworkManager();
 
-    std::thread& getThread() { return network_thread_; }
-
-    // Cleaned up connection logic
-    void connect(const std::string& host, const std::string& port);
+    std::thread &getThread() { return network_thread_; }
+    void connect(const std::string &host, const std::string &port);
     void disconnect();
-    
-    // Updated to handle arbitrary payloads
-    void sendPacket(const Rebel::PacketHeader& header, const void* payload = nullptr, std::size_t payloadSize = 0);
-    
-    // Handler now takes the header AND the raw payload data
-    using PacketHandler = std::function<void(std::shared_ptr<Rebel::PacketHeader>, const std::vector<uint8_t>&)>;
-    void registerHandler(Rebel::Opcode opcode, PacketHandler handler);
+    void sendPacket(const Rebel::PacketHeader &header, const void *payload = nullptr, std::size_t payloadSize = 0);
+
+    // This is how the Logic Thread gets its data now
+    Rebel::Concurrent::ThreadSafeQueue<Rebel::InboundPacket> &getPacketQueue()
+    {
+        return inbound_queue_;
+    }
 
 private:
     void startRead();
     void readPayload(uint16_t size);
 
     asio::io_context io_context_;
-    // This is the missing piece causing the 'strand_' errors
     asio::strand<asio::io_context::executor_type> strand_;
-    
     std::unique_ptr<asio::executor_work_guard<asio::io_context::executor_type>> work_guard_;
-    
-    // Using optional so we can cleanly reset the socket on reconnects
+
     std::optional<asio::ip::tcp::socket> socket_;
     std::thread network_thread_;
 
-    // Buffers for the current incoming packet
     Rebel::PacketHeader incoming_header_;
     std::vector<uint8_t> incoming_payload_;
-    
-    std::map<Rebel::Opcode, PacketHandler> handlers_;
+
+    // The mailbox replacing the handlers_ map
+    Rebel::Concurrent::ThreadSafeQueue<Rebel::InboundPacket> inbound_queue_;
 };
 ```
 

@@ -20,6 +20,10 @@ std::atomic<bool> g_Running{ true };
  * Logic Thread: Responsible for game state evolution, physics, and packet processing.
  */
 void LogicThreadEntry(NetworkManager* network) {
+
+    float walkTracker = 0.0f; 
+    bool inWorld = false; // <-- ADD THIS FLAG
+
     const std::chrono::microseconds TICK_TIME(1000000 / 64);
     std::cout << "[Logic] Engine tick thread started.\n";
 
@@ -28,27 +32,52 @@ void LogicThreadEntry(NetworkManager* network) {
 
         // Drain the mailbox
         while (auto packetOpt = network->getPacketQueue().try_pop()) {
-    auto& packet = *packetOpt;
+            auto& packet = *packetOpt;
 
-    // SMSG_AUTH_RESPONSE (0x0004) from your Protocol.hpp
-    if (packet.header.opcode == static_cast<uint16_t>(Rebel::Opcode::SMSG_AUTH_RESPONSE)) {
-        std::cout << "[Logic] Handshake Successful! Reconnecting to Game Server...\n";
-        
-        network->disconnect();
-        // Connect to the Game Server port
-        network->connect("127.0.0.1", "12345"); 
-    }
-}
+            if (packet.header.opcode == static_cast<uint16_t>(Rebel::Opcode::SMSG_AUTH_RESPONSE)) {
+                
+                // 1. Check if the payload has data (Login Server Redirect)
+                if (packet.payload.size() >= sizeof(Rebel::MsgRedirect)) {
+                    auto* redirect = reinterpret_cast<Rebel::MsgRedirect*>(packet.payload.data());
+                    std::cout << "[Logic] Redirecting to Game Server at " << redirect->ip << ":" << redirect->port << "\n";
+                    
+                    network->disconnect();
+                    network->connect(redirect->ip, std::to_string(redirect->port));
+                } 
+                // 2. If the payload is empty, it's the Game Server's welcome message
+                else {
+                    std::cout << "[Logic] Successfully authenticated with Game Server. Entering world...\n";
+                    inWorld = true; // <-- WE ARE IN. UNLEASH THE PACKETS.
+                }
+            }
+        }
 
+        // ... sleep logic remains the same ...
         auto end = std::chrono::steady_clock::now();
         auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-
         if (elapsed < TICK_TIME) {
             std::this_thread::sleep_for(TICK_TIME - elapsed);
         }
+
+        // ONLY SPAM MOVEMENT IF WE ARE ACTUALLY ON THE GAME SERVER
+        if (inWorld) {
+            walkTracker += 0.05f;
+
+            Rebel::MsgPlayerMove moveData;
+            moveData.x = walkTracker;
+            moveData.y = 0.0f;
+            moveData.z = 0.0f;
+            moveData.yaw = 0.0f;
+
+            Rebel::PacketHeader head;
+            head.opcode = static_cast<uint16_t>(Rebel::Opcode::CMSG_PLAYER_MOVE);
+            head.size = sizeof(Rebel::PacketHeader) + sizeof(Rebel::MsgPlayerMove);
+
+            network->sendPacket(head, &moveData, sizeof(Rebel::MsgPlayerMove));
+        }
     }
     std::cout << "[Logic] Engine tick thread exiting...\n";
-} // <--- THIS WAS THE MISSING BRACE
+}// <--- THIS WAS THE MISSING BRACE
 
 int main() {
     std::cout << "--- Rebel MMO Project (Client) ---\n";
@@ -95,11 +124,7 @@ int main() {
             graphicsWorkers.push_back(coreMap[i]);
         }
         
-        // Initial Auth Request
-       Rebel::PacketHeader authReq;
-        authReq.opcode = static_cast<uint16_t>(Rebel::Opcode::CMSG_AUTH_SESSION);
-        authReq.size = sizeof(Rebel::PacketHeader); 
-        network.sendPacket(authReq);
+      
 
         while (!renderer.shouldClose()) {
             renderer.pollEvents();

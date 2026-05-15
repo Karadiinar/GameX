@@ -30,6 +30,10 @@ namespace Rebel {
         char ip[16];
         uint16_t port;
     };
+    struct MsgPlayerMove {
+    float x, y, z;
+    float yaw; // Essential for knowing which way the dwarf is looking!
+};
 #pragma pack(pop)
 
 } // namespace Rebel

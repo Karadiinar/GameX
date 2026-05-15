@@ -37,7 +37,21 @@ void NetworkManager::connect(const std::string &host, const std::string &port)
                 asio::bind_executor(strand_, [this](std::error_code ec, asio::ip::tcp::endpoint) {
                     if (!ec) {
                         std::cout << "[Network] Connected to server.\n";
-                        startRead();
+                        // 1. Prepare the Auth Payload
+            Rebel::MsgLogin loginData;
+            strncpy(loginData.username, "Karadiinar", 32);
+            loginData.version = 1; // From your Version.hpp
+
+            // 2. Prepare the Header
+            Rebel::PacketHeader header;
+            header.size = sizeof(Rebel::PacketHeader) + sizeof(Rebel::MsgLogin);
+            header.opcode = static_cast<uint16_t>(Rebel::Opcode::CMSG_AUTH_SESSION);
+
+            // 3. Send the Auth Packet immediately
+            sendPacket(header, &loginData, sizeof(Rebel::MsgLogin));
+
+            // 4. Now start listening for the server's response
+            startRead();
                     } else {
                         std::cerr << "[Network] Connect error: " << ec.message() << "\n";
                     }
