@@ -5,6 +5,7 @@
 #include <chrono>
 #include <stdexcept>
 #include <algorithm> // Required for std::clamp if used
+#include <entt/entt.hpp>
 
 // Must be included before custom graphics headers to ensure Vulkan macros are set
 #include <GLFW/glfw3.h>
@@ -12,17 +13,30 @@
 #include "NetworkManager.hpp"
 #include "VulkanRenderer.hpp"
 #include "ThreadUtility.hpp"
+#include <mutex>
+
 
 // Global shutdown flag to synchronize thread termination
 std::atomic<bool> g_Running{ true };
 
+
+
+struct Transform {
+    float x, y, z;
+    float yaw;
+};
+
+
+struct LocalPlayerTag {};
+
 /**
  * Logic Thread: Responsible for game state evolution, physics, and packet processing.
  */
-void LogicThreadEntry(NetworkManager* network) {
+void LogicThreadEntry(NetworkManager* network, SharedRenderState* renderState) {
 
-    float walkTracker = 0.0f; 
-    bool inWorld = false; // <-- ADD THIS FLAG
+    entt::registry client_registry;       // <-- The Client's World Data
+    entt::entity local_player = entt::null; // <-- Handle to our specific dwarf
+    bool inWorld = false;
 
     const std::chrono::microseconds TICK_TIME(1000000 / 64);
     std::cout << "[Logic] Engine tick thread started.\n";
@@ -36,7 +50,6 @@ void LogicThreadEntry(NetworkManager* network) {
 
             if (packet.header.opcode == static_cast<uint16_t>(Rebel::Opcode::SMSG_AUTH_RESPONSE)) {
                 
-                // 1. Check if the payload has data (Login Server Redirect)
                 if (packet.payload.size() >= sizeof(Rebel::MsgRedirect)) {
                     auto* redirect = reinterpret_cast<Rebel::MsgRedirect*>(packet.payload.data());
                     std::cout << "[Logic] Redirecting to Game Server at " << redirect->ip << ":" << redirect->port << "\n";
@@ -44,30 +57,44 @@ void LogicThreadEntry(NetworkManager* network) {
                     network->disconnect();
                     network->connect(redirect->ip, std::to_string(redirect->port));
                 } 
-                // 2. If the payload is empty, it's the Game Server's welcome message
                 else {
                     std::cout << "[Logic] Successfully authenticated with Game Server. Entering world...\n";
-                    inWorld = true; // <-- WE ARE IN. UNLEASH THE PACKETS.
+                    inWorld = true; 
+
+                    // --- SPAWN THE LOCAL ENTITY ---
+                    local_player = client_registry.create();
+                    client_registry.emplace<Transform>(local_player, 0.0f, 0.0f, 0.0f, 0.0f);
+                    client_registry.emplace<LocalPlayerTag>(local_player);
+                    std::cout << "[Logic] Local player entity spawned in client ECS.\n";
                 }
             }
         }
 
-        // ... sleep logic remains the same ...
         auto end = std::chrono::steady_clock::now();
         auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
         if (elapsed < TICK_TIME) {
             std::this_thread::sleep_for(TICK_TIME - elapsed);
         }
 
-        // ONLY SPAM MOVEMENT IF WE ARE ACTUALLY ON THE GAME SERVER
-        if (inWorld) {
-            walkTracker += 0.05f;
+        // --- UPDATE ECS AND SEND NETWORK PACKET ---
+        if (inWorld && client_registry.valid(local_player)) {
+            auto& transform = client_registry.get<Transform>(local_player);
+            transform.x += 0.05f; 
 
+            // 1. UPDATE THE RENDER BRIDGE
+            {
+                std::lock_guard<std::mutex> lock(renderState->mtx);
+                renderState->player_x = transform.x;
+                renderState->player_y = transform.y;
+                renderState->player_z = transform.z;
+            }
+
+            // Build the network packet using the ECS data
             Rebel::MsgPlayerMove moveData;
-            moveData.x = walkTracker;
-            moveData.y = 0.0f;
-            moveData.z = 0.0f;
-            moveData.yaw = 0.0f;
+            moveData.x = transform.x;
+            moveData.y = transform.y;
+            moveData.z = transform.z;
+            moveData.yaw = transform.yaw;
 
             Rebel::PacketHeader head;
             head.opcode = static_cast<uint16_t>(Rebel::Opcode::CMSG_PLAYER_MOVE);
@@ -77,7 +104,7 @@ void LogicThreadEntry(NetworkManager* network) {
         }
     }
     std::cout << "[Logic] Engine tick thread exiting...\n";
-}// <--- THIS WAS THE MISSING BRACE
+}
 
 int main() {
     std::cout << "--- Rebel MMO Project (Client) ---\n";
@@ -95,8 +122,13 @@ int main() {
     
     network.connect("127.0.0.1", "54321"); 
 
+    // --- INSTANTIATE THE BRIDGE ---
+    // (Only make ONE of these!)
+    SharedRenderState sharedRenderState;
+
     // --- 3. LOGIC SUBSYSTEM ---
-    std::thread logicThread(LogicThreadEntry, &network);
+    // Pass our single bridge to the logic thread
+    std::thread logicThread(LogicThreadEntry, &network, &sharedRenderState);
     if (coreMap.size() > 2) {
         std::cout << "[Main] Pinning Logic subsystem to Core " << coreMap[2] << "\n";
         Rebel::ThreadUtils::SetThreadAffinity(logicThread, coreMap[2]);
@@ -104,31 +136,45 @@ int main() {
 
     // --- 4. GRAPHICS SUBSYSTEM ---
     try {
-        if (!glfwInit()) {
+       if (!glfwInit()) {
             throw std::runtime_error("[Graphics] Failed to initialize GLFW!");
         }
         
+        // Setup your default settings profile
+        GraphicsConfig userGraphicsSettings;
+        userGraphicsSettings.presentMode = PresentModeSetting::TripleBuffer; // Fast-sync
+        userGraphicsSettings.windowWidth = 1280;
+        userGraphicsSettings.windowHeight = 720;
+
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); 
 
-        GLFWwindow* window = glfwCreateWindow(1280, 720, "Rebel Client", nullptr, nullptr);
+        // Use the settings values directly to spawn the window dimension sizes
+        GLFWwindow* window = glfwCreateWindow(
+            userGraphicsSettings.windowWidth, 
+            userGraphicsSettings.windowHeight, 
+            "Rebel Client", nullptr, nullptr
+        );
+        
         if (!window) {
             throw std::runtime_error("[Graphics] Failed to create window!");
         }
 
         VulkanRenderer renderer;
-        renderer.init(window);
-        
+        renderer.init(window, userGraphicsSettings); // <-- Pass the settings into Vulkan!
+
+        // (Optional: Your graphics workers setup can stay here)
         std::vector<uint32_t> graphicsWorkers;
         for (size_t i = 3; i < coreMap.size(); ++i) {
             graphicsWorkers.push_back(coreMap[i]);
         }
-        
-      
 
+        // ONE unified render loop
         while (!renderer.shouldClose()) {
             renderer.pollEvents();
-            renderer.drawFrame();
+            
+            // Pass the bridge into Vulkan!
+            renderer.drawFrame(&sharedRenderState); 
         }
 
         // --- 5. CLEAN SHUTDOWN SEQUENCE ---

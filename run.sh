@@ -29,6 +29,12 @@ cosmic-term -e bash -c "$PROJECT_ROOT/build/server/game/GameServer; exec bash" &
 # Give the servers a second to bind to their ports
 sleep 2
 
+# === NEW SHADER COMPILATION STEP ===
+echo "[Rebel] Compiling shaders to SPIR-V..."
+glslc "$PROJECT_ROOT/client/shaders/shader.vert" -o "$PROJECT_ROOT/client/shaders/vert.spv"
+glslc "$PROJECT_ROOT/client/shaders/shader.frag" -o "$PROJECT_ROOT/client/shaders/frag.spv"
+# ===================================
+
 # 5. LAUNCH CLIENT
 echo "[Rebel] Starting Client..."
 # Move to the source client folder so shaders/ are found

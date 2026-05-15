@@ -1,4 +1,5 @@
 #include "VulkanRenderer.hpp"
+#include "GraphicsConfig.hpp"
 #include <stdexcept>
 #include <vector>
 #include <iostream>
@@ -8,9 +9,11 @@
 #include <algorithm>
 #include <limits>
 #include <cstdint>
+#include <mutex>
 
-void VulkanRenderer::init(GLFWwindow* window) {
+void VulkanRenderer::init(GLFWwindow* window, const GraphicsConfig& config) {
     window_ = window;
+    activeConfig_ = config;
 
     // --- 1. CREATE INSTANCE ---
     VkApplicationInfo appInfo{};
@@ -309,8 +312,18 @@ void VulkanRenderer::createGraphicsPipeline() {
     dynamicState.dynamicStateCount = static_cast<uint32_t>(dynamicStates.size());
     dynamicState.pDynamicStates = dynamicStates.data();
 
+// Define the push constant range telling Vulkan what the vertex shader expects
+    VkPushConstantRange pushConstantRange{};
+    pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT; // Targeted shader stage
+    pushConstantRange.offset = 0;                             // Zero offset
+    pushConstantRange.size = sizeof(float);                   // Pushing exactly one 32-bit float
+
     VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
     pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+    pipelineLayoutInfo.setLayoutCount = 0;
+    pipelineLayoutInfo.pSetLayouts = nullptr;
+    pipelineLayoutInfo.pushConstantRangeCount = 1;             // Set this to 1
+    pipelineLayoutInfo.pPushConstantRanges = &pushConstantRange; // Bind the range data
 
     if (vkCreatePipelineLayout(device_, &pipelineLayoutInfo, nullptr, &pipelineLayout_) != VK_SUCCESS) {
         throw std::runtime_error("[VULKAN] Failed to create pipeline layout!");
@@ -387,7 +400,7 @@ void VulkanRenderer::createCommandBuffers() {
     }
 }
 
-void VulkanRenderer::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex) {
+void VulkanRenderer::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex, float playerX) {
     VkCommandBufferBeginInfo beginInfo{};
     beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
 
@@ -407,8 +420,11 @@ void VulkanRenderer::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t
     renderPassInfo.pClearValues = &clearColor;
 
     vkCmdBeginRenderPass(commandBuffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+    
+    // 1. Bind your pipeline
     vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline_);
 
+    // 2. Set your dynamic states
     VkViewport viewport{};
     viewport.x = 0.0f;
     viewport.y = 0.0f;
@@ -423,7 +439,22 @@ void VulkanRenderer::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t
     scissor.extent = swapChainExtent_;
     vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
 
+    // =================================================================
+    // 3. THE MISSING LINK: Push the X coordinate to the vertex shader!
+    // =================================================================
+    vkCmdPushConstants(
+        commandBuffer,
+        pipelineLayout_,             // Your compiled pipeline layout
+        VK_SHADER_STAGE_VERTEX_BIT,  // Target the vertex shader stage
+        0,                           // Offset
+        sizeof(float),               // Size of data
+        &playerX                     // Pointer to our local float data
+    );
+    // =================================================================
+
+    // 4. Issue the draw call
     vkCmdDraw(commandBuffer, 3, 1, 0, 0);
+    
     vkCmdEndRenderPass(commandBuffer);
 
     if (vkEndCommandBuffer(commandBuffer) != VK_SUCCESS) {
@@ -588,14 +619,30 @@ VkSurfaceFormatKHR VulkanRenderer::chooseSwapSurfaceFormat(const std::vector<VkS
 }
 
 VkPresentModeKHR VulkanRenderer::chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes) {
-    // Look for IMMEDIATE mode first to completely uncap FPS
-    for (const auto& availablePresentMode : availablePresentModes) {
-        if (availablePresentMode == VK_PRESENT_MODE_IMMEDIATE_KHR) {
-            return availablePresentMode;
+    
+    // --- 1. USER SETTING: TRIPLE BUFFERING (MAILBOX) ---
+    if (activeConfig_.presentMode == PresentModeSetting::TripleBuffer) {
+        for (const auto& mode : availablePresentModes) {
+            if (mode == VK_PRESENT_MODE_MAILBOX_KHR) {
+                std::cout << "[VULKAN CONFIG] Present Mode: Triple Buffering (MAILBOX).\n";
+                return mode;
+            }
         }
     }
-    
-    // Hard fallback to standard VSync if immediate isn't available
+
+    // --- 2. USER SETTING: UNCAPPED PERFORMANCE (IMMEDIATE) ---
+    if (activeConfig_.presentMode == PresentModeSetting::Immediate) {
+        for (const auto& mode : availablePresentModes) {
+            if (mode == VK_PRESENT_MODE_IMMEDIATE_KHR) {
+                std::cout << "[VULKAN CONFIG] Present Mode: Uncapped Performance (IMMEDIATE).\n";
+                return mode;
+            }
+        }
+    }
+
+    // --- 3. FALLBACK / DEFAULT VSYNC (FIFO) ---
+    // Enforced if user selected VSync OR if their hardware layout rejected MAILBOX/IMMEDIATE
+    std::cout << "[VULKAN CONFIG] Present Mode: VSync Enabled (FIFO).\n";
     return VK_PRESENT_MODE_FIFO_KHR;
 }
 
@@ -612,9 +659,8 @@ VkExtent2D VulkanRenderer::chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capa
     }
 }
 
-void VulkanRenderer::drawFrame() {
+void VulkanRenderer::drawFrame(SharedRenderState* renderState) {
     // 1. Critical Safety Check!
-    // If Vulkan isn't fully initialized yet, skip this frame entirely.
     if (device_ == VK_NULL_HANDLE) {
         return; 
     }
@@ -626,10 +672,24 @@ void VulkanRenderer::drawFrame() {
 
     vkResetFences(device_, 1, &inFlightFences_[currentFrame_]);
     vkResetCommandBuffer(commandBuffers_[currentFrame_], 0);
-    recordCommandBuffer(commandBuffers_[currentFrame_], imageIndex);
+
+    // =======================================================
+    // 2. THE RENDER BRIDGE: Safely grab the player's X position
+    // =======================================================
+    float current_x = 0.0f;
+    if (renderState) {
+        std::lock_guard<std::mutex> lock(renderState->mtx);
+        current_x = renderState->player_x; // Fast read and unlock!
+    }
+
+    // 3. Pass the extracted float down into the command buffer recorder!
+    recordCommandBuffer(commandBuffers_[currentFrame_], imageIndex, current_x);
+
+    // =======================================================
 
     VkSubmitInfo submitInfo{};
     submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+    // ... (All your existing submit and present code stays exactly the same below) ...
     VkSemaphore waitSemaphores[] = {imageAvailableSemaphores_[currentFrame_]};
     VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
     submitInfo.waitSemaphoreCount = 1;

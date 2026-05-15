@@ -29,6 +29,7 @@
  | | |-VulkanRenderer.cpp
  | |-CMakeLists.txt
  | |-include
+ | | |-GraphicsConfig.hpp
  | | |-VulkanRenderer.hpp
  | | |-NetworkManager.hpp
  | |-shaders
@@ -473,7 +474,7 @@ entt::entity entity_id_{ entt::null };
                         read_payload();
                     } else {
                         on_packet_received();
-                        read_header();
+                        
                     }
                 }
             });
@@ -485,7 +486,7 @@ entt::entity entity_id_{ entt::null };
             [this, self](const asio::error_code& ec, std::size_t) {
                 if (!ec) {
                     on_packet_received();
-                    read_header();
+                    
                 }
             });
     }
@@ -494,6 +495,9 @@ entt::entity entity_id_{ entt::null };
         // Ensure processing happens on the strand
         asio::post(strand_, [self = shared_from_this()]() {
             self->process_packet();
+            
+            // Start reading the next packet ONLY NOW that the buffer is safely processed
+            self->read_header(); 
         });
     }
 
@@ -571,9 +575,6 @@ entt::entity entity_id_{ entt::null };
         [this, self, response](const asio::error_code& ec, std::size_t) {
             if (ec) {
                 socket_.close();
-            } else {
-                // THE FIX: Start reading again to keep the session alive
-                read_header(); 
             }
         });
 }
@@ -818,6 +819,7 @@ void NetworkManager::readPayload(uint16_t payloadSize) {
 #include <chrono>
 #include <stdexcept>
 #include <algorithm> // Required for std::clamp if used
+#include <entt/entt.hpp>
 
 // Must be included before custom graphics headers to ensure Vulkan macros are set
 #include <GLFW/glfw3.h>
@@ -825,16 +827,30 @@ void NetworkManager::readPayload(uint16_t payloadSize) {
 #include "NetworkManager.hpp"
 #include "VulkanRenderer.hpp"
 #include "ThreadUtility.hpp"
+#include <mutex>
+
 
 // Global shutdown flag to synchronize thread termination
 std::atomic<bool> g_Running{ true };
 
+
+
+struct Transform {
+    float x, y, z;
+    float yaw;
+};
+
+
+struct LocalPlayerTag {};
+
 /**
  * Logic Thread: Responsible for game state evolution, physics, and packet processing.
  */
-void LogicThreadEntry(NetworkManager* network) {
+void LogicThreadEntry(NetworkManager* network, SharedRenderState* renderState) {
 
-    float walkTracker = 0.0f; // For simulating player movement in the demo
+    entt::registry client_registry;       // <-- The Client's World Data
+    entt::entity local_player = entt::null; // <-- Handle to our specific dwarf
+    bool inWorld = false;
 
     const std::chrono::microseconds TICK_TIME(1000000 / 64);
     std::cout << "[Logic] Engine tick thread started.\n";
@@ -844,40 +860,65 @@ void LogicThreadEntry(NetworkManager* network) {
 
         // Drain the mailbox
         while (auto packetOpt = network->getPacketQueue().try_pop()) {
-    auto& packet = *packetOpt;
+            auto& packet = *packetOpt;
 
-    // SMSG_AUTH_RESPONSE (0x0004) from your Protocol.hpp
-   if (packet.header.opcode == static_cast<uint16_t>(Rebel::Opcode::SMSG_AUTH_RESPONSE)) {
-    // We are already on the Game Server, no need to reconnect!
-    std::cout << "[Logic] Successfully authenticated with Game Server. Entering world...\n";
-    
-    // Change a local state here instead of calling network->connect()
-    // clientState = State::IN_GAME; 
-}
-}
+            if (packet.header.opcode == static_cast<uint16_t>(Rebel::Opcode::SMSG_AUTH_RESPONSE)) {
+                
+                if (packet.payload.size() >= sizeof(Rebel::MsgRedirect)) {
+                    auto* redirect = reinterpret_cast<Rebel::MsgRedirect*>(packet.payload.data());
+                    std::cout << "[Logic] Redirecting to Game Server at " << redirect->ip << ":" << redirect->port << "\n";
+                    
+                    network->disconnect();
+                    network->connect(redirect->ip, std::to_string(redirect->port));
+                } 
+                else {
+                    std::cout << "[Logic] Successfully authenticated with Game Server. Entering world...\n";
+                    inWorld = true; 
+
+                    // --- SPAWN THE LOCAL ENTITY ---
+                    local_player = client_registry.create();
+                    client_registry.emplace<Transform>(local_player, 0.0f, 0.0f, 0.0f, 0.0f);
+                    client_registry.emplace<LocalPlayerTag>(local_player);
+                    std::cout << "[Logic] Local player entity spawned in client ECS.\n";
+                }
+            }
+        }
 
         auto end = std::chrono::steady_clock::now();
         auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-
         if (elapsed < TICK_TIME) {
             std::this_thread::sleep_for(TICK_TIME - elapsed);
         }
-        walkTracker += 0.05f; // Move slightly every tick
 
-    Rebel::MsgPlayerMove moveData;
-    moveData.x = walkTracker;
-    moveData.y = 0.0f;
-    moveData.z = 0.0f;
-    moveData.yaw = 0.0f;
+        // --- UPDATE ECS AND SEND NETWORK PACKET ---
+        if (inWorld && client_registry.valid(local_player)) {
+            auto& transform = client_registry.get<Transform>(local_player);
+            transform.x += 0.05f; 
 
-    Rebel::PacketHeader head;
-    head.opcode = static_cast<uint16_t>(Rebel::Opcode::CMSG_PLAYER_MOVE);
-    head.size = sizeof(Rebel::PacketHeader) + sizeof(Rebel::MsgPlayerMove);
+            // 1. UPDATE THE RENDER BRIDGE
+            {
+                std::lock_guard<std::mutex> lock(renderState->mtx);
+                renderState->player_x = transform.x;
+                renderState->player_y = transform.y;
+                renderState->player_z = transform.z;
+            }
 
-    network->sendPacket(head, &moveData, sizeof(Rebel::MsgPlayerMove));
+            // Build the network packet using the ECS data
+            Rebel::MsgPlayerMove moveData;
+            moveData.x = transform.x;
+            moveData.y = transform.y;
+            moveData.z = transform.z;
+            moveData.yaw = transform.yaw;
+
+            Rebel::PacketHeader head;
+            head.opcode = static_cast<uint16_t>(Rebel::Opcode::CMSG_PLAYER_MOVE);
+            head.size = sizeof(Rebel::PacketHeader) + sizeof(Rebel::MsgPlayerMove);
+
+            network->sendPacket(head, &moveData, sizeof(Rebel::MsgPlayerMove));
+        }
     }
     std::cout << "[Logic] Engine tick thread exiting...\n";
-} // <--- THIS WAS THE MISSING BRACE
+}
 
 int main() {
     std::cout << "--- Rebel MMO Project (Client) ---\n";
@@ -895,8 +936,13 @@ int main() {
     
     network.connect("127.0.0.1", "54321"); 
 
+    // --- INSTANTIATE THE BRIDGE ---
+    // (Only make ONE of these!)
+    SharedRenderState sharedRenderState;
+
     // --- 3. LOGIC SUBSYSTEM ---
-    std::thread logicThread(LogicThreadEntry, &network);
+    // Pass our single bridge to the logic thread
+    std::thread logicThread(LogicThreadEntry, &network, &sharedRenderState);
     if (coreMap.size() > 2) {
         std::cout << "[Main] Pinning Logic subsystem to Core " << coreMap[2] << "\n";
         Rebel::ThreadUtils::SetThreadAffinity(logicThread, coreMap[2]);
@@ -904,35 +950,45 @@ int main() {
 
     // --- 4. GRAPHICS SUBSYSTEM ---
     try {
-        if (!glfwInit()) {
+       if (!glfwInit()) {
             throw std::runtime_error("[Graphics] Failed to initialize GLFW!");
         }
         
+        // Setup your default settings profile
+        GraphicsConfig userGraphicsSettings;
+        userGraphicsSettings.presentMode = PresentModeSetting::TripleBuffer; // Fast-sync
+        userGraphicsSettings.windowWidth = 1280;
+        userGraphicsSettings.windowHeight = 720;
+
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); 
 
-        GLFWwindow* window = glfwCreateWindow(1280, 720, "Rebel Client", nullptr, nullptr);
+        // Use the settings values directly to spawn the window dimension sizes
+        GLFWwindow* window = glfwCreateWindow(
+            userGraphicsSettings.windowWidth, 
+            userGraphicsSettings.windowHeight, 
+            "Rebel Client", nullptr, nullptr
+        );
+        
         if (!window) {
             throw std::runtime_error("[Graphics] Failed to create window!");
         }
 
         VulkanRenderer renderer;
-        renderer.init(window);
-        
+        renderer.init(window, userGraphicsSettings); // <-- Pass the settings into Vulkan!
+
+        // (Optional: Your graphics workers setup can stay here)
         std::vector<uint32_t> graphicsWorkers;
         for (size_t i = 3; i < coreMap.size(); ++i) {
             graphicsWorkers.push_back(coreMap[i]);
         }
-        
-        // Initial Auth Request
-       Rebel::PacketHeader authReq;
-        authReq.opcode = static_cast<uint16_t>(Rebel::Opcode::CMSG_AUTH_SESSION);
-        authReq.size = sizeof(Rebel::PacketHeader); 
-        network.sendPacket(authReq);
 
+        // ONE unified render loop
         while (!renderer.shouldClose()) {
             renderer.pollEvents();
-            renderer.drawFrame();
+            
+            // Pass the bridge into Vulkan!
+            renderer.drawFrame(&sharedRenderState); 
         }
 
         // --- 5. CLEAN SHUTDOWN SEQUENCE ---
@@ -963,6 +1019,7 @@ int main() {
 ## File: ./client/src/VulkanRenderer.cpp
 ```cpp
 #include "VulkanRenderer.hpp"
+#include "GraphicsConfig.hpp"
 #include <stdexcept>
 #include <vector>
 #include <iostream>
@@ -972,9 +1029,11 @@ int main() {
 #include <algorithm>
 #include <limits>
 #include <cstdint>
+#include <mutex>
 
-void VulkanRenderer::init(GLFWwindow* window) {
+void VulkanRenderer::init(GLFWwindow* window, const GraphicsConfig& config) {
     window_ = window;
+    activeConfig_ = config;
 
     // --- 1. CREATE INSTANCE ---
     VkApplicationInfo appInfo{};
@@ -1273,8 +1332,18 @@ void VulkanRenderer::createGraphicsPipeline() {
     dynamicState.dynamicStateCount = static_cast<uint32_t>(dynamicStates.size());
     dynamicState.pDynamicStates = dynamicStates.data();
 
+// Define the push constant range telling Vulkan what the vertex shader expects
+    VkPushConstantRange pushConstantRange{};
+    pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT; // Targeted shader stage
+    pushConstantRange.offset = 0;                             // Zero offset
+    pushConstantRange.size = sizeof(float);                   // Pushing exactly one 32-bit float
+
     VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
     pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+    pipelineLayoutInfo.setLayoutCount = 0;
+    pipelineLayoutInfo.pSetLayouts = nullptr;
+    pipelineLayoutInfo.pushConstantRangeCount = 1;             // Set this to 1
+    pipelineLayoutInfo.pPushConstantRanges = &pushConstantRange; // Bind the range data
 
     if (vkCreatePipelineLayout(device_, &pipelineLayoutInfo, nullptr, &pipelineLayout_) != VK_SUCCESS) {
         throw std::runtime_error("[VULKAN] Failed to create pipeline layout!");
@@ -1351,7 +1420,7 @@ void VulkanRenderer::createCommandBuffers() {
     }
 }
 
-void VulkanRenderer::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex) {
+void VulkanRenderer::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex, float playerX) {
     VkCommandBufferBeginInfo beginInfo{};
     beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
 
@@ -1371,8 +1440,11 @@ void VulkanRenderer::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t
     renderPassInfo.pClearValues = &clearColor;
 
     vkCmdBeginRenderPass(commandBuffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+    
+    // 1. Bind your pipeline
     vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline_);
 
+    // 2. Set your dynamic states
     VkViewport viewport{};
     viewport.x = 0.0f;
     viewport.y = 0.0f;
@@ -1387,7 +1459,22 @@ void VulkanRenderer::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t
     scissor.extent = swapChainExtent_;
     vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
 
+    // =================================================================
+    // 3. THE MISSING LINK: Push the X coordinate to the vertex shader!
+    // =================================================================
+    vkCmdPushConstants(
+        commandBuffer,
+        pipelineLayout_,             // Your compiled pipeline layout
+        VK_SHADER_STAGE_VERTEX_BIT,  // Target the vertex shader stage
+        0,                           // Offset
+        sizeof(float),               // Size of data
+        &playerX                     // Pointer to our local float data
+    );
+    // =================================================================
+
+    // 4. Issue the draw call
     vkCmdDraw(commandBuffer, 3, 1, 0, 0);
+    
     vkCmdEndRenderPass(commandBuffer);
 
     if (vkEndCommandBuffer(commandBuffer) != VK_SUCCESS) {
@@ -1552,14 +1639,30 @@ VkSurfaceFormatKHR VulkanRenderer::chooseSwapSurfaceFormat(const std::vector<VkS
 }
 
 VkPresentModeKHR VulkanRenderer::chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes) {
-    // Look for IMMEDIATE mode first to completely uncap FPS
-    for (const auto& availablePresentMode : availablePresentModes) {
-        if (availablePresentMode == VK_PRESENT_MODE_IMMEDIATE_KHR) {
-            return availablePresentMode;
+    
+    // --- 1. USER SETTING: TRIPLE BUFFERING (MAILBOX) ---
+    if (activeConfig_.presentMode == PresentModeSetting::TripleBuffer) {
+        for (const auto& mode : availablePresentModes) {
+            if (mode == VK_PRESENT_MODE_MAILBOX_KHR) {
+                std::cout << "[VULKAN CONFIG] Present Mode: Triple Buffering (MAILBOX).\n";
+                return mode;
+            }
         }
     }
-    
-    // Hard fallback to standard VSync if immediate isn't available
+
+    // --- 2. USER SETTING: UNCAPPED PERFORMANCE (IMMEDIATE) ---
+    if (activeConfig_.presentMode == PresentModeSetting::Immediate) {
+        for (const auto& mode : availablePresentModes) {
+            if (mode == VK_PRESENT_MODE_IMMEDIATE_KHR) {
+                std::cout << "[VULKAN CONFIG] Present Mode: Uncapped Performance (IMMEDIATE).\n";
+                return mode;
+            }
+        }
+    }
+
+    // --- 3. FALLBACK / DEFAULT VSYNC (FIFO) ---
+    // Enforced if user selected VSync OR if their hardware layout rejected MAILBOX/IMMEDIATE
+    std::cout << "[VULKAN CONFIG] Present Mode: VSync Enabled (FIFO).\n";
     return VK_PRESENT_MODE_FIFO_KHR;
 }
 
@@ -1576,9 +1679,8 @@ VkExtent2D VulkanRenderer::chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capa
     }
 }
 
-void VulkanRenderer::drawFrame() {
+void VulkanRenderer::drawFrame(SharedRenderState* renderState) {
     // 1. Critical Safety Check!
-    // If Vulkan isn't fully initialized yet, skip this frame entirely.
     if (device_ == VK_NULL_HANDLE) {
         return; 
     }
@@ -1590,10 +1692,24 @@ void VulkanRenderer::drawFrame() {
 
     vkResetFences(device_, 1, &inFlightFences_[currentFrame_]);
     vkResetCommandBuffer(commandBuffers_[currentFrame_], 0);
-    recordCommandBuffer(commandBuffers_[currentFrame_], imageIndex);
+
+    // =======================================================
+    // 2. THE RENDER BRIDGE: Safely grab the player's X position
+    // =======================================================
+    float current_x = 0.0f;
+    if (renderState) {
+        std::lock_guard<std::mutex> lock(renderState->mtx);
+        current_x = renderState->player_x; // Fast read and unlock!
+    }
+
+    // 3. Pass the extracted float down into the command buffer recorder!
+    recordCommandBuffer(commandBuffers_[currentFrame_], imageIndex, current_x);
+
+    // =======================================================
 
     VkSubmitInfo submitInfo{};
     submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+    // ... (All your existing submit and present code stays exactly the same below) ...
     VkSemaphore waitSemaphores[] = {imageAvailableSemaphores_[currentFrame_]};
     VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
     submitInfo.waitSemaphoreCount = 1;
@@ -1697,13 +1813,49 @@ add_custom_command(
     $<TARGET_FILE_DIR:client>/shaders
 )```
 
+## File: ./client/include/GraphicsConfig.hpp
+```cpp
+#pragma once
+#include <vulkan/vulkan.h>
+
+enum class PresentModeSetting {
+    Immediate = 0, // Uncapped (8000 FPS room-heater mode)
+    VSync,         // Frame-capped, synchronized (FIFO)
+    TripleBuffer   // Low-latency, frame-capped fallback (MAILBOX)
+};
+
+struct GraphicsConfig {
+    // Present mode configuration
+    PresentModeSetting presentMode = PresentModeSetting::TripleBuffer;
+    
+    // Window settings
+    int windowWidth = 1280;
+    int windowHeight = 720;
+    bool fullscreen = false;
+    
+    // Future settings placeholders
+    bool enableValidationLayers = true;
+    bool shadowQuality = true;
+};```
+
 ## File: ./client/include/VulkanRenderer.hpp
 ```cpp
 #pragma once
+#include "GraphicsConfig.hpp"
 #include <vulkan/vulkan.h>
 #include <GLFW/glfw3.h>
 #include <optional>
 #include <vector>
+#include <mutex>
+
+struct SharedRenderState {
+    std::mutex mtx;
+    float player_x = 0.0f;
+    float player_y = 0.0f;
+    float player_z = 0.0f;
+};
+
+struct SharedRenderState;
 
 struct QueueFamilyIndices {
     std::optional<uint32_t> graphicsFamily;
@@ -1722,11 +1874,11 @@ struct SwapChainSupportDetails {
 
 class VulkanRenderer {
 public:
-    void init(GLFWwindow* window);
+    void init(GLFWwindow* window, const GraphicsConfig& config);
     void cleanup();
     
     // Renamed from draw() to match what main.cpp is calling
-    void drawFrame();
+    void drawFrame(SharedRenderState* renderState);
 
     // Added wrappers for the GLFW window state
     bool shouldClose() const {
@@ -1759,9 +1911,10 @@ private:
     VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
     VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
     VkShaderModule createShaderModule(const std::vector<uint32_t>& code);
-    void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
+    void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex, float playerX);
 
     // Private Member variables
+    GraphicsConfig activeConfig_;
     GLFWwindow* window_ = nullptr;
     VkInstance instance_ = VK_NULL_HANDLE;
     VkSurfaceKHR surface_ = VK_NULL_HANDLE;
@@ -1869,6 +2022,11 @@ void main() {
 
 layout(location = 0) out vec3 fragColor;
 
+// 1. Declare the Push Constant block
+layout(push_constant) uniform PushConstants {
+    float player_x;
+} pc;
+
 vec2 positions[3] = vec2[](
     vec2(0.0, -0.5),
     vec2(0.5, 0.5),
@@ -1876,13 +2034,19 @@ vec2 positions[3] = vec2[](
 );
 
 vec3 colors[3] = vec3[](
-    vec3(1.0, 0.0, 0.0), // Red
-    vec3(0.0, 1.0, 0.0), // Green
-    vec3(0.0, 0.0, 1.0)  // Blue
+    vec3(1.0, 0.0, 0.0),
+    vec3(0.0, 1.0, 0.0),
+    vec3(0.0, 0.0, 1.0)
 );
 
 void main() {
-    gl_Position = vec4(positions[gl_VertexIndex], 0.0, 1.0);
+    // 2. Add the player_x to the triangle's X position!
+    // Note: We multiply by 0.05 because Vulkan screen space is only -1.0 to 1.0. 
+    // Since your server X coordinate goes up to 60+, the triangle would instantly 
+    // fly off the screen if we didn't scale it down!
+    float scaled_x = pc.player_x * 0.05; 
+
+    gl_Position = vec4(positions[gl_VertexIndex].x + scaled_x, positions[gl_VertexIndex].y, 0.0, 1.0);
     fragColor = colors[gl_VertexIndex];
 }```
 

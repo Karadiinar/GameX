@@ -224,14 +224,226 @@ client/CMakeFiles/client.dir/src/main.cpp.o: \
  /usr/include/c++/13/bits/ranges_algobase.h /usr/include/c++/13/algorithm \
  /usr/include/c++/13/bits/ranges_algo.h \
  /usr/include/c++/13/pstl/glue_algorithm_defs.h \
- /usr/include/c++/13/pstl/execution_defs.h /usr/include/GLFW/glfw3.h \
- /usr/include/GL/gl.h /usr/include/GL/glext.h \
+ /usr/include/c++/13/pstl/execution_defs.h \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/entt.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/config/config.h \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/config/version.h \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/config/macro.h \
+ /usr/include/c++/13/version /usr/include/c++/13/cassert \
+ /usr/include/assert.h \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/config/macro.h \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/config/version.h \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/container/dense_map.hpp \
+ /usr/include/c++/13/cmath /usr/include/math.h \
+ /usr/include/x86_64-linux-gnu/bits/math-vector.h \
+ /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
+ /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
+ /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
+ /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
+ /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
+ /usr/include/c++/13/bits/specfun.h /usr/include/c++/13/tr1/gamma.tcc \
+ /usr/include/c++/13/tr1/special_function_util.h \
+ /usr/include/c++/13/tr1/bessel_function.tcc \
+ /usr/include/c++/13/tr1/beta_function.tcc \
+ /usr/include/c++/13/tr1/ell_integral.tcc \
+ /usr/include/c++/13/tr1/exp_integral.tcc \
+ /usr/include/c++/13/tr1/hypergeometric.tcc \
+ /usr/include/c++/13/tr1/legendre_function.tcc \
+ /usr/include/c++/13/tr1/modified_bessel_func.tcc \
+ /usr/include/c++/13/tr1/poly_hermite.tcc \
+ /usr/include/c++/13/tr1/poly_laguerre.tcc \
+ /usr/include/c++/13/tr1/riemann_zeta.tcc /usr/include/c++/13/functional \
+ /usr/include/c++/13/bits/std_function.h \
+ /usr/include/c++/13/unordered_map \
+ /usr/include/c++/13/bits/unordered_map.h \
+ /usr/include/c++/13/bits/hashtable.h \
+ /usr/include/c++/13/bits/hashtable_policy.h \
+ /usr/include/c++/13/bits/node_handle.h \
+ /usr/include/c++/13/bits/erase_if.h /usr/include/c++/13/iterator \
+ /usr/include/c++/13/bits/stream_iterator.h /usr/include/c++/13/memory \
+ /usr/include/c++/13/bits/stl_raw_storage_iter.h \
+ /usr/include/c++/13/bits/shared_ptr_atomic.h \
+ /usr/include/c++/13/backward/auto_ptr.h \
+ /usr/include/c++/13/bits/ranges_uninitialized.h \
+ /usr/include/c++/13/pstl/glue_memory_defs.h /usr/include/c++/13/utility \
+ /usr/include/c++/13/bits/stl_relops.h \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/config/config.h \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/bit.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/config/config.h \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/compressed_pair.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/fwd.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/type_traits.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/iterator.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/memory.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/type_traits.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/container/fwd.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/container/dense_set.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/container/table.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/algorithm.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/utility.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/any.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/type_info.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/hashed_string.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/bit.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/compressed_pair.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/enum.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/family.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/hashed_string.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/ident.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/iterator.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/memory.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/monostate.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/ranges.hpp \
+ /usr/include/c++/13/ranges \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/iterator.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/tuple.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/type_info.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/type_traits.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/utility.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/entity/component.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/config/config.h \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/entity/fwd.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/fwd.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/type_traits.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/entity/entity.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/bit.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/entity/group.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/algorithm.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/iterator.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/type_info.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/entity/entity.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/entity/handle.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/entity/helper.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/entity/component.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/entity/group.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/entity/storage.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/memory.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/entity/sparse_set.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/any.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/entity/view.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/entity/mixin.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/signal/sigh.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/signal/delegate.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/config/config.h \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/type_traits.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/signal/fwd.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/entity/organizer.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/utility.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/graph/adjacency_matrix.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/config/config.h \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/iterator.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/graph/fwd.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/fwd.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/graph/flow.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/container/dense_map.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/container/dense_set.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/compressed_pair.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/utility.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/graph/adjacency_matrix.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/entity/helper.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/entity/ranges.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/entity/registry.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/container/dense_map.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/entity/mixin.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/entity/runtime_view.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/entity/snapshot.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/entity/sparse_set.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/entity/storage.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/entity/view.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/graph/adjacency_matrix.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/graph/dot.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/graph/flow.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/locator/locator.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/config/config.h \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/meta/adl_pointer.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/meta/container.hpp \
+ /usr/include/c++/13/deque /usr/include/c++/13/bits/stl_deque.h \
+ /usr/include/c++/13/bits/deque.tcc /usr/include/c++/13/list \
+ /usr/include/c++/13/bits/stl_list.h /usr/include/c++/13/bits/list.tcc \
+ /usr/include/c++/13/map /usr/include/c++/13/bits/stl_tree.h \
+ /usr/include/c++/13/bits/stl_map.h \
+ /usr/include/c++/13/bits/stl_multimap.h /usr/include/c++/13/set \
+ /usr/include/c++/13/bits/stl_set.h \
+ /usr/include/c++/13/bits/stl_multiset.h \
+ /usr/include/c++/13/unordered_set \
+ /usr/include/c++/13/bits/unordered_set.h \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/container/dense_map.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/container/dense_set.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/type_traits.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/meta/context.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/fwd.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/utility.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/meta/fwd.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/meta/meta.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/config/config.h \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/any.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/iterator.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/type_info.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/locator/locator.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/meta/adl_pointer.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/meta/node.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/bit.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/enum.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/meta/type_traits.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/meta/range.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/meta/context.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/meta/factory.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/hashed_string.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/meta/policy.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/meta/resolve.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/meta/utility.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/meta/meta.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/meta/node.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/meta/pointer.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/meta/policy.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/meta/range.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/meta/resolve.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/meta/template.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/meta/type_traits.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/meta/utility.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/poly/poly.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/any.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/type_info.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/type_traits.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/poly/fwd.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/process/process.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/compressed_pair.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/type_traits.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/process/fwd.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/process/scheduler.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/config/config.h \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/process/process.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/resource/cache.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/container/dense_map.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/compressed_pair.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/fwd.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/iterator.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/utility.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/resource/fwd.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/resource/loader.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/resource/resource.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/resource/loader.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/resource/resource.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/signal/delegate.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/signal/dispatcher.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/container/dense_map.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/compressed_pair.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/fwd.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/type_info.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/core/utility.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/signal/sigh.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/signal/emitter.hpp \
+ /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/entt/signal/sigh.hpp \
+ /usr/include/GLFW/glfw3.h /usr/include/GL/gl.h /usr/include/GL/glext.h \
  /usr/include/KHR/khrplatform.h \
  /home/karadiina/Documents/projektit/GameX/client/include/NetworkManager.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/any_completion_executor.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/config.hpp \
- /usr/include/c++/13/version /usr/include/linux/version.h \
+ /usr/include/linux/version.h \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/allocator.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/type_traits.hpp \
@@ -246,18 +458,11 @@ client/CMakeFiles/client.dir/src/main.cpp.o: \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/traits/static_query.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/any_executor.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/assert.hpp \
- /usr/include/c++/13/cassert /usr/include/assert.h \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/atomic_count.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/cstddef.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/executor_function.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/handler_alloc_helpers.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/memory.hpp \
- /usr/include/c++/13/memory \
- /usr/include/c++/13/bits/stl_raw_storage_iter.h \
- /usr/include/c++/13/bits/shared_ptr_atomic.h \
- /usr/include/c++/13/backward/auto_ptr.h \
- /usr/include/c++/13/bits/ranges_uninitialized.h \
- /usr/include/c++/13/pstl/glue_memory_defs.h \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/cstdint.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/throw_exception.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/recycling_allocator.hpp \
@@ -273,13 +478,6 @@ client/CMakeFiles/client.dir/src/main.cpp.o: \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/associated_allocator.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/associator.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/functional.hpp \
- /usr/include/c++/13/functional /usr/include/c++/13/bits/std_function.h \
- /usr/include/c++/13/unordered_map \
- /usr/include/c++/13/bits/unordered_map.h \
- /usr/include/c++/13/bits/hashtable.h \
- /usr/include/c++/13/bits/hashtable_policy.h \
- /usr/include/c++/13/bits/node_handle.h \
- /usr/include/c++/13/bits/erase_if.h \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/non_const_lvalue.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/scoped_ptr.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution/bad_executor.hpp \
@@ -389,7 +587,6 @@ client/CMakeFiles/client.dir/src/main.cpp.o: \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/any_completion_executor.ipp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/any_completion_executor.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/any_completion_handler.hpp \
- /usr/include/c++/13/utility /usr/include/c++/13/bits/stl_relops.h \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/any_io_executor.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/execution_context.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/execution_context.hpp \
@@ -507,7 +704,6 @@ client/CMakeFiles/client.dir/src/main.cpp.o: \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/array_fwd.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/string_view.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/is_contiguous_iterator.hpp \
- /usr/include/c++/13/iterator /usr/include/c++/13/bits/stream_iterator.h \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/is_buffer_sequence.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/detail/buffer_sequence_adapter.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/registered_buffer.hpp \
@@ -873,20 +1069,15 @@ client/CMakeFiles/client.dir/src/main.cpp.o: \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/write.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/write_at.hpp \
  /home/karadiina/Documents/projektit/GameX/build/vcpkg_installed/x64-linux/include/asio/impl/write_at.hpp \
- /usr/include/c++/13/map /usr/include/c++/13/bits/stl_tree.h \
- /usr/include/c++/13/bits/stl_map.h \
- /usr/include/c++/13/bits/stl_multimap.h \
  /home/karadiina/Documents/projektit/GameX/common/include/Protocol.hpp \
  /home/karadiina/Documents/projektit/GameX/common/include/ThreadUtility.hpp \
- /usr/include/c++/13/set /usr/include/c++/13/bits/stl_set.h \
- /usr/include/c++/13/bits/stl_multiset.h /usr/include/c++/13/queue \
- /usr/include/c++/13/deque /usr/include/c++/13/bits/stl_deque.h \
- /usr/include/c++/13/bits/deque.tcc /usr/include/c++/13/bits/stl_queue.h \
+ /usr/include/c++/13/queue /usr/include/c++/13/bits/stl_queue.h \
  /usr/include/c++/13/fstream \
  /usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++io.h \
  /usr/include/c++/13/bits/fstream.tcc \
  /home/karadiina/Documents/projektit/GameX/client/include/VulkanRenderer.hpp \
+ /home/karadiina/Documents/projektit/GameX/client/include/GraphicsConfig.hpp \
  /usr/include/vulkan/vulkan.h /usr/include/vulkan/vk_platform.h \
  /usr/include/vulkan/vulkan_core.h \
  /usr/include/vk_video/vulkan_video_codec_h264std.h \

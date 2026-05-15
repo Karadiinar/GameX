@@ -1,8 +1,19 @@
 #pragma once
+#include "GraphicsConfig.hpp"
 #include <vulkan/vulkan.h>
 #include <GLFW/glfw3.h>
 #include <optional>
 #include <vector>
+#include <mutex>
+
+struct SharedRenderState {
+    std::mutex mtx;
+    float player_x = 0.0f;
+    float player_y = 0.0f;
+    float player_z = 0.0f;
+};
+
+struct SharedRenderState;
 
 struct QueueFamilyIndices {
     std::optional<uint32_t> graphicsFamily;
@@ -21,11 +32,11 @@ struct SwapChainSupportDetails {
 
 class VulkanRenderer {
 public:
-    void init(GLFWwindow* window);
+    void init(GLFWwindow* window, const GraphicsConfig& config);
     void cleanup();
     
     // Renamed from draw() to match what main.cpp is calling
-    void drawFrame();
+    void drawFrame(SharedRenderState* renderState);
 
     // Added wrappers for the GLFW window state
     bool shouldClose() const {
@@ -58,9 +69,10 @@ private:
     VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
     VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
     VkShaderModule createShaderModule(const std::vector<uint32_t>& code);
-    void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
+    void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex, float playerX);
 
     // Private Member variables
+    GraphicsConfig activeConfig_;
     GLFWwindow* window_ = nullptr;
     VkInstance instance_ = VK_NULL_HANDLE;
     VkSurfaceKHR surface_ = VK_NULL_HANDLE;
