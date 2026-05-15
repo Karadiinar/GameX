@@ -4,7 +4,7 @@
 #include <atomic>
 #include <chrono>
 #include <stdexcept>
-#include <algorithm> // Required for std::clamp if used
+#include <algorithm> 
 #include <entt/entt.hpp>
 
 // Must be included before custom graphics headers to ensure Vulkan macros are set
@@ -15,27 +15,31 @@
 #include "ThreadUtility.hpp"
 #include <mutex>
 
-
 // Global shutdown flag to synchronize thread termination
 std::atomic<bool> g_Running{ true };
-
-
+VulkanRenderer* g_RendererPtr = nullptr;
 
 struct Transform {
     float x, y, z;
     float yaw;
 };
 
-
 struct LocalPlayerTag {};
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+    if (key == GLFW_KEY_F11 && action == GLFW_PRESS) {
+        if (g_RendererPtr) {
+            g_RendererPtr->toggleFullscreen(window);
+        }
+    }
+}
 
 /**
  * Logic Thread: Responsible for game state evolution, physics, and packet processing.
  */
 void LogicThreadEntry(NetworkManager* network, SharedRenderState* renderState) {
-
     entt::registry client_registry;       // <-- The Client's World Data
-    entt::entity local_player = entt::null; // <-- Handle to our specific dwarf
+    entt::entity local_player = entt::null; // <-- Handle to our specific character
     bool inWorld = false;
 
     const std::chrono::microseconds TICK_TIME(1000000 / 64);
@@ -70,12 +74,6 @@ void LogicThreadEntry(NetworkManager* network, SharedRenderState* renderState) {
             }
         }
 
-        auto end = std::chrono::steady_clock::now();
-        auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-        if (elapsed < TICK_TIME) {
-            std::this_thread::sleep_for(TICK_TIME - elapsed);
-        }
-
         // --- UPDATE ECS AND SEND NETWORK PACKET ---
         if (inWorld && client_registry.valid(local_player)) {
             auto& transform = client_registry.get<Transform>(local_player);
@@ -102,6 +100,12 @@ void LogicThreadEntry(NetworkManager* network, SharedRenderState* renderState) {
 
             network->sendPacket(head, &moveData, sizeof(Rebel::MsgPlayerMove));
         }
+
+        auto end = std::chrono::steady_clock::now();
+        auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+        if (elapsed < TICK_TIME) {
+            std::this_thread::sleep_for(TICK_TIME - elapsed);
+        }
     }
     std::cout << "[Logic] Engine tick thread exiting...\n";
 }
@@ -123,11 +127,9 @@ int main() {
     network.connect("127.0.0.1", "54321"); 
 
     // --- INSTANTIATE THE BRIDGE ---
-    // (Only make ONE of these!)
     SharedRenderState sharedRenderState;
 
     // --- 3. LOGIC SUBSYSTEM ---
-    // Pass our single bridge to the logic thread
     std::thread logicThread(LogicThreadEntry, &network, &sharedRenderState);
     if (coreMap.size() > 2) {
         std::cout << "[Main] Pinning Logic subsystem to Core " << coreMap[2] << "\n";
@@ -136,45 +138,60 @@ int main() {
 
     // --- 4. GRAPHICS SUBSYSTEM ---
     try {
-       if (!glfwInit()) {
+        // FIX 1: Fire up GLFW before calling window manipulation functions
+        if (!glfwInit()) {
             throw std::runtime_error("[Graphics] Failed to initialize GLFW!");
         }
         
-        // Setup your default settings profile
+        // Setup default configuration settings
         GraphicsConfig userGraphicsSettings;
-        userGraphicsSettings.presentMode = PresentModeSetting::TripleBuffer; // Fast-sync
+        userGraphicsSettings.presentMode = PresentModeSetting::TripleBuffer; 
         userGraphicsSettings.windowWidth = 1280;
         userGraphicsSettings.windowHeight = 720;
 
+        // FIX 2: Flush hints and explicitly declare Vulkan API support before generating the container
+        glfwDefaultWindowHints();
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); 
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); 
 
-        // Use the settings values directly to spawn the window dimension sizes
+        // Create the window context
         GLFWwindow* window = glfwCreateWindow(
             userGraphicsSettings.windowWidth, 
             userGraphicsSettings.windowHeight, 
-            "Rebel Client", nullptr, nullptr
+            "Rebel Client", 
+            nullptr, 
+            nullptr
         );
-        
+
         if (!window) {
-            throw std::runtime_error("[Graphics] Failed to create window!");
+            throw std::runtime_error("[Graphics] Failed to create GLFW window!");
         }
 
+        // Initialize using the default constructor
         VulkanRenderer renderer;
-        renderer.init(window, userGraphicsSettings); // <-- Pass the settings into Vulkan!
+        
+        // Pass the window context and config to the initialization pipeline
+        renderer.init(window, userGraphicsSettings);
 
-        // (Optional: Your graphics workers setup can stay here)
-        std::vector<uint32_t> graphicsWorkers;
-        for (size_t i = 3; i < coreMap.size(); ++i) {
-            graphicsWorkers.push_back(coreMap[i]);
-        }
+        // Assign global/local pointer mappings for our key events dispatching
+        g_RendererPtr = &renderer;
+        glfwSetKeyCallback(window, key_callback);
 
-        // ONE unified render loop
+        // Map window user pointer context directly to instance address
+        glfwSetWindowUserPointer(window, &renderer);
+        
+        // Set up the window resize callback lambda
+        glfwSetFramebufferSizeCallback(window, [](GLFWwindow* win, int width, int height) {
+            auto* rend = reinterpret_cast<VulkanRenderer*>(glfwGetWindowUserPointer(win));
+            if (rend) {
+                rend->framebufferResizeCallback();
+            }
+        });
+
+        // --- UNIFIED MAIN RENDER LOOP ---
         while (!renderer.shouldClose()) {
-            renderer.pollEvents();
-            
-            // Pass the bridge into Vulkan!
-            renderer.drawFrame(&sharedRenderState); 
+            renderer.pollEvents(); // Processes keystrokes & dispatches the callback functions
+            renderer.drawFrame(&sharedRenderState);
         }
 
         // --- 5. CLEAN SHUTDOWN SEQUENCE ---
@@ -195,6 +212,7 @@ int main() {
         if (logicThread.joinable()) {
             logicThread.join();
         }
+        glfwTerminate(); // Keep environment states cleanly balanced on failures
         return -1;
     }
 

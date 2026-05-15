@@ -6,6 +6,14 @@
 #include <vector>
 #include <mutex>
 
+struct WindowState {
+    bool isFullscreen = false;
+    int windowedX = 100;
+    int windowedY = 100;
+    int windowedWidth = 1280;   // Default 720p
+    int windowedHeight = 720;
+};
+
 struct SharedRenderState {
     std::mutex mtx;
     float player_x = 0.0f;
@@ -32,6 +40,8 @@ struct SwapChainSupportDetails {
 
 class VulkanRenderer {
 public:
+void toggleFullscreen(GLFWwindow* window);
+    void framebufferResizeCallback() { framebufferResized_ = true; }
     void init(GLFWwindow* window, const GraphicsConfig& config);
     void cleanup();
     
@@ -57,6 +67,7 @@ private:
     void createCommandPool();
     void createCommandBuffers();
     void createSyncObjects();
+    void cleanupSwapChain();
 
     // Device & Swapchain helpers (Deduplicated!)
     void pickPhysicalDevice();
@@ -73,7 +84,7 @@ private:
 
     // Private Member variables
     GraphicsConfig activeConfig_;
-    GLFWwindow* window_ = nullptr;
+    
     VkInstance instance_ = VK_NULL_HANDLE;
     VkSurfaceKHR surface_ = VK_NULL_HANDLE;
     VkPhysicalDevice physicalDevice_ = VK_NULL_HANDLE;
@@ -101,4 +112,9 @@ private:
     const std::vector<const char*> deviceExtensions = {
         VK_KHR_SWAPCHAIN_EXTENSION_NAME
     };
+    WindowState  windowState_;;
+    bool framebufferResized_ = false;
+    GLFWwindow* window_ = nullptr;
+    
+    void recreateSwapchain(GLFWwindow* window); // Your existing swapchain recreation function
 };

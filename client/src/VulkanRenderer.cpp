@@ -665,16 +665,52 @@ void VulkanRenderer::drawFrame(SharedRenderState* renderState) {
         return; 
     }
 
+    // 2. Handle an explicit resize flag before acquiring an image (e.g., immediate F11 toggle)
+    if (framebufferResized_) {
+        int width = 0, height = 0;
+        glfwGetFramebufferSize(window_, &width, &height);
+        
+        // Handle window minimization (pause rendering if window is minimized)
+        while (width == 0 || height == 0) {
+            glfwGetFramebufferSize(window_, &width, &height);
+            glfwWaitEvents();
+        }
+
+        vkDeviceWaitIdle(device_);
+        recreateSwapchain(window_); // Rebuilds swapchain, image views, render pass, framebuffers, etc.
+        framebufferResized_ = false;
+        return; // Skip this frame and try again with the new layout
+    }
+
+    // Wait for the previous frame's fence
     vkWaitForFences(device_, 1, &inFlightFences_[currentFrame_], VK_TRUE, UINT64_MAX);
 
     uint32_t imageIndex;
-    vkAcquireNextImageKHR(device_, swapChain_, UINT64_MAX, imageAvailableSemaphores_[currentFrame_], VK_NULL_HANDLE, &imageIndex);
+    VkResult result = vkAcquireNextImageKHR(
+        device_, 
+        swapChain_, 
+        UINT64_MAX, 
+        imageAvailableSemaphores_[currentFrame_], 
+        VK_NULL_HANDLE, 
+        &imageIndex
+    );
 
+    // If the swapchain became out of date right during acquisition (e.g., screen configuration change)
+    if (result == VK_ERROR_OUT_OF_DATE_KHR) {
+        vkDeviceWaitIdle(device_);
+        recreateSwapchain(window_);
+        framebufferResized_ = false;
+        return;
+    } else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
+        throw std::runtime_error("[VULKAN] Failed to acquire swap chain image!");
+    }
+
+    // Only reset the fence if we are actually succeeding and committing to work
     vkResetFences(device_, 1, &inFlightFences_[currentFrame_]);
     vkResetCommandBuffer(commandBuffers_[currentFrame_], 0);
 
     // =======================================================
-    // 2. THE RENDER BRIDGE: Safely grab the player's X position
+    // 3. THE RENDER BRIDGE: Safely grab the player's X position
     // =======================================================
     float current_x = 0.0f;
     if (renderState) {
@@ -682,21 +718,23 @@ void VulkanRenderer::drawFrame(SharedRenderState* renderState) {
         current_x = renderState->player_x; // Fast read and unlock!
     }
 
-    // 3. Pass the extracted float down into the command buffer recorder!
+    // 4. Pass the extracted float down into the command buffer recorder!
     recordCommandBuffer(commandBuffers_[currentFrame_], imageIndex, current_x);
 
     // =======================================================
 
     VkSubmitInfo submitInfo{};
     submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-    // ... (All your existing submit and present code stays exactly the same below) ...
+    
     VkSemaphore waitSemaphores[] = {imageAvailableSemaphores_[currentFrame_]};
     VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
+    
     submitInfo.waitSemaphoreCount = 1;
     submitInfo.pWaitSemaphores = waitSemaphores;
     submitInfo.pWaitDstStageMask = waitStages;
     submitInfo.commandBufferCount = 1;
     submitInfo.pCommandBuffers = &commandBuffers_[currentFrame_];
+    
     VkSemaphore signalSemaphores[] = {renderFinishedSemaphores_[currentFrame_]};
     submitInfo.signalSemaphoreCount = 1;
     submitInfo.pSignalSemaphores = signalSemaphores;
@@ -709,12 +747,23 @@ void VulkanRenderer::drawFrame(SharedRenderState* renderState) {
     presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
     presentInfo.waitSemaphoreCount = 1;
     presentInfo.pWaitSemaphores = signalSemaphores;
+    
     VkSwapchainKHR swapChains[] = {swapChain_};
     presentInfo.swapchainCount = 1;
     presentInfo.pSwapchains = swapChains;
     presentInfo.pImageIndices = &imageIndex;
 
-    vkQueuePresentKHR(presentQueue_, &presentInfo);
+    result = vkQueuePresentKHR(presentQueue_, &presentInfo);
+
+    // Handle out-of-date or suboptimal results on presentation
+    if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || framebufferResized_) {
+        vkDeviceWaitIdle(device_);
+        recreateSwapchain(window_);
+        framebufferResized_ = false;
+    } else if (result != VK_SUCCESS) {
+        throw std::runtime_error("[VULKAN] Failed to present swap chain image!");
+    }
+
     currentFrame_ = (currentFrame_ + 1) % MAX_FRAMES_IN_FLIGHT;
 }
 
@@ -757,4 +806,100 @@ void VulkanRenderer::cleanup() {
         vkDestroyInstance(instance_, nullptr);
     }
     std::cout << "[VULKAN] Cleaned up successfully." << std::endl;
+}
+void VulkanRenderer::toggleFullscreen(GLFWwindow* window) {
+    windowState_.isFullscreen = !windowState_.isFullscreen;
+
+    if (windowState_.isFullscreen) {
+        // 1. Save current window position and size before making the jump
+        glfwGetWindowPos(window, &windowState_.windowedX, &windowState_.windowedY);
+        glfwGetWindowSize(window, &windowState_.windowedWidth, &windowState_.windowedHeight);
+
+        // 2. Determine which monitor the window is currently on
+        GLFWmonitor* monitor = glfwGetWindowMonitor(window);
+        if (!monitor) {
+            // If windowed, find the monitor that contains the top-left corner of our window
+            int monitorCount;
+            GLFWmonitor** monitors = glfwGetMonitors(&monitorCount);
+            monitor = monitors[0]; // fallback default
+
+            int wx, wy;
+            glfwGetWindowPos(window, &wx, &wy);
+
+            for (int i = 0; i < monitorCount; ++i) {
+                int mx, my, mw, mh;
+                glfwGetMonitorWorkarea(monitors[i], &mx, &my, &mw, &mh);
+                if (wx >= mx && wx < mx + mw && wy >= my && wy < my + mh) {
+                    monitor = monitors[i];
+                    break;
+                }
+            }
+        }
+
+        // 3. Get the native resolution of that monitor (3440x1440, 1920x1080, etc.)
+        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+
+        // 4. Set to true exclusive fullscreen
+        // Pass the monitor pointer, target width, target height, and target refresh rate
+        glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+        std::cout << "[Graphics] Switched to Fullscreen: " << mode->width << "x" << mode->height << " @" << mode->refreshRate << "Hz\n";
+    } else {
+        // Restore windowed state back to 720p at its previous position
+        glfwSetWindowMonitor(window, nullptr, 
+                             windowState_.windowedX, windowState_.windowedY, 
+                             windowState_.windowedWidth, windowState_.windowedHeight, 0);
+        std::cout << "[Graphics] Restored to Windowed Mode: " << windowState_.windowedWidth << "x" << windowState_.windowedHeight << "\n";
+    }
+
+    // Force a swapchain recreation because our frame boundaries completely changed
+    framebufferResized_ = true; 
+}
+void VulkanRenderer::cleanupSwapChain() {
+    // 1. Tear down old framebuffers bound to previous resolution extents
+    for (auto framebuffer : swapChainFramebuffers_) {
+        if (framebuffer != VK_NULL_HANDLE) {
+            vkDestroyFramebuffer(device_, framebuffer, nullptr);
+        }
+    }
+    swapChainFramebuffers_.clear();
+
+    // 2. Clean up image views wrapping the old swapchain images
+    for (auto imageView : swapChainImageViews_) {
+        if (imageView != VK_NULL_HANDLE) {
+            vkDestroyImageView(device_, imageView, nullptr);
+        }
+    }
+    swapChainImageViews_.clear();
+
+    // 3. Destroy the actual VkSwapchainKHR handle
+    if (swapChain_ != VK_NULL_HANDLE) {
+        vkDestroySwapchainKHR(device_, swapChain_, nullptr);
+        swapChain_ = VK_NULL_HANDLE;
+    }
+}
+
+void VulkanRenderer::recreateSwapchain(GLFWwindow* window) {
+    window_ = window;
+
+    int width = 0, height = 0;
+    glfwGetFramebufferSize(window_, &width, &height);
+    
+    // Handle window minimization safely (pause execution loop if window surface collapses)
+    while (width == 0 || height == 0) {
+        glfwGetFramebufferSize(window_, &width, &height);
+        glfwWaitEvents();
+    }
+
+    // Wait until the graphics queues are completely drained before swapping memory resources
+    vkDeviceWaitIdle(device_);
+
+    // Clean up old surface memory objects
+    cleanupSwapChain();
+
+    // Rebuild the surface layers to match the new screen metrics (1080p, 3440x1440, etc.)
+    createSwapChain();      // Fetches updated resolution metrics internally via chooseSwapExtent
+    createImageViews();     // Wraps new swapchain handles
+    createFramebuffers();   // Reconstructs render target arrays
+    
+    std::cout << "[Vulkan] Swapchain safely recreated at resolution: " << width << "x" << height << "\n";
 }
