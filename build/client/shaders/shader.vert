@@ -1,26 +1,34 @@
 #version 450
 
-layout(location = 0) out vec3 fragColor;
+layout(location = 0) in vec2 inPosition; // local quad corner, -0.5..0.5
+layout(location = 1) in vec2 inUV;
 
-// 1. Declare the Push Constant block as a vec2 (X and Y matched together)
+layout(location = 0) out vec2 fragUV;
+
+layout(binding = 1) uniform CameraUBO {
+    mat4 view;
+    mat4 proj;
+} camera;
+
 layout(push_constant) uniform PushConstants {
-    vec2 player_pos;
+    vec3 player_pos;
+    float is_local;
 } pc;
 
-vec2 positions[3] = vec2[](
-    vec2(0.0, -0.5),
-    vec2(0.5, 0.5),
-    vec2(-0.5, 0.5)
-);
-
-vec3 colors[3] = vec3[](
-    vec3(1.0, 0.0, 0.0),
-    vec3(0.0, 1.0, 0.0),
-    vec3(0.0, 0.0, 1.0)
-);
-
 void main() {
-    // 2. Add the vec2 offset directly to our base vertex coordinates!
-    gl_Position = vec4(positions[gl_VertexIndex] + pc.player_pos, 0.0, 1.0);
-    fragColor = colors[gl_VertexIndex];
+    // Billboard: extract the camera's world-space right/up axes from the
+    // VIEW matrix's ROWS, not columns. The view matrix is the inverse
+    // (transpose, for the rotational part) of the camera's own world-space
+    // orientation, so its rows hold the camera's right/up/-forward axes. In
+    // GLSL's column-major mat[col][row] indexing, reading a row means
+    // fixing the row index and varying the column index.
+    vec3 cameraRight = vec3(camera.view[0][0], camera.view[1][0], camera.view[2][0]);
+    vec3 cameraUp    = vec3(camera.view[0][1], camera.view[1][1], camera.view[2][1]);
+
+    vec3 worldPos = pc.player_pos
+                  + cameraRight * inPosition.x
+                  + cameraUp    * inPosition.y;
+
+    gl_Position = camera.proj * camera.view * vec4(worldPos, 1.0);
+    fragUV = inUV;
 }

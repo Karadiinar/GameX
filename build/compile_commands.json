@@ -1,0 +1,44 @@
+[
+{
+  "directory": "/home/Karadiina/GameX/build/server/login",
+  "command": "/usr/bin/c++  -I/home/Karadiina/GameX/server/login/include -I/home/Karadiina/GameX/common/include -isystem /home/Karadiina/GameX/build/vcpkg_installed/x64-linux/include -std=gnu++20 -o CMakeFiles/LoginServer.dir/src/main.cpp.o -c /home/Karadiina/GameX/server/login/src/main.cpp",
+  "file": "/home/Karadiina/GameX/server/login/src/main.cpp",
+  "output": "server/login/CMakeFiles/LoginServer.dir/src/main.cpp.o"
+},
+{
+  "directory": "/home/Karadiina/GameX/build/server/game",
+  "command": "/usr/bin/c++  -I/home/Karadiina/GameX/server/game/include -I/home/Karadiina/GameX/common/include -isystem /home/Karadiina/GameX/build/vcpkg_installed/x64-linux/include -std=gnu++20 -o CMakeFiles/GameServer.dir/src/main.cpp.o -c /home/Karadiina/GameX/server/game/src/main.cpp",
+  "file": "/home/Karadiina/GameX/server/game/src/main.cpp",
+  "output": "server/game/CMakeFiles/GameServer.dir/src/main.cpp.o"
+},
+{
+  "directory": "/home/Karadiina/GameX/build/client",
+  "command": "/usr/bin/c++  -I/home/Karadiina/GameX/client/include -I/home/Karadiina/GameX/common/include -isystem /home/Karadiina/GameX/build/vcpkg_installed/x64-linux/include -std=gnu++20 -o CMakeFiles/client.dir/src/main.cpp.o -c /home/Karadiina/GameX/client/src/main.cpp",
+  "file": "/home/Karadiina/GameX/client/src/main.cpp",
+  "output": "client/CMakeFiles/client.dir/src/main.cpp.o"
+},
+{
+  "directory": "/home/Karadiina/GameX/build/client",
+  "command": "/usr/bin/c++  -I/home/Karadiina/GameX/client/include -I/home/Karadiina/GameX/common/include -isystem /home/Karadiina/GameX/build/vcpkg_installed/x64-linux/include -std=gnu++20 -o CMakeFiles/client.dir/src/VulkanRenderer.cpp.o -c /home/Karadiina/GameX/client/src/VulkanRenderer.cpp",
+  "file": "/home/Karadiina/GameX/client/src/VulkanRenderer.cpp",
+  "output": "client/CMakeFiles/client.dir/src/VulkanRenderer.cpp.o"
+},
+{
+  "directory": "/home/Karadiina/GameX/build/client",
+  "command": "/usr/bin/c++  -I/home/Karadiina/GameX/client/include -I/home/Karadiina/GameX/common/include -isystem /home/Karadiina/GameX/build/vcpkg_installed/x64-linux/include -std=gnu++20 -o CMakeFiles/client.dir/src/NetworkManager.cpp.o -c /home/Karadiina/GameX/client/src/NetworkManager.cpp",
+  "file": "/home/Karadiina/GameX/client/src/NetworkManager.cpp",
+  "output": "client/CMakeFiles/client.dir/src/NetworkManager.cpp.o"
+},
+{
+  "directory": "/home/Karadiina/GameX/build/tests",
+  "command": "/usr/bin/c++  -I/home/Karadiina/GameX/common/include -I/home/Karadiina/GameX/server/game/include -isystem /home/Karadiina/GameX/build/vcpkg_installed/x64-linux/include -std=gnu++20 -o CMakeFiles/unit_tests.dir/test_protocol.cpp.o -c /home/Karadiina/GameX/tests/test_protocol.cpp",
+  "file": "/home/Karadiina/GameX/tests/test_protocol.cpp",
+  "output": "tests/CMakeFiles/unit_tests.dir/test_protocol.cpp.o"
+},
+{
+  "directory": "/home/Karadiina/GameX/build/tests",
+  "command": "/usr/bin/c++  -I/home/Karadiina/GameX/common/include -I/home/Karadiina/GameX/server/game/include -isystem /home/Karadiina/GameX/build/vcpkg_installed/x64-linux/include -std=gnu++20 -o CMakeFiles/unit_tests.dir/test_movement.cpp.o -c /home/Karadiina/GameX/tests/test_movement.cpp",
+  "file": "/home/Karadiina/GameX/tests/test_movement.cpp",
+  "output": "tests/CMakeFiles/unit_tests.dir/test_movement.cpp.o"
+}
+]

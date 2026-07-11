@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/GameServer.dir/link.d"
   "CMakeFiles/GameServer.dir/src/main.cpp.o"
   "CMakeFiles/GameServer.dir/src/main.cpp.o.d"
   "GameServer"

@@ -1,0 +1,163 @@
+Start testing: Jul 11 19:57 EEST
+----------------------------------------------------------
+1/8 Testing: Protocol struct sizes match the wire contract
+1/8 Test: Protocol struct sizes match the wire contract
+Command: "/home/Karadiina/GameX/build/tests/unit_tests" "Protocol struct sizes match the wire contract"
+Directory: /home/Karadiina/GameX/build/tests
+"Protocol struct sizes match the wire contract" start time: Jul 11 19:57 EEST
+Output:
+----------------------------------------------------------
+Filters: "Protocol struct sizes match the wire contract"
+Randomness seeded to: 1001485993
+===============================================================================
+All tests passed (10 assertions in 1 test case)
+
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Protocol struct sizes match the wire contract" end time: Jul 11 19:57 EEST
+"Protocol struct sizes match the wire contract" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/8 Testing: Facing yaw=0, forward/backward/strafe move along the defined local axes
+2/8 Test: Facing yaw=0, forward/backward/strafe move along the defined local axes
+Command: "/home/Karadiina/GameX/build/tests/unit_tests" "Facing yaw=0\, forward/backward/strafe move along the defined local axes"
+Directory: /home/Karadiina/GameX/build/tests
+"Facing yaw=0, forward/backward/strafe move along the defined local axes" start time: Jul 11 19:57 EEST
+Output:
+----------------------------------------------------------
+Filters: "Facing yaw=0\, forward/backward/strafe move along the defined local axes"
+Randomness seeded to: 389333611
+===============================================================================
+All tests passed (8 assertions in 1 test case)
+
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Facing yaw=0, forward/backward/strafe move along the defined local axes" end time: Jul 11 19:57 EEST
+"Facing yaw=0, forward/backward/strafe move along the defined local axes" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/8 Testing: Facing yaw=90 degrees rotates forward/strafe onto the other axis
+3/8 Test: Facing yaw=90 degrees rotates forward/strafe onto the other axis
+Command: "/home/Karadiina/GameX/build/tests/unit_tests" "Facing yaw=90 degrees rotates forward/strafe onto the other axis"
+Directory: /home/Karadiina/GameX/build/tests
+"Facing yaw=90 degrees rotates forward/strafe onto the other axis" start time: Jul 11 19:57 EEST
+Output:
+----------------------------------------------------------
+Filters: "Facing yaw=90 degrees rotates forward/strafe onto the other axis"
+Randomness seeded to: 3332323155
+===============================================================================
+All tests passed (4 assertions in 1 test case)
+
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Facing yaw=90 degrees rotates forward/strafe onto the other axis" end time: Jul 11 19:57 EEST
+"Facing yaw=90 degrees rotates forward/strafe onto the other axis" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/8 Testing: No input flags means no movement
+4/8 Test: No input flags means no movement
+Command: "/home/Karadiina/GameX/build/tests/unit_tests" "No input flags means no movement"
+Directory: /home/Karadiina/GameX/build/tests
+"No input flags means no movement" start time: Jul 11 19:57 EEST
+Output:
+----------------------------------------------------------
+Filters: "No input flags means no movement"
+Randomness seeded to: 3035329481
+===============================================================================
+All tests passed (2 assertions in 1 test case)
+
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"No input flags means no movement" end time: Jul 11 19:57 EEST
+"No input flags means no movement" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/8 Testing: Repeated ticks accumulate linearly
+5/8 Test: Repeated ticks accumulate linearly
+Command: "/home/Karadiina/GameX/build/tests/unit_tests" "Repeated ticks accumulate linearly"
+Directory: /home/Karadiina/GameX/build/tests
+"Repeated ticks accumulate linearly" start time: Jul 11 19:57 EEST
+Output:
+----------------------------------------------------------
+Filters: "Repeated ticks accumulate linearly"
+Randomness seeded to: 2852222085
+===============================================================================
+All tests passed (1 assertion in 1 test case)
+
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Repeated ticks accumulate linearly" end time: Jul 11 19:57 EEST
+"Repeated ticks accumulate linearly" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/8 Testing: Diagonal input advances both local axes independently
+6/8 Test: Diagonal input advances both local axes independently
+Command: "/home/Karadiina/GameX/build/tests/unit_tests" "Diagonal input advances both local axes independently"
+Directory: /home/Karadiina/GameX/build/tests
+"Diagonal input advances both local axes independently" start time: Jul 11 19:57 EEST
+Output:
+----------------------------------------------------------
+Filters: "Diagonal input advances both local axes independently"
+Randomness seeded to: 2468389959
+===============================================================================
+All tests passed (2 assertions in 1 test case)
+
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Diagonal input advances both local axes independently" end time: Jul 11 19:57 EEST
+"Diagonal input advances both local axes independently" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/8 Testing: Opposing flags held together cancel out regardless of yaw
+7/8 Test: Opposing flags held together cancel out regardless of yaw
+Command: "/home/Karadiina/GameX/build/tests/unit_tests" "Opposing flags held together cancel out regardless of yaw"
+Directory: /home/Karadiina/GameX/build/tests
+"Opposing flags held together cancel out regardless of yaw" start time: Jul 11 19:57 EEST
+Output:
+----------------------------------------------------------
+Filters: "Opposing flags held together cancel out regardless of yaw"
+Randomness seeded to: 1310363213
+===============================================================================
+All tests passed (4 assertions in 1 test case)
+
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"Opposing flags held together cancel out regardless of yaw" end time: Jul 11 19:57 EEST
+"Opposing flags held together cancel out regardless of yaw" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/8 Testing: MoveFlags bits don't collide
+8/8 Test: MoveFlags bits don't collide
+Command: "/home/Karadiina/GameX/build/tests/unit_tests" "MoveFlags bits don't collide"
+Directory: /home/Karadiina/GameX/build/tests
+"MoveFlags bits don't collide" start time: Jul 11 19:57 EEST
+Output:
+----------------------------------------------------------
+Filters: "MoveFlags bits don't collide"
+Randomness seeded to: 332128026
+===============================================================================
+All tests passed (6 assertions in 1 test case)
+
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"MoveFlags bits don't collide" end time: Jul 11 19:57 EEST
+"MoveFlags bits don't collide" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Jul 11 19:57 EEST

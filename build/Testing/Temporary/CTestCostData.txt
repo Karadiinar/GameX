@@ -1,0 +1,12 @@
+No input flags means no movement 15 9.79355e-05
+MoveFlags bits don't collide 15 0.000102657
+Opposing flags held together cancel out 12 0.000117182
+Repeated ticks accumulate linearly 15 0.000102918
+Each direction moves the expected axis 12 0.000110699
+Diagonal input advances both axes independently 13 0.000120457
+Protocol struct sizes match the wire contract 15 0.00011418
+Facing yaw=90 degrees rotates forward/strafe onto the other axis 3 0.000506987
+Facing yaw=0, forward/backward/strafe move along the defined local axes 3 0.000543026
+Diagonal input advances both local axes independently 3 0.000485745
+Opposing flags held together cancel out regardless of yaw 3 0.000502284
+---

@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/GameServer.dir/src/main.cpp.o -o GameServer 
+/usr/bin/c++ -Wl,--dependency-file=CMakeFiles/GameServer.dir/link.d CMakeFiles/GameServer.dir/src/main.cpp.o -o GameServer  ../../vcpkg_installed/x64-linux/debug/lib/libpqxx-8.0.a ../../vcpkg_installed/x64-linux/lib/libpq.a ../../vcpkg_installed/x64-linux/lib/libpgport.a ../../vcpkg_installed/x64-linux/lib/libpgcommon.a ../../vcpkg_installed/x64-linux/debug/lib/libssl.a ../../vcpkg_installed/x64-linux/debug/lib/libcrypto.a -ldl

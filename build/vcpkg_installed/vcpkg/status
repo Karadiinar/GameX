@@ -2,14 +2,14 @@ Package: vcpkg-cmake-config
 Version: 2024-05-23
 Architecture: x64-linux
 Multi-Arch: same
-Abi: 94b5ea84c5c6d660eab242448776a067d7affd451a2ca6b1b0ea3ea4f7f104a3
+Abi: bb98efc0de5b1de71bab69ef57c0dff53d83e5c16c21d3cc19a19e6b48057388
 Status: install ok installed
 
 Package: vcpkg-cmake
 Version: 2024-04-23
 Architecture: x64-linux
 Multi-Arch: same
-Abi: 82732cafa54bcf299d1e6bd75d61ca4422b0d8c7173cca5cac5f8b5da212006f
+Abi: aa48b02a5da46010fae8178ac314dc34460324e13aa8945abd26d64d2f43ae54
 Status: install ok installed
 
 Package: asio
@@ -17,7 +17,7 @@ Version: 1.32.0
 Depends: vcpkg-cmake, vcpkg-cmake-config
 Architecture: x64-linux
 Multi-Arch: same
-Abi: 9d8b77a55110238311cb42db719fb3bbfad5f5abf0fbecd7defc54fd33d267c7
+Abi: fb4acddde824b3b1033122381a38a05bb48a813b6805d091c5ebc2a87f13f86d
 Description: Asio is a cross-platform C++ library for network and low-level I/O programming that provides developers with a consistent asynchronous model using a modern C++ approach.
 Status: install ok installed
 
@@ -26,7 +26,7 @@ Version: 3.16.0
 Depends: vcpkg-cmake, vcpkg-cmake-config
 Architecture: x64-linux
 Multi-Arch: same
-Abi: 5cf38b8246fefb538532099fb0cfc21c8e4498fe95488128ad6626fc9354d36d
+Abi: fca145ec1b33bfade20dee5a367e3666bfa4f683af5b96f127e112e921614bc2
 Description: Gaming meets modern C++ - a fast and reliable entity-component system and much more
 Status: install ok installed
 
@@ -35,8 +35,106 @@ Version: 1.0.3
 Depends: vcpkg-cmake, vcpkg-cmake-config
 Architecture: x64-linux
 Multi-Arch: same
-Abi: 8b353e037a2f1cd0a09977b073fd8d27810dab8d92e9134f4c609a5c64e17b05
+Abi: 01252bd5039b0ce913ecf110e9f767027f27406ee66821681ebd1c64cbe8c4e4
 Description: OpenGL Mathematics (GLM)
+Status: install ok installed
+
+Package: vcpkg-get-python-packages
+Version: 2025-04-05
+Architecture: x64-linux
+Multi-Arch: same
+Abi: 6b6662c59ddecf8a269db52002d23b3aa09f41af21b8c6f05bbf12362d015615
+Status: install ok installed
+
+Package: zlib
+Version: 1.3.2
+Port-Version: 1
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-linux
+Multi-Arch: same
+Abi: 34c9225234a2963a537d8cec9b619f7ecc787a923c306a5f45bf6453398cc200
+Description: A compression library
+Status: install ok installed
+
+Package: vcpkg-cmake-get-vars
+Version: 2025-05-29
+Depends: vcpkg-cmake
+Architecture: x64-linux
+Multi-Arch: same
+Abi: 8674a1f9386b65fb8678f667a1317b1d0662537d41c16c772542a9a6f56b818e
+Status: install ok installed
+
+Package: openssl
+Version: 3.6.3
+Depends: vcpkg-cmake, vcpkg-cmake-config, vcpkg-cmake-get-vars
+Architecture: x64-linux
+Multi-Arch: same
+Abi: bdaa3104d287c940cd38070cde477ac18c8473e44458c4fdc8ab7bc569a24412
+Description: OpenSSL is an open source project that provides a robust, commercial-grade, and full-featured toolkit for the Transport Layer Security (TLS) and Secure Sockets Layer (SSL) protocols. It is also a general-purpose cryptography library.
+Status: install ok installed
+
+Package: lz4
+Version: 1.10.0
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-linux
+Multi-Arch: same
+Abi: 9b003152894d48b0475ae10dc50509f634894e8b4de18807fd8d201e692e90fd
+Description: Lossless compression algorithm, providing compression speed at 400 MB/s per core.
+Status: install ok installed
+
+Package: vcpkg-tool-meson
+Version: 1.9.0
+Port-Version: 10
+Depends: vcpkg-cmake-get-vars
+Architecture: x64-linux
+Multi-Arch: same
+Abi: b170912cbbfa53a9d468b6d7b1c6f37b0cc38459f1ef873092ef09fb13f1f0d7
+Description: Meson build system
+Status: install ok installed
+
+Package: libpq
+Version: 18.4
+Depends: vcpkg-cmake-get-vars, vcpkg-tool-meson
+Architecture: x64-linux
+Multi-Arch: same
+Abi: 91ee9d49ee1acd4a747eb3d8ebbf24756d92b1b12d5cbfb3295d59d4cf994429
+Description: The official database access API of postgresql
+Default-Features: lz4, openssl, zlib
+Status: install ok installed
+
+Package: libpq
+Feature: lz4
+Depends: lz4
+Architecture: x64-linux
+Multi-Arch: same
+Description: Use lz4
+Status: install ok installed
+
+Package: libpq
+Feature: openssl
+Depends: openssl
+Architecture: x64-linux
+Multi-Arch: same
+Description: support for encrypted client connections and random number generation on platforms that do not have "/dev/urandom" (except windows)
+Status: install ok installed
+
+Package: libpq
+Feature: zlib
+Depends: zlib
+Architecture: x64-linux
+Multi-Arch: same
+Description: Use zlib
+Status: install ok installed
+
+Package: libpqxx
+Version: 8.0.1
+Port-Version: 1
+Depends: libpq, vcpkg-cmake, vcpkg-cmake-config, vcpkg-get-python-packages
+Architecture: x64-linux
+Multi-Arch: same
+Abi: 9d62e0354f432e202bac1fba9dbd3b3647c4e5c7c4d2b750ba965ac3a9c6bb6d
+Description: The official* C++ client API for PostgreSQL.
+    *) NB https://pqxx.org/libpqxx/faq/
 Status: install ok installed
 
 Package: nlohmann-json
@@ -45,7 +143,26 @@ Port-Version: 2
 Depends: vcpkg-cmake, vcpkg-cmake-config
 Architecture: x64-linux
 Multi-Arch: same
-Abi: 2ce6844b38b66838c32a5f36e38c0c59c99c5ba1e74ba98d61c740827255f115
+Abi: 1e570656dcacc16e8a1f913d74105eb2caea0eaa04cf9daaf1aa0906988c04f5
 Description: JSON for Modern C++
+Status: install ok installed
+
+Package: catch2
+Version: 3.15.1
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-linux
+Multi-Arch: same
+Abi: 46a3fcc3df71d198dedd1040cddc358475a4f72b8de9dc8d4064058e940de692
+Description: A modern, C++-native, test framework for unit-tests, TDD and BDD.
+Status: install ok installed
+
+Package: argon2
+Version: 20190702
+Port-Version: 1
+Depends: vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-linux
+Multi-Arch: same
+Abi: 1c5c9508bdef7b5bb77dd2c665c7dec3b3bf4fe4fbefd95c44d3186eec914d4e
+Description: Password-hashing library.
 Status: install ok installed
 

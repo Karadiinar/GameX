@@ -1,0 +1,1 @@
+/usr/bin/c++ -Wl,--dependency-file=CMakeFiles/unit_tests.dir/link.d CMakeFiles/unit_tests.dir/test_protocol.cpp.o CMakeFiles/unit_tests.dir/test_movement.cpp.o -o unit_tests  ../vcpkg_installed/x64-linux/debug/lib/manual-link/libCatch2Maind.a ../vcpkg_installed/x64-linux/debug/lib/libCatch2d.a

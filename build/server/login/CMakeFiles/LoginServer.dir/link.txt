@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/LoginServer.dir/src/main.cpp.o -o LoginServer 
+/usr/bin/c++ -Wl,--dependency-file=CMakeFiles/LoginServer.dir/link.d CMakeFiles/LoginServer.dir/src/main.cpp.o -o LoginServer  ../../vcpkg_installed/x64-linux/debug/lib/libpqxx-8.0.a ../../vcpkg_installed/x64-linux/debug/lib/libargon2.a ../../vcpkg_installed/x64-linux/lib/libpq.a ../../vcpkg_installed/x64-linux/lib/libpgport.a ../../vcpkg_installed/x64-linux/lib/libpgcommon.a ../../vcpkg_installed/x64-linux/debug/lib/libssl.a ../../vcpkg_installed/x64-linux/debug/lib/libcrypto.a -ldl

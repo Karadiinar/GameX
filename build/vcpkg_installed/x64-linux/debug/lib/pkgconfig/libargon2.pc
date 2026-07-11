@@ -1,0 +1,19 @@
+prefix=${pcfiledir}/../..
+# libargon2 info for pkg-config
+## Template for downstream installers:
+## - replace 20190702 with current version, e.g. '20160406'
+## - replace lib with target arch lib, e.g. 'lib', 'lib/x86_64-linux-gnu' or 'lib64'
+## - replace ${prefix} with install path, e.g. '/usr', '/usr/local', '/usr/pkg'
+## - replace include with incluse path, e.g. 'include' or 'include/argon2'
+
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/../include
+
+Name: libargon2
+Description: Development libraries for libargon2
+Version: 20190702
+URL: https://github.com/P-H-C/phc-winner-argon2
+
+Libs: "-L${libdir}" -largon2
+Cflags: "-I${includedir}"

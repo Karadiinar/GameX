@@ -5,7 +5,7 @@ PROJECT_ROOT=$(pwd)
 
 BUILD_DIR="build"
 # Absolute path to your vcpkg toolchain
-VCPKG_PATH="/home/karadiina/vcpkg/scripts/buildsystems/vcpkg.cmake"
+VCPKG_PATH="/home/Karadiina/vcpkg/scripts/buildsystems/vcpkg.cmake"
 
 # 1. THE NUCLEAR OPTION (Clean build every time)
 echo "[Rebel] Nuking old build directory..."
@@ -23,9 +23,8 @@ make -j$(nproc) || exit 1
 
 # 4. LAUNCH SERVERS (in background cosmic-terms)
 echo "[Rebel] Launching Servers..."
-cosmic-term -e bash -c "$PROJECT_ROOT/build/server/login/LoginServer; exec bash" &
-cosmic-term -e bash -c "$PROJECT_ROOT/build/server/game/GameServer; exec bash" &
-
+alacritty -e bash -c "$PROJECT_ROOT/build/server/login/LoginServer; exec bash" &
+alacritty -e bash -c "$PROJECT_ROOT/build/server/game/GameServer; exec bash" &
 # Give the servers a second to bind to their ports
 sleep 2
 
@@ -41,3 +40,4 @@ echo "[Rebel] Starting Client..."
 cd "$PROJECT_ROOT/client"
 # Run the binary from the build folder
 "$PROJECT_ROOT/build/client/client"
+

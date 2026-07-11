@@ -1,0 +1,13 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/Karadiina/GameX/build/cmake_install.cmake",
+		"/home/Karadiina/GameX/build/common/cmake_install.cmake",
+		"/home/Karadiina/GameX/build/server/cmake_install.cmake",
+		"/home/Karadiina/GameX/build/server/login/cmake_install.cmake",
+		"/home/Karadiina/GameX/build/server/game/cmake_install.cmake",
+		"/home/Karadiina/GameX/build/client/cmake_install.cmake",
+		"/home/Karadiina/GameX/build/tests/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

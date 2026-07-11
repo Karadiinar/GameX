@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/LoginServer.dir/link.d"
   "CMakeFiles/LoginServer.dir/src/main.cpp.o"
   "CMakeFiles/LoginServer.dir/src/main.cpp.o.d"
   "LoginServer"
