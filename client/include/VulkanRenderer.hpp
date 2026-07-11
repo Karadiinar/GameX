@@ -1,5 +1,6 @@
 #pragma once
 #include "GraphicsConfig.hpp"
+#include <cstdint>
 #include <vulkan/vulkan.h>
 #include <GLFW/glfw3.h>
 #include <optional>
@@ -14,14 +15,18 @@ struct WindowState {
     int windowedHeight = 720;
 };
 
-struct SharedRenderState {
-    std::mutex mtx;
-    float player_x = 0.0f;
-    float player_y = 0.0f;
-    float player_z = 0.0f;
+struct PlayerRenderState {
+    uint32_t character_id = 0;
+    float x = 0.0f;
+    float y = 0.0f;
+    float z = 0.0f;
+    bool isLocal = false;
 };
 
-struct SharedRenderState;
+struct SharedRenderState {
+    std::mutex mtx;
+    std::vector<PlayerRenderState> players; // Local player + every known remote player
+};
 
 struct QueueFamilyIndices {
     std::optional<uint32_t> graphicsFamily;
@@ -46,11 +51,18 @@ public:
     bool isMovingRight() const { return is_moving_right_; }
     bool isMovingUp() const { return is_moving_up_; }
     bool isMovingDown() const { return is_moving_down_; }
+    float getCameraYaw() const { return cameraYaw_; }
 
     static void glfw_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+    static void glfw_cursor_pos_callback(GLFWwindow* window, double xpos, double ypos);
+    static void glfw_mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+    static void glfw_scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
     float getPlayerX() const { return player_x_; }
-    
+
     void handleKeyInput(int key, int scancode, int action, int mods);
+    void handleCursorPos(double xpos, double ypos);
+    void handleMouseButton(int button, int action, int mods);
+    void handleScroll(double xoffset, double yoffset);
     void toggleFullscreen(GLFWwindow* window);
     void framebufferResizeCallback() { framebufferResized_ = true; }
     void init(GLFWwindow* window, const GraphicsConfig& config);
@@ -91,7 +103,40 @@ private:
     VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
     VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
     VkShaderModule createShaderModule(const std::vector<uint32_t>& code);
-   void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex, float playerX, float playerY);
+   void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex, const std::vector<PlayerRenderState>& players);
+
+    // Geometry/texture/descriptor setup — draws a real textured quad per
+    // player instead of one hardcoded triangle offset in-shader.
+    void createVertexBuffer();
+    void createIndexBuffer();
+    void createTextureImage();
+    void createTextureImageView();
+    void createTextureSampler();
+    void createDescriptorSetLayout();
+    void createDescriptorPool();
+    void createDescriptorSets();
+    void createCameraUniformBuffers();
+
+    // Depth buffer — needed once there's a real 3D scene with more than one
+    // draw at different depths (a flat 2D scene never needed this).
+    void createDepthResources();
+    VkFormat findDepthFormat();
+    VkFormat findSupportedFormat(const std::vector<VkFormat>& candidates, VkImageTiling tiling,
+                                 VkFormatFeatureFlags features);
+
+    // Shared low-level helpers
+    void createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties,
+                      VkBuffer& buffer, VkDeviceMemory& bufferMemory);
+    void createImage(uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling,
+                     VkImageUsageFlags usage, VkMemoryPropertyFlags properties,
+                     VkImage& image, VkDeviceMemory& imageMemory);
+    VkImageView createImageView(VkImage image, VkFormat format,
+                               VkImageAspectFlags aspectFlags = VK_IMAGE_ASPECT_COLOR_BIT);
+    uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
+    VkCommandBuffer beginSingleTimeCommands();
+    void endSingleTimeCommands(VkCommandBuffer commandBuffer);
+    void transitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout);
+    void copyBufferToImage(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height);
 
     // Private Member variables
     GraphicsConfig activeConfig_;
@@ -123,10 +168,38 @@ private:
     const std::vector<const char*> deviceExtensions = {
         VK_KHR_SWAPCHAIN_EXTENSION_NAME
     };
-    WindowState  windowState_;;
+    WindowState windowState_;
     bool framebufferResized_ = false;
     GLFWwindow* window_ = nullptr;
-    
+
+    // Real quad geometry + a single placeholder texture, shared by every
+    // player draw this pass — see createTextureImage() for the placeholder.
+    VkBuffer vertexBuffer_ = VK_NULL_HANDLE;
+    VkDeviceMemory vertexBufferMemory_ = VK_NULL_HANDLE;
+    VkBuffer indexBuffer_ = VK_NULL_HANDLE;
+    VkDeviceMemory indexBufferMemory_ = VK_NULL_HANDLE;
+
+    VkImage textureImage_ = VK_NULL_HANDLE;
+    VkDeviceMemory textureImageMemory_ = VK_NULL_HANDLE;
+    VkImageView textureImageView_ = VK_NULL_HANDLE;
+    VkSampler textureSampler_ = VK_NULL_HANDLE;
+
+    VkDescriptorSetLayout descriptorSetLayout_ = VK_NULL_HANDLE;
+    VkDescriptorPool descriptorPool_ = VK_NULL_HANDLE;
+    std::vector<VkDescriptorSet> descriptorSets_; // One per frame-in-flight — freed implicitly with descriptorPool_
+
+    // Camera matrices, rewritten every frame (unlike the static texture
+    // above) — one UBO per frame-in-flight, persistently mapped.
+    std::vector<VkBuffer> cameraUboBuffers_;
+    std::vector<VkDeviceMemory> cameraUboBuffersMemory_;
+    std::vector<void*> cameraUboMapped_;
+
+    // Depth buffer — swapchain-extent-dependent, unlike everything above.
+    VkImage depthImage_ = VK_NULL_HANDLE;
+    VkDeviceMemory depthImageMemory_ = VK_NULL_HANDLE;
+    VkImageView depthImageView_ = VK_NULL_HANDLE;
+    VkFormat depthFormat_ = VK_FORMAT_UNDEFINED; // Resolved once in createRenderPass(), reused by createDepthResources()
+
     void recreateSwapchain(GLFWwindow* window);
 
     bool is_moving_left_ = false;
@@ -135,5 +208,15 @@ private:
     bool is_moving_down_ = false;
 
     float player_x_ = 0.0f;
-    
+
+    // Third-person orbit camera, driven by mouse input. Character facing
+    // follows cameraYaw_ every logic tick (see LogicThreadEntry) — the
+    // simplified first-pass control scheme, no decoupled strafe mode yet.
+    float cameraYaw_ = 0.0f;
+    float cameraPitch_ = 0.349066f; // ~20 degrees, a modest initial downward tilt
+    float cameraDistance_ = 6.0f;   // World units, orbit radius from the look target
+    bool isRightMouseDown_ = false;
+    double lastMouseX_ = 0.0;
+    double lastMouseY_ = 0.0;
+
 };
