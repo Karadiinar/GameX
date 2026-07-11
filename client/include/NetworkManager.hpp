@@ -27,7 +27,12 @@ public:
     ~NetworkManager();
 
     std::thread &getThread() { return network_thread_; }
-    void connect(const std::string &host, const std::string &port);
+    // onConnected (if given) runs on the network thread once the socket is
+    // up, so callers can send whatever auth packet fits this connection
+    // (initial login vs. a post-redirect game-server token) without
+    // NetworkManager needing to know which.
+    void connect(const std::string &host, const std::string &port,
+                 std::function<void()> onConnected = nullptr);
     void disconnect();
     void sendPacket(const Rebel::PacketHeader &header, const void *payload = nullptr, std::size_t payloadSize = 0);
 
