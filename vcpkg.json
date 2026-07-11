@@ -5,6 +5,9 @@
     "asio",
     "glm",
     "entt",
-    "nlohmann-json"
+    "nlohmann-json",
+    "libpqxx",
+    "catch2",
+    "argon2"
   ]
 }
